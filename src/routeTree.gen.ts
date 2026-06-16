@@ -9,8 +9,116 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as WordToPdfRouteImport } from './routes/word-to-pdf'
+import { Route as WatermarkRouteImport } from './routes/watermark'
+import { Route as UnlockRouteImport } from './routes/unlock'
+import { Route as SplitRouteImport } from './routes/split'
+import { Route as RotateRouteImport } from './routes/rotate'
+import { Route as ReorderRouteImport } from './routes/reorder'
+import { Route as ProtectRouteImport } from './routes/protect'
+import { Route as PdfToWordRouteImport } from './routes/pdf-to-word'
+import { Route as PdfToPowerpointRouteImport } from './routes/pdf-to-powerpoint'
+import { Route as PdfToJpgRouteImport } from './routes/pdf-to-jpg'
+import { Route as PdfToExcelRouteImport } from './routes/pdf-to-excel'
+import { Route as PageNumbersRouteImport } from './routes/page-numbers'
+import { Route as OcrRouteImport } from './routes/ocr'
+import { Route as MergeRouteImport } from './routes/merge'
+import { Route as JpgToPdfRouteImport } from './routes/jpg-to-pdf'
+import { Route as ExtractPagesRouteImport } from './routes/extract-pages'
+import { Route as DeletePagesRouteImport } from './routes/delete-pages'
+import { Route as CompressRouteImport } from './routes/compress'
 import { Route as IndexRouteImport } from './routes/index'
 
+const WordToPdfRoute = WordToPdfRouteImport.update({
+  id: '/word-to-pdf',
+  path: '/word-to-pdf',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WatermarkRoute = WatermarkRouteImport.update({
+  id: '/watermark',
+  path: '/watermark',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const UnlockRoute = UnlockRouteImport.update({
+  id: '/unlock',
+  path: '/unlock',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SplitRoute = SplitRouteImport.update({
+  id: '/split',
+  path: '/split',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RotateRoute = RotateRouteImport.update({
+  id: '/rotate',
+  path: '/rotate',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReorderRoute = ReorderRouteImport.update({
+  id: '/reorder',
+  path: '/reorder',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProtectRoute = ProtectRouteImport.update({
+  id: '/protect',
+  path: '/protect',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PdfToWordRoute = PdfToWordRouteImport.update({
+  id: '/pdf-to-word',
+  path: '/pdf-to-word',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PdfToPowerpointRoute = PdfToPowerpointRouteImport.update({
+  id: '/pdf-to-powerpoint',
+  path: '/pdf-to-powerpoint',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PdfToJpgRoute = PdfToJpgRouteImport.update({
+  id: '/pdf-to-jpg',
+  path: '/pdf-to-jpg',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PdfToExcelRoute = PdfToExcelRouteImport.update({
+  id: '/pdf-to-excel',
+  path: '/pdf-to-excel',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PageNumbersRoute = PageNumbersRouteImport.update({
+  id: '/page-numbers',
+  path: '/page-numbers',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OcrRoute = OcrRouteImport.update({
+  id: '/ocr',
+  path: '/ocr',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MergeRoute = MergeRouteImport.update({
+  id: '/merge',
+  path: '/merge',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const JpgToPdfRoute = JpgToPdfRouteImport.update({
+  id: '/jpg-to-pdf',
+  path: '/jpg-to-pdf',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ExtractPagesRoute = ExtractPagesRouteImport.update({
+  id: '/extract-pages',
+  path: '/extract-pages',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DeletePagesRoute = DeletePagesRouteImport.update({
+  id: '/delete-pages',
+  path: '/delete-pages',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CompressRoute = CompressRouteImport.update({
+  id: '/compress',
+  path: '/compress',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -19,28 +127,284 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/compress': typeof CompressRoute
+  '/delete-pages': typeof DeletePagesRoute
+  '/extract-pages': typeof ExtractPagesRoute
+  '/jpg-to-pdf': typeof JpgToPdfRoute
+  '/merge': typeof MergeRoute
+  '/ocr': typeof OcrRoute
+  '/page-numbers': typeof PageNumbersRoute
+  '/pdf-to-excel': typeof PdfToExcelRoute
+  '/pdf-to-jpg': typeof PdfToJpgRoute
+  '/pdf-to-powerpoint': typeof PdfToPowerpointRoute
+  '/pdf-to-word': typeof PdfToWordRoute
+  '/protect': typeof ProtectRoute
+  '/reorder': typeof ReorderRoute
+  '/rotate': typeof RotateRoute
+  '/split': typeof SplitRoute
+  '/unlock': typeof UnlockRoute
+  '/watermark': typeof WatermarkRoute
+  '/word-to-pdf': typeof WordToPdfRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/compress': typeof CompressRoute
+  '/delete-pages': typeof DeletePagesRoute
+  '/extract-pages': typeof ExtractPagesRoute
+  '/jpg-to-pdf': typeof JpgToPdfRoute
+  '/merge': typeof MergeRoute
+  '/ocr': typeof OcrRoute
+  '/page-numbers': typeof PageNumbersRoute
+  '/pdf-to-excel': typeof PdfToExcelRoute
+  '/pdf-to-jpg': typeof PdfToJpgRoute
+  '/pdf-to-powerpoint': typeof PdfToPowerpointRoute
+  '/pdf-to-word': typeof PdfToWordRoute
+  '/protect': typeof ProtectRoute
+  '/reorder': typeof ReorderRoute
+  '/rotate': typeof RotateRoute
+  '/split': typeof SplitRoute
+  '/unlock': typeof UnlockRoute
+  '/watermark': typeof WatermarkRoute
+  '/word-to-pdf': typeof WordToPdfRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/compress': typeof CompressRoute
+  '/delete-pages': typeof DeletePagesRoute
+  '/extract-pages': typeof ExtractPagesRoute
+  '/jpg-to-pdf': typeof JpgToPdfRoute
+  '/merge': typeof MergeRoute
+  '/ocr': typeof OcrRoute
+  '/page-numbers': typeof PageNumbersRoute
+  '/pdf-to-excel': typeof PdfToExcelRoute
+  '/pdf-to-jpg': typeof PdfToJpgRoute
+  '/pdf-to-powerpoint': typeof PdfToPowerpointRoute
+  '/pdf-to-word': typeof PdfToWordRoute
+  '/protect': typeof ProtectRoute
+  '/reorder': typeof ReorderRoute
+  '/rotate': typeof RotateRoute
+  '/split': typeof SplitRoute
+  '/unlock': typeof UnlockRoute
+  '/watermark': typeof WatermarkRoute
+  '/word-to-pdf': typeof WordToPdfRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/compress'
+    | '/delete-pages'
+    | '/extract-pages'
+    | '/jpg-to-pdf'
+    | '/merge'
+    | '/ocr'
+    | '/page-numbers'
+    | '/pdf-to-excel'
+    | '/pdf-to-jpg'
+    | '/pdf-to-powerpoint'
+    | '/pdf-to-word'
+    | '/protect'
+    | '/reorder'
+    | '/rotate'
+    | '/split'
+    | '/unlock'
+    | '/watermark'
+    | '/word-to-pdf'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/compress'
+    | '/delete-pages'
+    | '/extract-pages'
+    | '/jpg-to-pdf'
+    | '/merge'
+    | '/ocr'
+    | '/page-numbers'
+    | '/pdf-to-excel'
+    | '/pdf-to-jpg'
+    | '/pdf-to-powerpoint'
+    | '/pdf-to-word'
+    | '/protect'
+    | '/reorder'
+    | '/rotate'
+    | '/split'
+    | '/unlock'
+    | '/watermark'
+    | '/word-to-pdf'
+  id:
+    | '__root__'
+    | '/'
+    | '/compress'
+    | '/delete-pages'
+    | '/extract-pages'
+    | '/jpg-to-pdf'
+    | '/merge'
+    | '/ocr'
+    | '/page-numbers'
+    | '/pdf-to-excel'
+    | '/pdf-to-jpg'
+    | '/pdf-to-powerpoint'
+    | '/pdf-to-word'
+    | '/protect'
+    | '/reorder'
+    | '/rotate'
+    | '/split'
+    | '/unlock'
+    | '/watermark'
+    | '/word-to-pdf'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CompressRoute: typeof CompressRoute
+  DeletePagesRoute: typeof DeletePagesRoute
+  ExtractPagesRoute: typeof ExtractPagesRoute
+  JpgToPdfRoute: typeof JpgToPdfRoute
+  MergeRoute: typeof MergeRoute
+  OcrRoute: typeof OcrRoute
+  PageNumbersRoute: typeof PageNumbersRoute
+  PdfToExcelRoute: typeof PdfToExcelRoute
+  PdfToJpgRoute: typeof PdfToJpgRoute
+  PdfToPowerpointRoute: typeof PdfToPowerpointRoute
+  PdfToWordRoute: typeof PdfToWordRoute
+  ProtectRoute: typeof ProtectRoute
+  ReorderRoute: typeof ReorderRoute
+  RotateRoute: typeof RotateRoute
+  SplitRoute: typeof SplitRoute
+  UnlockRoute: typeof UnlockRoute
+  WatermarkRoute: typeof WatermarkRoute
+  WordToPdfRoute: typeof WordToPdfRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/word-to-pdf': {
+      id: '/word-to-pdf'
+      path: '/word-to-pdf'
+      fullPath: '/word-to-pdf'
+      preLoaderRoute: typeof WordToPdfRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/watermark': {
+      id: '/watermark'
+      path: '/watermark'
+      fullPath: '/watermark'
+      preLoaderRoute: typeof WatermarkRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/unlock': {
+      id: '/unlock'
+      path: '/unlock'
+      fullPath: '/unlock'
+      preLoaderRoute: typeof UnlockRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/split': {
+      id: '/split'
+      path: '/split'
+      fullPath: '/split'
+      preLoaderRoute: typeof SplitRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/rotate': {
+      id: '/rotate'
+      path: '/rotate'
+      fullPath: '/rotate'
+      preLoaderRoute: typeof RotateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reorder': {
+      id: '/reorder'
+      path: '/reorder'
+      fullPath: '/reorder'
+      preLoaderRoute: typeof ReorderRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/protect': {
+      id: '/protect'
+      path: '/protect'
+      fullPath: '/protect'
+      preLoaderRoute: typeof ProtectRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pdf-to-word': {
+      id: '/pdf-to-word'
+      path: '/pdf-to-word'
+      fullPath: '/pdf-to-word'
+      preLoaderRoute: typeof PdfToWordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pdf-to-powerpoint': {
+      id: '/pdf-to-powerpoint'
+      path: '/pdf-to-powerpoint'
+      fullPath: '/pdf-to-powerpoint'
+      preLoaderRoute: typeof PdfToPowerpointRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pdf-to-jpg': {
+      id: '/pdf-to-jpg'
+      path: '/pdf-to-jpg'
+      fullPath: '/pdf-to-jpg'
+      preLoaderRoute: typeof PdfToJpgRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pdf-to-excel': {
+      id: '/pdf-to-excel'
+      path: '/pdf-to-excel'
+      fullPath: '/pdf-to-excel'
+      preLoaderRoute: typeof PdfToExcelRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/page-numbers': {
+      id: '/page-numbers'
+      path: '/page-numbers'
+      fullPath: '/page-numbers'
+      preLoaderRoute: typeof PageNumbersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ocr': {
+      id: '/ocr'
+      path: '/ocr'
+      fullPath: '/ocr'
+      preLoaderRoute: typeof OcrRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/merge': {
+      id: '/merge'
+      path: '/merge'
+      fullPath: '/merge'
+      preLoaderRoute: typeof MergeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/jpg-to-pdf': {
+      id: '/jpg-to-pdf'
+      path: '/jpg-to-pdf'
+      fullPath: '/jpg-to-pdf'
+      preLoaderRoute: typeof JpgToPdfRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/extract-pages': {
+      id: '/extract-pages'
+      path: '/extract-pages'
+      fullPath: '/extract-pages'
+      preLoaderRoute: typeof ExtractPagesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/delete-pages': {
+      id: '/delete-pages'
+      path: '/delete-pages'
+      fullPath: '/delete-pages'
+      preLoaderRoute: typeof DeletePagesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/compress': {
+      id: '/compress'
+      path: '/compress'
+      fullPath: '/compress'
+      preLoaderRoute: typeof CompressRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -53,6 +417,24 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CompressRoute: CompressRoute,
+  DeletePagesRoute: DeletePagesRoute,
+  ExtractPagesRoute: ExtractPagesRoute,
+  JpgToPdfRoute: JpgToPdfRoute,
+  MergeRoute: MergeRoute,
+  OcrRoute: OcrRoute,
+  PageNumbersRoute: PageNumbersRoute,
+  PdfToExcelRoute: PdfToExcelRoute,
+  PdfToJpgRoute: PdfToJpgRoute,
+  PdfToPowerpointRoute: PdfToPowerpointRoute,
+  PdfToWordRoute: PdfToWordRoute,
+  ProtectRoute: ProtectRoute,
+  ReorderRoute: ReorderRoute,
+  RotateRoute: RotateRoute,
+  SplitRoute: SplitRoute,
+  UnlockRoute: UnlockRoute,
+  WatermarkRoute: WatermarkRoute,
+  WordToPdfRoute: WordToPdfRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
