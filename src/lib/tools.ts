@@ -109,7 +109,7 @@ export const tools: Tool[] = [
       },
     ],
     outputType: "pdf",
-    clientCapable: false,
+    clientCapable: true,
   },
   {
     slug: "pdf-to-word",
