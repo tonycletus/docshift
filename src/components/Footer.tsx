@@ -7,7 +7,7 @@ export function Footer() {
       <div className="mx-auto max-w-[1280px] px-6 py-14">
         <div className="grid gap-12 md:grid-cols-[1fr_2fr]">
           <div>
-            <div className="font-display text-base font-semibold tracking-tight">PDFly</div>
+            <div className="font-display text-base font-semibold tracking-tight">Docshift</div>
             <p className="mt-2 max-w-xs text-[13px] leading-relaxed text-muted-foreground">
               Free, open-source PDF tools. No login. No watermark. Files deleted automatically.
             </p>
@@ -46,7 +46,7 @@ export function Footer() {
           </div>
         </div>
         <div className="mt-12 flex flex-col items-start justify-between gap-3 border-t border-border pt-6 text-[12px] text-muted-foreground sm:flex-row sm:items-center">
-          <div>© {new Date().getFullYear()} PDFly. Open source under MIT.</div>
+          <div>© {new Date().getFullYear()} Docshift. Open source under MIT.</div>
           <div className="font-mono">v0.1.0 · privacy-first</div>
         </div>
       </div>

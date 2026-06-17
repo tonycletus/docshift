@@ -11,9 +11,9 @@ const tool = toolsBySlug["compress"];
 export const Route = createFileRoute("/compress")({
   head: () => ({
     meta: [
-      { title: `${tool.name} — PDFly` },
+      { title: `${tool.name} — Docshift` },
       { name: "description", content: tool.longDescription },
-      { property: "og:title", content: `${tool.name} — PDFly` },
+      { property: "og:title", content: `${tool.name} — Docshift` },
       { property: "og:description", content: tool.longDescription },
     ],
   }),

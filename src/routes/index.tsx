@@ -9,9 +9,9 @@ import { tools } from "@/lib/tools";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "PDFly — Free PDF tools. No login. No watermark." },
+      { title: "Docshift — Free PDF tools. No login. No watermark." },
       { name: "description", content: "18 fast, private, open-source PDF tools. Merge, split, convert, compress, protect — all in your browser." },
-      { property: "og:title", content: "PDFly — Free PDF tools" },
+      { property: "og:title", content: "Docshift — Free PDF tools" },
       { property: "og:description", content: "18 fast, private, open-source PDF tools. No login. No watermark." },
     ],
   }),
@@ -38,16 +38,10 @@ function Index() {
             transition={{ duration: 0.4, ease }}
             className="mx-auto max-w-[820px] text-center"
           >
-            <div className="mx-auto mb-7 inline-flex items-center gap-2 rounded-full border border-border bg-background px-3 py-1 text-[12px] text-muted-foreground shadow-subtle">
-              <span className="flex h-1.5 w-1.5 rounded-full bg-success" />
-              <span>Open source · MIT licensed</span>
-              <span className="mx-0.5 text-border">·</span>
-              <span className="font-mono text-foreground">{tools.length} tools</span>
-            </div>
             <h1 className="font-display text-[44px] font-semibold leading-[1.02] tracking-[-0.03em] text-foreground sm:text-[64px]">
               Free PDF tools.
               <br />
-              <span className="text-muted-foreground">No login. No watermark.</span>
+              <span className="text-muted-foreground">Open source. {tools.length} tools.</span>
             </h1>
             <p className="mx-auto mt-6 max-w-[540px] text-[16px] leading-relaxed text-muted-foreground">
               The fastest way to work with PDFs. Privacy-first, beautifully designed,
