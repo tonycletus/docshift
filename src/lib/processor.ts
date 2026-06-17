@@ -164,16 +164,18 @@ export async function processTool(
     }
   }
 
-  // Server-bound tools — stubbed simulation. Backends can replace this block
-  // with a real upload + server-fn invocation per tool.slug.
-  for (let p = 20; p < 100; p += 10) {
-    await new Promise((r) => setTimeout(r, 180));
-    onProgress?.(p);
-  }
+  // Server-bound tools — a real backend isn't wired up yet. Surface a clear,
+  // user-facing message instead of returning a misleading placeholder file.
   onProgress?.(100);
-  const placeholder = `PDFly · ${tool.name}\n\nThis is a stub output. Wire up a server handler for "${tool.slug}" to produce a real ${tool.outputType.toUpperCase()} file.\n\nSource files:\n${files.map((f) => `- ${f.name}`).join("\n")}\n`;
-  return {
-    blob: new Blob([placeholder], { type: "text/plain" }),
-    filename: `${tool.slug}-output.txt`,
-  };
+  throw new ComingSoonError(
+    `${tool.name} runs on a secure server-side pipeline we're still finishing. It's coming soon — in the meantime, every tool marked as “in-browser” works end-to-end with zero uploads.`,
+  );
+}
+
+export class ComingSoonError extends Error {
+  readonly comingSoon = true;
+  constructor(message: string) {
+    super(message);
+    this.name = "ComingSoonError";
+  }
 }
