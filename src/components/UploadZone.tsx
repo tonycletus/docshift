@@ -332,6 +332,37 @@ export function UploadZone({ tool }: Props) {
           </motion.div>
         )}
 
+        {status === "coming-soon" && (
+          <motion.div
+            key="coming-soon"
+            initial={{ opacity: 0, scale: 0.98 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+            className="rounded-[20px] border border-border bg-background p-8 text-center"
+          >
+            <div className="mx-auto inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3 py-1 text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
+              Coming soon
+            </div>
+            <div className="mt-4 font-display text-lg font-semibold tracking-tight">
+              {tool.name} is almost ready
+            </div>
+            <div className="mx-auto mt-2 max-w-md text-[13px] text-muted-foreground">
+              {error}
+            </div>
+            <div className="mt-6">
+              <button
+                type="button"
+                onClick={reset}
+                className="inline-flex h-10 items-center gap-2 rounded-xl border border-border bg-background px-4 text-[13px] font-medium text-foreground transition-colors hover:bg-surface"
+              >
+                <RefreshCw className="h-3.5 w-3.5" />
+                Try another tool
+              </button>
+            </div>
+          </motion.div>
+        )}
+
         {status === "idle" && (
           <motion.div
             key="idle"
