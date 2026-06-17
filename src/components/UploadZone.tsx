@@ -13,7 +13,7 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import type { Tool } from "@/lib/tools";
-import { processTool } from "@/lib/processor";
+import { processTool, ComingSoonError } from "@/lib/processor";
 import { cn } from "@/lib/utils";
 
 type Status = "idle" | "ready" | "processing" | "success" | "error";
