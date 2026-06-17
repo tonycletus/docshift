@@ -72,7 +72,7 @@ export function CompressTool({ tool }: Props) {
     noClick: status === "processing",
   });
 
-  const handleProcess = async () => {
+  const handleProcessWithLabel = async () => {
     if (!file) return;
     setStatus("processing");
     setProgress(5);
