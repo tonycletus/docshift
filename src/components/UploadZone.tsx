@@ -16,7 +16,7 @@ import type { Tool } from "@/lib/tools";
 import { processTool, ComingSoonError } from "@/lib/processor";
 import { cn } from "@/lib/utils";
 
-type Status = "idle" | "ready" | "processing" | "success" | "error";
+type Status = "idle" | "ready" | "processing" | "success" | "error" | "coming-soon";
 
 interface Props {
   tool: Tool;
