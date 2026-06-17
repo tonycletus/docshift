@@ -86,7 +86,7 @@ export function UploadZone({ tool }: Props) {
       setStatus("success");
     } catch (e) {
       setError(e instanceof Error ? e.message : "Something went wrong");
-      setStatus("error");
+      setStatus(e instanceof ComingSoonError ? "coming-soon" : "error");
     }
   };
 
