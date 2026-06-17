@@ -103,7 +103,7 @@ export function UploadZone({ tool }: Props) {
     <div className="space-y-5">
       {/* Dropzone — hidden when success */}
       <AnimatePresence mode="wait">
-        {status !== "success" && (
+        {status !== "success" && status !== "coming-soon" && (
           <motion.div
             key="zone"
             initial={{ opacity: 0 }}
