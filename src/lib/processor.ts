@@ -163,8 +163,7 @@ export async function processTool(
       return { blob: new Blob([bytes as BlobPart], { type: "application/pdf" }), filename: "split.pdf" };
     }
     case "compress": {
-      const { rasterizePdf, COMPRESSION_PRESETS, type: _t } = await import("./pdfjs");
-      void _t;
+      const { rasterizePdf, COMPRESSION_PRESETS } = await import("./pdfjs");
       const level = (options.level as keyof typeof COMPRESSION_PRESETS) || "medium";
       const preset = COMPRESSION_PRESETS[level] ?? COMPRESSION_PRESETS.medium;
       const pages = await rasterizePdf(files[0], {
