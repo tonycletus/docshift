@@ -51,7 +51,7 @@ export async function rasterizePdf(
     out.push({ blob, width: canvas.width, height: canvas.height });
     page.cleanup();
   }
-  await doc.destroy();
+  doc.cleanup();
   return out;
 }
 
