@@ -79,39 +79,6 @@ export function CompressTool({ tool }: Props) {
     setProgressLabel("Preparing PDF…");
     setError(null);
     try {
-      const result = await processTool(
-        tool,
-        [file],
-        { level },
-        (pct) => {
-          setProgress(pct);
-        },
-      );
-      // Wrap onProgress to also surface a page-by-page label via processor stages.
-      // (Processor reports 10..90 during rasterize; we approximate page index here.)
-      setProgress(100);
-      setProgressLabel("Finishing up…");
-      const url = URL.createObjectURL(result.blob);
-      setResultUrl(url);
-      setResultName(result.filename);
-      setResultSize(result.blob.size);
-      setStatus("success");
-    } catch (e) {
-      setError(e instanceof Error ? e.message : "Something went wrong");
-      setStatus("error");
-    }
-  };
-
-  // Provide a finer-grained progress callback by patching the processor call above:
-  // we re-route through a wrapper that knows the current page.
-  // Instead of double-calling processTool, we use a custom onProgress translator.
-  const handleProcessWithLabel = async () => {
-    if (!file) return;
-    setStatus("processing");
-    setProgress(5);
-    setProgressLabel("Preparing PDF…");
-    setError(null);
-    try {
       // Estimate page count by reading the PDF header — pdf-lib loads quickly.
       const { PDFDocument } = await import("pdf-lib");
       const doc = await PDFDocument.load(new Uint8Array(await file.arrayBuffer()), { updateMetadata: false });
