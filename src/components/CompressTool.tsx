@@ -112,7 +112,7 @@ export function CompressTool({ tool }: Props) {
     }
   };
 
-  void handleProcess;
+  
 
   const reset = () => {
     if (resultUrl) URL.revokeObjectURL(resultUrl);
