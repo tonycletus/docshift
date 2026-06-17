@@ -162,6 +162,47 @@ export async function processTool(
       onProgress?.(100);
       return { blob: new Blob([bytes as BlobPart], { type: "application/pdf" }), filename: "split.pdf" };
     }
+    case "compress": {
+      const { rasterizePdf, COMPRESSION_PRESETS } = await import("./pdfjs");
+      const level = (options.level as keyof typeof COMPRESSION_PRESETS) || "medium";
+      const preset = COMPRESSION_PRESETS[level] ?? COMPRESSION_PRESETS.medium;
+      const pages = await rasterizePdf(files[0], {
+        ...preset,
+        onProgress: (cur, total) => onProgress?.(10 + Math.round((cur / total) * 80)),
+      });
+      const out = await PDFDocument.create();
+      for (const p of pages) {
+        const img = await out.embedJpg(new Uint8Array(await p.blob.arrayBuffer()));
+        const page = out.addPage([p.width, p.height]);
+        page.drawImage(img, { x: 0, y: 0, width: p.width, height: p.height });
+      }
+      const bytes = await out.save();
+      onProgress?.(100);
+      return {
+        blob: new Blob([bytes as BlobPart], { type: "application/pdf" }),
+        filename: files[0].name.replace(/\.pdf$/i, "") + "-compressed.pdf",
+      };
+    }
+    case "pdf-to-jpg": {
+      const { rasterizePdf } = await import("./pdfjs");
+      const { default: JSZip } = await import("jszip");
+      const pages = await rasterizePdf(files[0], {
+        scale: 2.0,
+        quality: 0.92,
+        onProgress: (cur, total) => onProgress?.(10 + Math.round((cur / total) * 70)),
+      });
+      const zip = new JSZip();
+      const base = files[0].name.replace(/\.pdf$/i, "");
+      const pad = String(pages.length).length;
+      pages.forEach((p, i) => {
+        zip.file(`${base}-page-${String(i + 1).padStart(pad, "0")}.jpg`, p.blob);
+      });
+      const blob = await zip.generateAsync({ type: "blob" }, (meta) => {
+        onProgress?.(80 + Math.round(meta.percent * 0.2));
+      });
+      onProgress?.(100);
+      return { blob, filename: `${base}-images.zip` };
+    }
   }
 
   // Server-bound tools — a real backend isn't wired up yet. Surface a clear,

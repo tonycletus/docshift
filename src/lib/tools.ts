@@ -109,7 +109,7 @@ export const tools: Tool[] = [
       },
     ],
     outputType: "pdf",
-    clientCapable: false,
+    clientCapable: true,
   },
   {
     slug: "pdf-to-word",
@@ -161,7 +161,7 @@ export const tools: Tool[] = [
     accept: PDF_ACCEPT,
     multiple: false,
     outputType: "zip",
-    clientCapable: false,
+    clientCapable: true,
   },
   {
     slug: "jpg-to-pdf",
