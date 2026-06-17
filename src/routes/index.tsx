@@ -9,9 +9,9 @@ import { tools } from "@/lib/tools";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "PDFly — Free PDF tools. No login. No watermark." },
+      { title: "Docshift — Free PDF tools. No login. No watermark." },
       { name: "description", content: "18 fast, private, open-source PDF tools. Merge, split, convert, compress, protect — all in your browser." },
-      { property: "og:title", content: "PDFly — Free PDF tools" },
+      { property: "og:title", content: "Docshift — Free PDF tools" },
       { property: "og:description", content: "18 fast, private, open-source PDF tools. No login. No watermark." },
     ],
   }),

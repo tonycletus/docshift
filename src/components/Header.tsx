@@ -9,7 +9,7 @@ export function Header() {
           <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-foreground text-background">
             <FileText className="h-4 w-4" strokeWidth={2.5} />
           </div>
-          <span className="font-display text-[15px] font-semibold tracking-tight">PDFly</span>
+          <span className="font-display text-[15px] font-semibold tracking-tight">Docshift</span>
         </Link>
         <nav className="hidden items-center gap-7 text-[13px] text-muted-foreground md:flex">
           <Link to="/" hash="tools" className="transition-colors hover:text-foreground">

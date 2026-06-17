@@ -77,10 +77,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "PDFly — Free PDF tools. No login. No watermark." },
+      { title: "Docshift — Free PDF tools. No login. No watermark." },
       { name: "description", content: "Fast, private, open-source PDF tools. Merge, split, convert, compress, sign, and more — right in your browser." },
-      { name: "author", content: "PDFly" },
-      { property: "og:title", content: "PDFly — Free PDF tools" },
+      { name: "author", content: "Docshift" },
+      { property: "og:title", content: "Docshift — Free PDF tools" },
       { property: "og:description", content: "Fast, private, open-source PDF tools. No login. No watermark." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
