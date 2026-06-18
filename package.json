@@ -107,7 +107,8 @@
     "vite"
   ],
   "overrides": {
-    "esbuild": "^0.28.1"
+    "esbuild": "^0.28.1",
+    "h3-v2": "npm:h3@2.0.1-rc.20"
   },
   "author": "Tony Cletus",
   "license": "ISC",
