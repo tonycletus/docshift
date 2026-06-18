@@ -52,7 +52,6 @@
     "embla-carousel-react": "^8.6.0",
     "framer-motion": "^12.40.0",
     "input-otp": "^1.4.2",
-    "h3-v2": "npm:h3@2.0.1-rc.22",
     "jszip": "^3.10.1",
     "lucide-react": "^0.575.0",
     "pdf-lib": "^1.17.1",
