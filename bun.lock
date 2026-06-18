@@ -87,6 +87,7 @@
   },
   "overrides": {
     "esbuild": "^0.28.1",
+    "h3-v2": "npm:h3@2.0.1-rc.22",
   },
   "packages": {
     "@alloc/quick-lru": ["@alloc/quick-lru@5.2.0", "https://europe-west4-npm.pkg.dev/lovable-core-prod/sandbox-npm-cache/@alloc/quick-lru/-/quick-lru-5.2.0.tgz", {}, ""],
