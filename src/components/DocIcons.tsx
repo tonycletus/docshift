@@ -1,6 +1,6 @@
-import type { SVGProps } from "react";
+import type { ReactElement, SVGProps } from "react";
 
-export type DocIcon = (props: SVGProps<SVGSVGElement>) => JSX.Element;
+export type DocIcon = (props: SVGProps<SVGSVGElement>) => ReactElement;
 
 const base = {
   fill: "none",
