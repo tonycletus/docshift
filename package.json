@@ -110,6 +110,9 @@
     "esbuild": "^0.28.1",
     "h3-v2": "npm:h3@2.0.1-rc.22"
   },
+  "resolutions": {
+    "h3-v2": "npm:h3@2.0.1-rc.22"
+  },
   "author": "Tony Cletus",
   "license": "ISC",
   "bugs": {
