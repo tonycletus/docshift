@@ -1,18 +1,25 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
-import { ShieldCheck, Zap, Github, ArrowRight, Lock, Eraser, UserX } from "lucide-react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { ToolGrid } from "@/components/ToolGrid";
+import { ArrowIcon, LocalIcon, NoAccountIcon, OpenCodeIcon } from "@/components/DocIcons";
 import { tools } from "@/lib/tools";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Docshift — Free PDF tools. No login. No watermark." },
-      { name: "description", content: "18 fast, private, open-source PDF tools. Merge, split, convert, compress, protect — all in your browser." },
-      { property: "og:title", content: "Docshift — Free PDF tools" },
-      { property: "og:description", content: "18 fast, private, open-source PDF tools. No login. No watermark." },
+      { title: "Docshift - Free PDF tools. No login. No watermark." },
+      {
+        name: "description",
+        content:
+          "18 fast, private, open-source PDF tools. Merge, split, convert, compress, and protect in your browser.",
+      },
+      { property: "og:title", content: "Docshift - Free PDF tools" },
+      {
+        property: "og:description",
+        content: "18 fast, private, open-source PDF tools. No login. No watermark.",
+      },
     ],
   }),
   component: Index,
@@ -25,107 +32,77 @@ function Index() {
     <div className="min-h-screen bg-background">
       <Header />
 
-      {/* Hero */}
       <section className="relative overflow-hidden">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-x-0 -top-32 -z-10 h-[520px] bg-[radial-gradient(60%_60%_at_50%_0%,oklch(0.62_0.19_256/0.08),transparent_70%)]"
-        />
-        <div className="mx-auto max-w-[1280px] px-6 pb-20 pt-20 sm:pt-28">
+        <div className="mx-auto max-w-[1280px] px-6 pb-12 pt-12 sm:pt-16">
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, ease }}
-            className="mx-auto max-w-[820px] text-center"
+            className="mx-auto max-w-[760px] text-center"
           >
-            <h1 className="font-display text-[44px] font-semibold leading-[1.02] tracking-[-0.03em] text-foreground sm:text-[64px]">
-              Free PDF tools.
+            <h1 className="font-display text-[40px] font-semibold leading-[1.02] tracking-[-0.02em] text-foreground sm:text-[56px]">
+              Docshift
               <br />
-              <span className="text-muted-foreground">Open source. {tools.length} tools.</span>
+              <span className="text-muted-foreground">local PDF tools.</span>
             </h1>
-            <p className="mx-auto mt-6 max-w-[540px] text-[16px] leading-relaxed text-muted-foreground">
-              The fastest way to work with PDFs. Privacy-first, beautifully designed,
-              and built for keyboards. Files never leave your browser when they don't have to.
+            <p className="mx-auto mt-5 max-w-[540px] text-[15px] leading-relaxed text-muted-foreground">
+              Merge, compress, convert, protect, and reorder PDFs without accounts, uploads, or
+              server-side processing.
             </p>
-            <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
+            <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
               <Link
                 to="/"
                 hash="tools"
-                className="inline-flex h-11 items-center gap-2 rounded-xl bg-foreground px-5 text-[14px] font-medium text-background transition-all hover:bg-foreground/90 active:scale-[0.99]"
+                className="inline-flex h-10 items-center gap-2 rounded-xl bg-foreground px-5 text-[13.5px] font-medium text-background transition-all hover:bg-foreground/90 active:scale-[0.99]"
               >
-                Explore tools
-                <ArrowRight className="h-4 w-4" />
+                Choose a tool
+                <ArrowIcon className="h-4 w-4" />
               </Link>
-              <a
-                href="https://github.com"
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex h-11 items-center gap-2 rounded-xl border border-border bg-background px-4 text-[13.5px] font-medium text-foreground transition-colors hover:bg-surface"
+              <Link
+                to="/privacy"
+                className="inline-flex h-10 items-center rounded-xl border border-border bg-background px-4 text-[13px] font-medium text-foreground transition-colors hover:bg-surface"
               >
-                <Github className="h-4 w-4" />
-                Star on GitHub
-              </a>
+                Privacy details
+              </Link>
             </div>
           </motion.div>
 
-          {/* Trust strip */}
           <motion.div
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: 0.15, ease }}
-            className="mx-auto mt-16 grid max-w-[860px] grid-cols-1 gap-px overflow-hidden rounded-2xl border border-border bg-border sm:grid-cols-3"
+            className="mx-auto mt-10 grid max-w-[760px] grid-cols-1 gap-px overflow-hidden rounded-2xl border border-border bg-border sm:grid-cols-3"
           >
-            <TrustItem icon={Eraser} title="Auto-deleted" body="Files erased the moment we're done." />
-            <TrustItem icon={UserX} title="No account" body="No sign-up. No email. No tracking." />
-            <TrustItem icon={Lock} title="Open source" body="Audit the code, run it yourself." />
+            <TrustItem
+              icon={LocalIcon}
+              title="Local runtime"
+              body="Browser memory, not an upload queue."
+            />
+            <TrustItem
+              icon={NoAccountIcon}
+              title="No accounts"
+              body="No sign-up step before your file."
+            />
+            <TrustItem icon={OpenCodeIcon} title="Open code" body="Static app, easy to inspect." />
           </motion.div>
         </div>
       </section>
 
-      {/* Tool grid */}
-      <section id="tools" className="mx-auto max-w-[1280px] scroll-mt-20 px-6 pb-10">
-        <div className="mb-10 flex items-end justify-between">
+      <section id="tools" className="mx-auto max-w-[1280px] scroll-mt-20 px-6 pb-8">
+        <div className="mb-6 flex items-end justify-between">
           <div>
-            <h2 className="font-display text-[28px] font-semibold tracking-[-0.02em] text-foreground">
-              Every tool you need
+            <h2 className="font-display text-[24px] font-semibold tracking-[-0.02em] text-foreground">
+              Tools
             </h2>
-            <p className="mt-2 max-w-md text-[14px] text-muted-foreground">
-              From merging to OCR — pick a tool, drop your file, done.
+            <p className="mt-1.5 max-w-md text-[13.5px] text-muted-foreground">
+              Pick one action, drop the file, download the result.
             </p>
           </div>
-          <div className="hidden items-center gap-2 text-[12px] text-muted-foreground sm:flex">
-            <Zap className="h-3.5 w-3.5" />
-            <span>Instant. No queue.</span>
+          <div className="hidden font-mono text-[12px] text-muted-foreground sm:block">
+            {tools.length} tools
           </div>
         </div>
         <ToolGrid />
-      </section>
-
-      {/* Privacy section */}
-      <section id="privacy" className="mx-auto mt-24 max-w-[1280px] scroll-mt-20 px-6">
-        <div className="rounded-3xl border border-border bg-surface/60 p-10 sm:p-14">
-          <div className="grid items-center gap-10 md:grid-cols-[1fr_1fr]">
-            <div>
-              <div className="inline-flex items-center gap-2 rounded-full border border-border bg-background px-3 py-1 text-[12px] text-muted-foreground">
-                <ShieldCheck className="h-3.5 w-3.5 text-success" />
-                Privacy by design
-              </div>
-              <h2 className="mt-4 font-display text-[32px] font-semibold tracking-[-0.02em] text-foreground">
-                Your files stay yours.
-              </h2>
-              <p className="mt-3 max-w-md text-[14.5px] leading-relaxed text-muted-foreground">
-                Most tools run entirely in your browser using <code className="rounded bg-background px-1.5 py-0.5 text-[12.5px]">pdf-lib</code>.
-                Nothing uploads. Nothing stored. Nothing logged.
-              </p>
-            </div>
-            <div className="grid gap-3">
-              <Bullet>No account, no email, no tracking pixels.</Bullet>
-              <Bullet>Files processed client-side wherever possible.</Bullet>
-              <Bullet>Any server-side processing is deleted within minutes.</Bullet>
-              <Bullet>Source code is public — verify it yourself.</Bullet>
-            </div>
-          </div>
-        </div>
       </section>
 
       <Footer />
@@ -133,25 +110,24 @@ function Index() {
   );
 }
 
-function TrustItem({ icon: Icon, title, body }: { icon: typeof ShieldCheck; title: string; body: string }) {
+function TrustItem({
+  icon: Icon,
+  title,
+  body,
+}: {
+  icon: typeof LocalIcon;
+  title: string;
+  body: string;
+}) {
   return (
-    <div className="bg-background p-5">
+    <div className="bg-background p-4">
       <div className="flex items-center gap-2.5">
         <div className="flex h-7 w-7 items-center justify-center rounded-md bg-surface">
-          <Icon className="h-3.5 w-3.5 text-foreground" strokeWidth={2.2} />
+          <Icon className="h-3.5 w-3.5 text-foreground" />
         </div>
         <div className="text-[13.5px] font-medium text-foreground">{title}</div>
       </div>
       <div className="mt-2 text-[12.5px] leading-relaxed text-muted-foreground">{body}</div>
-    </div>
-  );
-}
-
-function Bullet({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="flex items-start gap-2.5 text-[13.5px] text-foreground">
-      <div className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-success" />
-      <span className="leading-relaxed">{children}</span>
     </div>
   );
 }

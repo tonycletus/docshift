@@ -1,35 +1,36 @@
+import type { DocIcon } from "@/components/DocIcons";
 import {
-  Combine,
-  Scissors,
-  Minimize2,
-  FileText,
-  FileSpreadsheet,
-  Presentation,
-  Image as ImageIcon,
-  FileImage,
-  FileType,
-  ScanText,
-  Lock,
-  Unlock,
-  Droplets,
-  Hash,
-  FileOutput,
-  Trash2,
-  RotateCw,
-  ArrowUpDown,
-  type LucideIcon,
-} from "lucide-react";
+  CompressIcon,
+  DeletePageIcon,
+  DocxToPdfIcon,
+  ExcelIcon,
+  ExtractIcon,
+  ImageFileIcon,
+  LockDocIcon,
+  MergeIcon,
+  PageNumberIcon,
+  ReorderIcon,
+  RotatePageIcon,
+  SlidesIcon,
+  SplitIcon,
+  TextExtractIcon,
+  UnlockDocIcon,
+  WatermarkIcon,
+  WordIcon,
+} from "@/components/DocIcons";
 
 export type ToolCategory = "organize" | "convert" | "edit" | "security";
-export type OutputType = "pdf" | "zip" | "docx" | "xlsx" | "pptx" | "jpg";
+export type OutputType = "pdf" | "zip" | "docx" | "xlsx" | "pptx" | "jpg" | "txt" | "html";
 
 export interface ToolConfigOption {
   key: string;
   label: string;
-  type: "number" | "text" | "select" | "password";
+  type: "number" | "text" | "select" | "password" | "file";
   options?: { value: string; label: string }[];
   placeholder?: string;
   defaultValue?: string | number;
+  accept?: Record<string, string[]>;
+  helperText?: string;
 }
 
 export interface Tool {
@@ -38,20 +39,18 @@ export interface Tool {
   name: string;
   description: string;
   longDescription: string;
-  icon: LucideIcon;
+  icon: DocIcon;
   category: ToolCategory;
   accept: Record<string, string[]>;
   multiple: boolean;
   configOptions?: ToolConfigOption[];
   outputType: OutputType;
-  /** Whether processing can run fully in-browser (pdf-lib supported) */
   clientCapable: boolean;
 }
 
 const PDF_ACCEPT = { "application/pdf": [".pdf"] };
 const IMG_ACCEPT = { "image/jpeg": [".jpg", ".jpeg"], "image/png": [".png"] };
-const DOC_ACCEPT = {
-  "application/msword": [".doc"],
+const DOCX_ACCEPT = {
   "application/vnd.openxmlformats-officedocument.wordprocessingml.document": [".docx"],
 };
 
@@ -61,8 +60,9 @@ export const tools: Tool[] = [
     route: "/merge",
     name: "Merge PDF",
     description: "Combine multiple PDFs into one document.",
-    longDescription: "Drop PDFs in the order you want them combined. We'll stitch them into a single file instantly, right in your browser.",
-    icon: Combine,
+    longDescription:
+      "Drop PDFs in the order you want them combined. We will stitch them into a single file in your browser.",
+    icon: MergeIcon,
     category: "organize",
     accept: PDF_ACCEPT,
     multiple: true,
@@ -73,14 +73,21 @@ export const tools: Tool[] = [
     slug: "split",
     route: "/split",
     name: "Split PDF",
-    description: "Extract pages or split into multiple files.",
-    longDescription: "Break a PDF into separate documents by page range or extract individual pages.",
-    icon: Scissors,
+    description: "Extract ranges into separate PDFs.",
+    longDescription:
+      "Split a PDF into individual page files, or enter ranges to package selected sections into a ZIP.",
+    icon: SplitIcon,
     category: "organize",
     accept: PDF_ACCEPT,
     multiple: false,
     configOptions: [
-      { key: "ranges", label: "Page ranges (e.g. 1-3, 5, 7-9)", type: "text", placeholder: "1-3, 5", defaultValue: "" },
+      {
+        key: "ranges",
+        label: "Page ranges",
+        type: "text",
+        placeholder: "1-3, 5",
+        defaultValue: "",
+      },
     ],
     outputType: "zip",
     clientCapable: true,
@@ -89,9 +96,10 @@ export const tools: Tool[] = [
     slug: "compress",
     route: "/compress",
     name: "Compress PDF",
-    description: "Reduce file size while keeping quality.",
-    longDescription: "Shrink large PDFs for easier sharing without sacrificing readability.",
-    icon: Minimize2,
+    description: "Safely reduce file size when possible.",
+    longDescription:
+      "Compress PDFs with quality-safe checks. Text stays sharp, and already optimized files are preserved instead of being made larger.",
+    icon: CompressIcon,
     category: "organize",
     accept: PDF_ACCEPT,
     multiple: false,
@@ -101,9 +109,9 @@ export const tools: Tool[] = [
         label: "Compression level",
         type: "select",
         options: [
-          { value: "low", label: "Low — best quality" },
-          { value: "medium", label: "Medium — balanced" },
-          { value: "high", label: "High — smallest size" },
+          { value: "low", label: "Low - best quality" },
+          { value: "medium", label: "Balanced - smart compression" },
+          { value: "high", label: "Smaller - quality checked" },
         ],
         defaultValue: "medium",
       },
@@ -115,48 +123,52 @@ export const tools: Tool[] = [
     slug: "pdf-to-word",
     route: "/pdf-to-word",
     name: "PDF to Word",
-    description: "Convert PDF to editable .docx.",
-    longDescription: "Turn any PDF into a fully editable Word document while preserving layout.",
-    icon: FileText,
+    description: "Extract PDF text into editable .docx.",
+    longDescription:
+      "Create an editable Word document from selectable PDF text. Layout is simplified for clean editing.",
+    icon: WordIcon,
     category: "convert",
     accept: PDF_ACCEPT,
     multiple: false,
     outputType: "docx",
-    clientCapable: false,
+    clientCapable: true,
   },
   {
     slug: "pdf-to-excel",
     route: "/pdf-to-excel",
     name: "PDF to Excel",
-    description: "Pull tables into clean spreadsheets.",
-    longDescription: "Detect tables in your PDFs and export them as ready-to-use Excel files.",
-    icon: FileSpreadsheet,
+    description: "Move PDF text into spreadsheet rows.",
+    longDescription:
+      "Extract selectable PDF text into an Excel workbook, keeping page and row order where possible.",
+    icon: ExcelIcon,
     category: "convert",
     accept: PDF_ACCEPT,
     multiple: false,
     outputType: "xlsx",
-    clientCapable: false,
+    clientCapable: true,
   },
   {
     slug: "pdf-to-powerpoint",
     route: "/pdf-to-powerpoint",
     name: "PDF to PowerPoint",
-    description: "Each PDF page becomes a slide.",
-    longDescription: "Convert PDFs into editable PowerPoint presentations in seconds.",
-    icon: Presentation,
+    description: "Turn each PDF page into a slide.",
+    longDescription:
+      "Render every PDF page into a PowerPoint slide deck that is ready to present or annotate.",
+    icon: SlidesIcon,
     category: "convert",
     accept: PDF_ACCEPT,
     multiple: false,
     outputType: "pptx",
-    clientCapable: false,
+    clientCapable: true,
   },
   {
     slug: "pdf-to-jpg",
     route: "/pdf-to-jpg",
     name: "PDF to JPG",
     description: "Export each page as an image.",
-    longDescription: "Render every page of your PDF as a high-resolution JPG image.",
-    icon: ImageIcon,
+    longDescription:
+      "Render every page of your PDF as a high-resolution JPG image and download them as a ZIP.",
+    icon: ImageFileIcon,
     category: "convert",
     accept: PDF_ACCEPT,
     multiple: false,
@@ -169,7 +181,7 @@ export const tools: Tool[] = [
     name: "JPG to PDF",
     description: "Bundle images into a single PDF.",
     longDescription: "Combine multiple JPG or PNG images into one neatly ordered PDF document.",
-    icon: FileImage,
+    icon: ImageFileIcon,
     category: "convert",
     accept: IMG_ACCEPT,
     multiple: true,
@@ -179,73 +191,95 @@ export const tools: Tool[] = [
   {
     slug: "word-to-pdf",
     route: "/word-to-pdf",
-    name: "Word to PDF",
-    description: "Convert .doc and .docx files.",
-    longDescription: "Turn Word documents into professional PDFs with formatting preserved.",
-    icon: FileType,
+    name: "DOCX to PDF",
+    description: "Convert Word text into a PDF.",
+    longDescription: "Turn .docx document text into a clean PDF using local browser processing.",
+    icon: DocxToPdfIcon,
     category: "convert",
-    accept: DOC_ACCEPT,
+    accept: DOCX_ACCEPT,
     multiple: false,
     outputType: "pdf",
-    clientCapable: false,
+    clientCapable: true,
   },
   {
     slug: "ocr",
     route: "/ocr",
-    name: "OCR PDF",
-    description: "Make scanned PDFs searchable.",
-    longDescription: "Extract text from scanned documents and make them searchable and selectable.",
-    icon: ScanText,
+    name: "Extract Text",
+    description: "Save selectable PDF text as .txt.",
+    longDescription:
+      "Extract embedded selectable text from a PDF into a plain text file. Image-only scans may not contain extractable text.",
+    icon: TextExtractIcon,
     category: "edit",
     accept: PDF_ACCEPT,
     multiple: false,
-    outputType: "pdf",
-    clientCapable: false,
+    outputType: "txt",
+    clientCapable: true,
   },
   {
     slug: "protect",
     route: "/protect",
     name: "Protect PDF",
-    description: "Encrypt with a password.",
-    longDescription: "Add a password to keep your PDF private. AES-256 strength encryption.",
-    icon: Lock,
+    description: "Require a password to open a PDF.",
+    longDescription:
+      "Encrypt your PDF locally so opening the downloaded PDF requires the password you set.",
+    icon: LockDocIcon,
     category: "security",
     accept: PDF_ACCEPT,
     multiple: false,
     configOptions: [
-      { key: "password", label: "Password", type: "password", placeholder: "Enter a strong password" },
+      {
+        key: "password",
+        label: "Password",
+        type: "password",
+        placeholder: "Enter a strong password",
+      },
     ],
     outputType: "pdf",
-    clientCapable: false,
+    clientCapable: true,
   },
   {
     slug: "unlock",
     route: "/unlock",
     name: "Unlock PDF",
-    description: "Remove password protection.",
-    longDescription: "Strip the password from a PDF you own so it opens freely.",
-    icon: Unlock,
+    description: "Remove a PDF open password.",
+    longDescription: "Use the current password to decrypt a protected PDF locally.",
+    icon: UnlockDocIcon,
     category: "security",
     accept: PDF_ACCEPT,
     multiple: false,
     configOptions: [
-      { key: "password", label: "Current password", type: "password", placeholder: "Current password" },
+      { key: "password", label: "PDF password", type: "password", placeholder: "PDF password" },
     ],
     outputType: "pdf",
-    clientCapable: false,
+    clientCapable: true,
   },
   {
     slug: "watermark",
     route: "/watermark",
     name: "Add Watermark",
-    description: "Stamp text on every page.",
-    longDescription: "Add a custom text watermark — visible on every page, fully customizable.",
-    icon: Droplets,
+    description: "Stamp text or an image on every page.",
+    longDescription:
+      "Add a styled text watermark or upload your own image watermark. If no image is uploaded, CONFIDENTIAL is used by default.",
+    icon: WatermarkIcon,
     category: "edit",
     accept: PDF_ACCEPT,
     multiple: false,
     configOptions: [
-      { key: "text", label: "Watermark text", type: "text", placeholder: "CONFIDENTIAL", defaultValue: "CONFIDENTIAL" },
+      {
+        key: "text",
+        label: "Watermark text",
+        type: "text",
+        placeholder: "CONFIDENTIAL",
+        defaultValue: "CONFIDENTIAL",
+        helperText: "Used when no watermark image is uploaded.",
+      },
+      {
+        key: "watermarkImage",
+        label: "Watermark image",
+        type: "file",
+        accept: IMG_ACCEPT,
+        helperText: "Optional JPG or PNG. It replaces the text watermark.",
+      },
     ],
     outputType: "pdf",
     clientCapable: true,
@@ -255,8 +289,8 @@ export const tools: Tool[] = [
     route: "/page-numbers",
     name: "Add Page Numbers",
     description: "Number every page automatically.",
-    longDescription: "Insert clean, customizable page numbers in any corner of your document.",
-    icon: Hash,
+    longDescription: "Insert clean page numbers in the selected corner of your document.",
+    icon: PageNumberIcon,
     category: "edit",
     accept: PDF_ACCEPT,
     multiple: false,
@@ -282,12 +316,18 @@ export const tools: Tool[] = [
     name: "Extract Pages",
     description: "Pull specific pages into a new PDF.",
     longDescription: "Select pages by range and export them as a fresh PDF file.",
-    icon: FileOutput,
+    icon: ExtractIcon,
     category: "organize",
     accept: PDF_ACCEPT,
     multiple: false,
     configOptions: [
-      { key: "ranges", label: "Pages to extract", type: "text", placeholder: "1, 3-5", defaultValue: "" },
+      {
+        key: "ranges",
+        label: "Pages to extract",
+        type: "text",
+        placeholder: "1, 3-5",
+        defaultValue: "",
+      },
     ],
     outputType: "pdf",
     clientCapable: true,
@@ -298,12 +338,18 @@ export const tools: Tool[] = [
     name: "Delete Pages",
     description: "Remove pages from a PDF.",
     longDescription: "Choose pages to remove and download the trimmed document.",
-    icon: Trash2,
+    icon: DeletePageIcon,
     category: "organize",
     accept: PDF_ACCEPT,
     multiple: false,
     configOptions: [
-      { key: "ranges", label: "Pages to delete", type: "text", placeholder: "2, 4-6", defaultValue: "" },
+      {
+        key: "ranges",
+        label: "Pages to delete",
+        type: "text",
+        placeholder: "2, 4-6",
+        defaultValue: "",
+      },
     ],
     outputType: "pdf",
     clientCapable: true,
@@ -312,9 +358,9 @@ export const tools: Tool[] = [
     slug: "rotate",
     route: "/rotate",
     name: "Rotate Pages",
-    description: "Rotate 90°, 180°, or 270°.",
+    description: "Rotate 90, 180, or 270 degrees.",
     longDescription: "Fix the orientation of all pages in your document with a single click.",
-    icon: RotateCw,
+    icon: RotatePageIcon,
     category: "edit",
     accept: PDF_ACCEPT,
     multiple: false,
@@ -324,9 +370,9 @@ export const tools: Tool[] = [
         label: "Rotation",
         type: "select",
         options: [
-          { value: "90", label: "90° clockwise" },
-          { value: "180", label: "180°" },
-          { value: "270", label: "270° clockwise" },
+          { value: "90", label: "90 degrees clockwise" },
+          { value: "180", label: "180 degrees" },
+          { value: "270", label: "270 degrees clockwise" },
         ],
         defaultValue: "90",
       },
@@ -338,21 +384,19 @@ export const tools: Tool[] = [
     slug: "reorder",
     route: "/reorder",
     name: "Reorder Pages",
-    description: "Rearrange pages into a new order.",
-    longDescription: "Specify a new page order and we'll rebuild the PDF to match.",
-    icon: ArrowUpDown,
+    description: "Drag PDF pages into a new order.",
+    longDescription:
+      "Preview every page, drag them into the order you want, and rebuild the PDF visually.",
+    icon: ReorderIcon,
     category: "organize",
     accept: PDF_ACCEPT,
     multiple: false,
-    configOptions: [
-      { key: "order", label: "New order (e.g. 3,1,2,4)", type: "text", placeholder: "3,1,2,4", defaultValue: "" },
-    ],
     outputType: "pdf",
     clientCapable: true,
   },
 ];
 
-export const toolsBySlug = Object.fromEntries(tools.map((t) => [t.slug, t]));
+export const toolsBySlug = Object.fromEntries(tools.map((tool) => [tool.slug, tool]));
 
 export const categoryLabels: Record<ToolCategory, string> = {
   organize: "Organize",

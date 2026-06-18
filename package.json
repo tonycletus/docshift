@@ -1,5 +1,5 @@
 {
-  "name": "tanstack_start_ts",
+  "name": "docshift",
   "private": true,
   "sideEffects": false,
   "type": "module",
@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
+    "@jspawn/qpdf-wasm": "^0.0.2",
     "@radix-ui/react-accordion": "^1.2.12",
     "@radix-ui/react-alert-dialog": "^1.1.15",
     "@radix-ui/react-aspect-ratio": "^1.1.8",
@@ -88,5 +89,30 @@
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.56.1",
     "vite": "^7.3.1"
-  }
+  },
+  "version": "1.0.0",
+  "description": "Free, local-first PDF tools that run in the browser with no uploads, database, or external API.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tonycletus/docshift.git"
+  },
+  "keywords": [
+    "pdf",
+    "pdf-tools",
+    "local-first",
+    "privacy",
+    "browser",
+    "wasm",
+    "react",
+    "vite"
+  ],
+  "overrides": {
+    "esbuild": "^0.28.1"
+  },
+  "author": "Tony Cletus",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tonycletus/docshift/issues"
+  },
+  "homepage": "https://github.com/tonycletus/docshift#readme"
 }

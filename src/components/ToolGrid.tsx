@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Link } from "@tanstack/react-router";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowIcon } from "@/components/DocIcons";
 import { tools, categoryLabels, type ToolCategory } from "@/lib/tools";
 
 const categories: ToolCategory[] = ["organize", "convert", "edit", "security"];
@@ -15,7 +15,10 @@ export function ToolGrid() {
               {categoryLabels[cat]}
             </h3>
             <span className="font-mono text-[11px] text-muted-foreground/70">
-              {tools.filter((t) => t.category === cat).length.toString().padStart(2, "0")}
+              {tools
+                .filter((t) => t.category === cat)
+                .length.toString()
+                .padStart(2, "0")}
             </span>
           </div>
           <div className="grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-border bg-border sm:grid-cols-2 lg:grid-cols-3">
@@ -39,7 +42,7 @@ export function ToolGrid() {
                         <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-surface text-foreground transition-all group-hover:bg-foreground group-hover:text-background">
                           <Icon className="h-4 w-4" strokeWidth={2} />
                         </div>
-                        <ArrowUpRight className="h-4 w-4 text-muted-foreground/40 transition-all duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-foreground" />
+                        <ArrowIcon className="h-4 w-4 text-muted-foreground/40 transition-all duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-foreground" />
                       </div>
                       <div>
                         <div className="font-display text-[15px] font-semibold tracking-tight text-foreground">
