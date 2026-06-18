@@ -44,6 +44,7 @@
         "date-fns": "^4.1.0",
         "embla-carousel-react": "^8.6.0",
         "framer-motion": "^12.40.0",
+        "h3-v2": "npm:h3@2.0.1-rc.22",
         "input-otp": "^1.4.2",
         "jszip": "^3.10.1",
         "lucide-react": "^0.575.0",
@@ -840,7 +841,7 @@
 
     "h3": ["h3@2.0.1-rc.22", "https://europe-west4-npm.pkg.dev/lovable-core-prod/sandbox-npm-cache/h3/-/h3-2.0.1-rc.22.tgz", { "dependencies": { "rou3": "^0.8.1", "srvx": "^0.11.15" }, "peerDependencies": { "crossws": "^0.4.1" }, "bin": "bin/h3.mjs" }, ""],
 
-    "h3-v2": ["h3@2.0.1-rc.20", "https://europe-west4-npm.pkg.dev/lovable-core-prod/sandbox-npm-cache/h3-v2/-/h3-v2-2.0.1-rc.20.tgz", { "dependencies": { "rou3": "^0.8.1", "srvx": "^0.11.13" }, "peerDependencies": { "crossws": "^0.4.1" }, "bin": "bin/h3.mjs" }, ""],
+    "h3-v2": ["h3@2.0.1-rc.22", "https://europe-west4-npm.pkg.dev/lovable-core-prod/sandbox-npm-cache/h3/-/h3-2.0.1-rc.22.tgz", { "dependencies": { "rou3": "^0.8.1", "srvx": "^0.11.15" }, "peerDependencies": { "crossws": "^0.4.1" }, "bin": "bin/h3.mjs" }, ""],
 
     "has-flag": ["has-flag@4.0.0", "https://europe-west4-npm.pkg.dev/lovable-core-prod/sandbox-npm-cache/has-flag/-/has-flag-4.0.0.tgz", {}, ""],
 
@@ -1217,6 +1218,8 @@
     "@tanstack/start-plugin-core/@babel/code-frame": ["@babel/code-frame@7.27.1", "https://europe-west4-npm.pkg.dev/lovable-core-prod/sandbox-npm-cache/@babel/code-frame/-/code-frame-7.27.1.tgz", { "dependencies": { "@babel/helper-validator-identifier": "^7.27.1", "js-tokens": "^4.0.0", "picocolors": "^1.1.1" } }, ""],
 
     "@tanstack/start-plugin-core/zod": ["zod@4.4.3", "https://europe-west4-npm.pkg.dev/lovable-core-prod/sandbox-npm-cache/zod/-/zod-4.4.3.tgz", {}, ""],
+
+    "@tanstack/start-server-core/h3-v2": ["h3@2.0.1-rc.20", "https://europe-west4-npm.pkg.dev/lovable-core-prod/sandbox-npm-cache/h3-v2/-/h3-v2-2.0.1-rc.20.tgz", { "dependencies": { "rou3": "^0.8.1", "srvx": "^0.11.13" }, "peerDependencies": { "crossws": "^0.4.1" }, "bin": "bin/h3.mjs" }, ""],
 
     "@typescript-eslint/eslint-plugin/ignore": ["ignore@7.0.5", "https://europe-west4-npm.pkg.dev/lovable-core-prod/sandbox-npm-cache/ignore/-/ignore-7.0.5.tgz", {}, ""],
 
