@@ -107,8 +107,7 @@
     "vite"
   ],
   "overrides": {
-    "esbuild": "^0.28.1",
-    "@tanstack/start-server-core>h3-v2": "npm:h3@2.0.1-rc.22"
+    "esbuild": "^0.28.1"
   },
   "author": "Tony Cletus",
   "license": "ISC",
