@@ -58,7 +58,7 @@ export function Footer() {
           </div>
         </div>
         <div className="mt-10 flex justify-center">
-          <div className="w-full max-w-xl rounded-2xl border border-border bg-background p-6 sm:p-8">
+          <div className="w-full max-w-3xl rounded-2xl border border-border bg-background p-6 sm:p-10">
             <div className="flex flex-col items-center gap-5 text-center">
               <a
                 href="https://github.com/tonycletus"
