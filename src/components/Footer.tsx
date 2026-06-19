@@ -57,8 +57,48 @@ export function Footer() {
             </div>
           </div>
         </div>
-        <div className="mt-10 flex flex-col items-start justify-between gap-3 border-t border-border pt-5 text-[12px] text-muted-foreground sm:flex-row sm:items-center">
-          <div>Copyright {new Date().getFullYear()} Docshift. Built for local-first PDF work.</div>
+        <div className="mt-10 rounded-2xl border border-border bg-background p-6">
+          <div className="text-[11px] font-mono uppercase tracking-wider text-muted-foreground">About</div>
+          <div className="mt-2 font-display text-[18px] font-semibold tracking-tight text-foreground">
+            Hi, I&apos;m Tony Cletus
+          </div>
+          <p className="mt-3 max-w-2xl text-[13.5px] leading-relaxed text-muted-foreground">
+            I&apos;m a builder who loves shipping small tools that remove friction. I built Docshift because I was tired of uploading sensitive documents to random online PDF tools — your files should never leave your device.
+          </p>
+          <p className="mt-3 max-w-2xl text-[13.5px] leading-relaxed text-muted-foreground">
+            Docshift is the tool I wished existed: open it, drop your PDF, do what you need — no accounts, no uploads, no trace left behind.
+          </p>
+          <div className="mt-4 flex flex-wrap items-center gap-4 text-[13px]">
+            <a
+              href="https://github.com/tonycletus"
+              target="_blank"
+              rel="noreferrer"
+              className="text-muted-foreground transition-colors hover:text-foreground"
+            >
+              github.com/tonycletus
+            </a>
+            <a
+              href="https://x.com/iamtonycletus"
+              target="_blank"
+              rel="noreferrer"
+              className="text-muted-foreground transition-colors hover:text-foreground"
+            >
+              @iamtonycletus
+            </a>
+          </div>
+        </div>
+        <div className="mt-6 flex flex-col items-start justify-between gap-3 border-t border-border pt-5 text-[12px] text-muted-foreground sm:flex-row sm:items-center">
+          <div>
+            Copyright {new Date().getFullYear()} Docshift | Built by{" "}
+            <a
+              href="https://x.com/iamtonycletus"
+              target="_blank"
+              rel="noreferrer"
+              className="transition-colors hover:text-foreground"
+            >
+              Tony Cletus
+            </a>
+          </div>
           <div className="flex items-center gap-4">
             <Link to="/privacy" className="transition-colors hover:text-foreground">
               Privacy
