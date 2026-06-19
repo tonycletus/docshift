@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { BrandMark, GitHubIcon } from "@/components/DocIcons";
+import { GitHubIcon, Wordmark } from "@/components/DocIcons";
 
 const GITHUB_URL = "https://github.com/tonycletus/docshift";
 
@@ -9,12 +9,10 @@ export function Header() {
       <div className="mx-auto flex h-14 max-w-[1280px] items-center justify-between px-6">
         <Link
           to="/"
-          className="flex items-center gap-2 text-foreground transition-opacity hover:opacity-80"
+          aria-label="Docshift home"
+          className="flex items-center transition-opacity hover:opacity-80"
         >
-          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-foreground text-background">
-            <BrandMark className="h-4 w-4" />
-          </div>
-          <span className="font-display text-[15px] font-semibold tracking-tight">Docshift</span>
+          <Wordmark />
         </Link>
         <nav className="hidden items-center gap-7 text-[13px] text-muted-foreground md:flex">
           <Link to="/" hash="tools" className="transition-colors hover:text-foreground">
