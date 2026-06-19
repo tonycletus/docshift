@@ -57,34 +57,53 @@ export function Footer() {
             </div>
           </div>
         </div>
-        <div className="mt-10 rounded-2xl border border-border bg-background p-6">
-          <div className="text-[11px] font-mono uppercase tracking-wider text-muted-foreground">About</div>
-          <div className="mt-2 font-display text-[18px] font-semibold tracking-tight text-foreground">
-            Hi, I&apos;m Tony Cletus
-          </div>
-          <p className="mt-3 max-w-2xl text-[13.5px] leading-relaxed text-muted-foreground">
-            I&apos;m a builder who loves shipping small tools that remove friction. I built Docshift because I was tired of uploading sensitive documents to random online PDF tools — your files should never leave your device.
-          </p>
-          <p className="mt-3 max-w-2xl text-[13.5px] leading-relaxed text-muted-foreground">
-            Docshift is the tool I wished existed: open it, drop your PDF, do what you need — no accounts, no uploads, no trace left behind.
-          </p>
-          <div className="mt-4 flex flex-wrap items-center gap-4 text-[13px]">
+        <div className="mt-10 rounded-2xl border border-border bg-background p-6 sm:p-8">
+          <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:gap-8">
             <a
               href="https://github.com/tonycletus"
               target="_blank"
               rel="noreferrer"
-              className="text-muted-foreground transition-colors hover:text-foreground"
+              className="shrink-0"
+              aria-label="Tony Cletus on GitHub"
             >
-              github.com/tonycletus
+              <img
+                src="https://github.com/tonycletus.png"
+                alt="Tony Cletus"
+                loading="lazy"
+                className="h-28 w-28 rounded-full border border-border object-cover sm:h-32 sm:w-32"
+              />
             </a>
-            <a
-              href="https://x.com/iamtonycletus"
-              target="_blank"
-              rel="noreferrer"
-              className="text-muted-foreground transition-colors hover:text-foreground"
-            >
-              @iamtonycletus
-            </a>
+            <div className="min-w-0 flex-1">
+              <div className="text-[11px] font-mono uppercase tracking-wider text-muted-foreground">About</div>
+              <div className="mt-2 font-display text-[18px] font-semibold tracking-tight text-foreground">
+                Hi, I&apos;m Tony Cletus
+              </div>
+              <p className="mt-3 max-w-2xl text-[13.5px] leading-relaxed text-muted-foreground">
+                I&apos;m a builder who loves shipping small tools that remove friction. I built Docshift because I was tired of uploading sensitive documents to random online PDF tools — your files should never leave your device.
+              </p>
+              <p className="mt-3 max-w-2xl text-[13.5px] leading-relaxed text-muted-foreground">
+                Docshift is the tool I wished existed: open it, drop your PDF, do what you need — no accounts, no uploads, no trace left behind.
+              </p>
+              <div className="mt-4 flex flex-wrap items-center gap-4 text-[13px]">
+                <a
+                  href="https://github.com/tonycletus"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-muted-foreground transition-colors hover:text-foreground"
+                >
+                  github.com/tonycletus
+                </a>
+                <span className="text-border">|</span>
+                <a
+                  href="https://x.com/iamtonycletus"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-muted-foreground transition-colors hover:text-foreground"
+                >
+                  @iamtonycletus
+                </a>
+              </div>
+            </div>
           </div>
         </div>
         <div className="mt-6 flex flex-col items-start justify-between gap-3 border-t border-border pt-5 text-[12px] text-muted-foreground sm:flex-row sm:items-center">
