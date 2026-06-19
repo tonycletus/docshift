@@ -9,18 +9,21 @@ import { tools } from "@/lib/tools";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Docshift - Free PDF tools. No login. No watermark." },
+      { title: "DocShift — Private, browser-only PDF toolkit" },
       {
         name: "description",
         content:
-          "18 fast, private, open-source PDF tools. Merge, split, convert, compress, and protect in your browser.",
+          "A privacy-first PDF toolkit. Merge, split, compress, convert, protect, and edit PDFs entirely in your browser — no uploads, no accounts, no tracking.",
       },
-      { property: "og:title", content: "Docshift - Free PDF tools" },
+      { property: "og:title", content: "DocShift — Private, browser-only PDF toolkit" },
       {
         property: "og:description",
-        content: "18 fast, private, open-source PDF tools. No login. No watermark.",
+        content:
+          "Merge, split, compress, convert, and protect PDFs entirely in your browser. No uploads. No accounts. No tracking.",
       },
+      { property: "og:url", content: "https://docshift.lovable.app/" },
     ],
+    links: [{ rel: "canonical", href: "https://docshift.lovable.app/" }],
   }),
   component: Index,
 });

@@ -77,20 +77,34 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Docshift - Free PDF tools. No login. No watermark." },
+      { title: "DocShift — Private, browser-only PDF toolkit" },
       {
         name: "description",
         content:
-          "Fast, private, open-source PDF tools. Merge, split, convert, compress, protect, and more in your browser.",
+          "DocShift is a privacy-first PDF toolkit. Merge, split, compress, convert, protect, and edit PDFs entirely in your browser — no uploads, no accounts, no tracking.",
       },
-      { name: "author", content: "Docshift" },
-      { property: "og:title", content: "Docshift - Free PDF tools" },
+      { name: "author", content: "Tony Cletus" },
+      { property: "og:site_name", content: "DocShift" },
+      { property: "og:title", content: "DocShift — Private, browser-only PDF toolkit" },
       {
         property: "og:description",
-        content: "Fast, private, open-source PDF tools. No login. No watermark.",
+        content:
+          "Merge, split, compress, convert, and protect PDFs entirely in your browser. No uploads. No accounts. No tracking.",
       },
       { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
+      { property: "og:image", content: "https://docshift.lovable.app/og-image.png" },
+      { property: "og:image:width", content: "1216" },
+      { property: "og:image:height", content: "640" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:site", content: "@iamtonycletus" },
+      { name: "twitter:creator", content: "@iamtonycletus" },
+      { name: "twitter:title", content: "DocShift — Private, browser-only PDF toolkit" },
+      {
+        name: "twitter:description",
+        content:
+          "Merge, split, compress, convert, and protect PDFs entirely in your browser. No uploads. No accounts. No tracking.",
+      },
+      { name: "twitter:image", content: "https://docshift.lovable.app/og-image.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
