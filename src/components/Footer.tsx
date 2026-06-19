@@ -59,7 +59,7 @@ export function Footer() {
         </div>
         <div className="mt-10 flex justify-center">
           <div className="w-full max-w-3xl rounded-2xl border border-border bg-background p-6 sm:p-10">
-            <div className="flex flex-col items-center gap-5 text-center">
+            <div className="flex flex-col items-center gap-6 sm:flex-row sm:items-start sm:gap-8 sm:text-left">
               <a
                 href="https://github.com/tonycletus"
                 target="_blank"
@@ -71,12 +71,12 @@ export function Footer() {
                   src="https://github.com/tonycletus.png"
                   alt="Tony Cletus"
                   loading="lazy"
-                  className="h-24 w-24 rounded-full border border-border object-cover"
+                  className="h-28 w-28 rounded-full border border-border object-cover sm:h-32 sm:w-32"
                 />
               </a>
-              <div>
+              <div className="min-w-0 flex-1 text-center sm:text-left">
                 <div className="text-[11px] font-mono uppercase tracking-wider text-muted-foreground">About</div>
-                <div className="mt-2 font-display text-[18px] font-semibold tracking-tight text-foreground">
+                <div className="mt-2 font-display text-[20px] font-semibold tracking-tight text-foreground">
                   Hi, I&apos;m Tony Cletus
                 </div>
                 <p className="mt-3 text-[13.5px] leading-relaxed text-muted-foreground">
@@ -85,25 +85,25 @@ export function Footer() {
                 <p className="mt-3 text-[13.5px] leading-relaxed text-muted-foreground">
                   So I built Docshift for them, and made it free for everyone. Everything runs in your browser, your files never leave your device, and there is nothing to sign up for.
                 </p>
-              </div>
-              <div className="flex flex-wrap items-center justify-center gap-4 text-[13px]">
-                <a
-                  href="https://github.com/tonycletus"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-muted-foreground transition-colors hover:text-foreground"
-                >
-                  github.com/tonycletus
-                </a>
-                <span className="text-border">|</span>
-                <a
-                  href="https://x.com/iamtonycletus"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-muted-foreground transition-colors hover:text-foreground"
-                >
-                  @iamtonycletus
-                </a>
+                <div className="mt-5 flex flex-wrap items-center justify-center gap-4 text-[13px] sm:justify-start">
+                  <a
+                    href="https://github.com/tonycletus"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-muted-foreground transition-colors hover:text-foreground"
+                  >
+                    github.com/tonycletus
+                  </a>
+                  <span className="text-border">|</span>
+                  <a
+                    href="https://x.com/iamtonycletus"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-muted-foreground transition-colors hover:text-foreground"
+                  >
+                    @iamtonycletus
+                  </a>
+                </div>
               </div>
             </div>
           </div>
