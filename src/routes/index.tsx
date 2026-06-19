@@ -9,13 +9,13 @@ import { tools } from "@/lib/tools";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "DocShift — Private, browser-only PDF toolkit" },
+      { title: "DocShift · Private, browser-only PDF toolkit" },
       {
         name: "description",
         content:
-          "A privacy-first PDF toolkit. Merge, split, compress, convert, protect, and edit PDFs entirely in your browser — no uploads, no accounts, no tracking.",
+          "A privacy-first PDF toolkit. Merge, split, compress, convert, protect, and edit PDFs entirely in your browser. No uploads, no accounts, no tracking.",
       },
-      { property: "og:title", content: "DocShift — Private, browser-only PDF toolkit" },
+      { property: "og:title", content: "DocShift · Private, browser-only PDF toolkit" },
       {
         property: "og:description",
         content:

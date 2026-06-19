@@ -77,15 +77,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "DocShift — Private, browser-only PDF toolkit" },
+      { title: "DocShift · Private, browser-only PDF toolkit" },
       {
         name: "description",
         content:
-          "DocShift is a privacy-first PDF toolkit. Merge, split, compress, convert, protect, and edit PDFs entirely in your browser — no uploads, no accounts, no tracking.",
+          "DocShift is a privacy-first PDF toolkit. Merge, split, compress, convert, protect, and edit PDFs entirely in your browser. No uploads, no accounts, no tracking.",
       },
       { name: "author", content: "Tony Cletus" },
       { property: "og:site_name", content: "DocShift" },
-      { property: "og:title", content: "DocShift — Private, browser-only PDF toolkit" },
+      { property: "og:title", content: "DocShift · Private, browser-only PDF toolkit" },
       {
         property: "og:description",
         content:
@@ -98,7 +98,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:site", content: "@iamtonycletus" },
       { name: "twitter:creator", content: "@iamtonycletus" },
-      { name: "twitter:title", content: "DocShift — Private, browser-only PDF toolkit" },
+      { name: "twitter:title", content: "DocShift · Private, browser-only PDF toolkit" },
       {
         name: "twitter:description",
         content:
