@@ -17,13 +17,42 @@ function Icon(props: SVGProps<SVGSVGElement>) {
 
 export function BrandMark(props: SVGProps<SVGSVGElement>) {
   return (
-    <Icon {...props}>
-      <path d="M7 3.5h7.5L19 8v12.5H7z" />
-      <path d="M14.5 3.5V8H19" />
-      <path d="M10 12h6" />
-      <path d="M10 15h5" />
-      <path d="M10 18h3" />
-    </Icon>
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      fillRule="evenodd"
+      clipRule="evenodd"
+      {...props}
+    >
+      {/* Back tile — shifted up-left, semi-transparent */}
+      <path
+        d="M5 2.5a2.5 2.5 0 0 0-2.5 2.5v9A2.5 2.5 0 0 0 5 16.5h2V11a4 4 0 0 1 4-4h5.5V5A2.5 2.5 0 0 0 14 2.5H5z"
+        opacity="0.45"
+      />
+      {/* Front tile with negative-space shift arrow */}
+      <path d="M11 7.5A2.5 2.5 0 0 0 8.5 10v9A2.5 2.5 0 0 0 11 21.5h8a2.5 2.5 0 0 0 2.5-2.5v-9A2.5 2.5 0 0 0 19 7.5h-8zm1.25 6.25v-1.5l3.75 2.25-3.75 2.25v-1.5h-1.75v-1.5h1.75z" />
+    </svg>
+  );
+}
+
+export function Wordmark({
+  className,
+  iconClassName,
+}: {
+  className?: string;
+  iconClassName?: string;
+}) {
+  return (
+    <span className={`inline-flex items-center gap-2 ${className ?? ""}`}>
+      <span className="flex h-7 w-7 items-center justify-center rounded-[9px] bg-foreground text-background">
+        <BrandMark className={iconClassName ?? "h-[18px] w-[18px]"} />
+      </span>
+      <span className="font-display text-[15px] font-semibold tracking-[-0.01em] leading-none">
+        <span className="text-muted-foreground">doc</span>
+        <span className="text-foreground">shift</span>
+      </span>
+    </span>
   );
 }
 
