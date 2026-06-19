@@ -65,7 +65,7 @@ function PrivacyPage() {
           <PrivacyCard
             icon={OpenCodeIcon}
             title="Hosting serves assets"
-            body="A host such as Vercel or Lovable serves HTML, CSS, JavaScript, workers, and WASM files. It does not need a database for Docshift."
+            body="A static host serves HTML, CSS, JavaScript, workers, and WASM files. DocShift does not need a database or backend."
           />
         </section>
 
