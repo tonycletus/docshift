@@ -112,7 +112,7 @@ export function Footer() {
           <div>
             Copyright {new Date().getFullYear()} Docshift | Built by{" "}
             <a
-              href="https://x.com/iamtonycletus"
+              href="https://tonycletus.com"
               target="_blank"
               rel="noreferrer"
               className="transition-colors hover:text-foreground"
