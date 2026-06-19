@@ -57,34 +57,36 @@ export function Footer() {
             </div>
           </div>
         </div>
-        <div className="mt-10 rounded-2xl border border-border bg-background p-6 sm:p-8">
-          <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:gap-8">
-            <a
-              href="https://github.com/tonycletus"
-              target="_blank"
-              rel="noreferrer"
-              className="shrink-0"
-              aria-label="Tony Cletus on GitHub"
-            >
-              <img
-                src="https://github.com/tonycletus.png"
-                alt="Tony Cletus"
-                loading="lazy"
-                className="h-28 w-28 rounded-full border border-border object-cover sm:h-32 sm:w-32"
-              />
-            </a>
-            <div className="min-w-0 flex-1">
-              <div className="text-[11px] font-mono uppercase tracking-wider text-muted-foreground">About</div>
-              <div className="mt-2 font-display text-[18px] font-semibold tracking-tight text-foreground">
-                Hi, I&apos;m Tony Cletus
+        <div className="mt-10 flex justify-center">
+          <div className="w-full max-w-xl rounded-2xl border border-border bg-background p-6 sm:p-8">
+            <div className="flex flex-col items-center gap-5 text-center">
+              <a
+                href="https://github.com/tonycletus"
+                target="_blank"
+                rel="noreferrer"
+                className="shrink-0"
+                aria-label="Tony Cletus on GitHub"
+              >
+                <img
+                  src="https://github.com/tonycletus.png"
+                  alt="Tony Cletus"
+                  loading="lazy"
+                  className="h-24 w-24 rounded-full border border-border object-cover"
+                />
+              </a>
+              <div>
+                <div className="text-[11px] font-mono uppercase tracking-wider text-muted-foreground">About</div>
+                <div className="mt-2 font-display text-[18px] font-semibold tracking-tight text-foreground">
+                  Hi, I&apos;m Tony Cletus
+                </div>
+                <p className="mt-3 text-[13.5px] leading-relaxed text-muted-foreground">
+                  I build small tools that solve everyday problems. Docshift started because my family and friends kept asking me for help with basic PDF tasks: merging a few pages, compressing a scan, splitting a document before sending it off. Most of the online options wanted accounts, uploads, or payment for things that should be simple.
+                </p>
+                <p className="mt-3 text-[13.5px] leading-relaxed text-muted-foreground">
+                  So I built Docshift for them, and made it free for everyone. Everything runs in your browser, your files never leave your device, and there is nothing to sign up for.
+                </p>
               </div>
-              <p className="mt-3 max-w-2xl text-[13.5px] leading-relaxed text-muted-foreground">
-                I&apos;m a builder who loves shipping small tools that remove friction. I built Docshift because I was tired of uploading sensitive documents to random online PDF tools — your files should never leave your device.
-              </p>
-              <p className="mt-3 max-w-2xl text-[13.5px] leading-relaxed text-muted-foreground">
-                Docshift is the tool I wished existed: open it, drop your PDF, do what you need — no accounts, no uploads, no trace left behind.
-              </p>
-              <div className="mt-4 flex flex-wrap items-center gap-4 text-[13px]">
+              <div className="flex flex-wrap items-center justify-center gap-4 text-[13px]">
                 <a
                   href="https://github.com/tonycletus"
                   target="_blank"

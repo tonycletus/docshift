@@ -7,9 +7,9 @@ const tool = toolsBySlug["page-numbers"];
 export const Route = createFileRoute("/page-numbers")({
   head: () => ({
     meta: [
-      { title: `${tool.name} — Docshift` },
+      { title: `${tool.name} · Docshift` },
       { name: "description", content: tool.longDescription },
-      { property: "og:title", content: `${tool.name} — Docshift` },
+      { property: "og:title", content: `${tool.name} · Docshift` },
       { property: "og:description", content: tool.longDescription },
     ],
   }),
