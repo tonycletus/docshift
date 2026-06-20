@@ -21,9 +21,9 @@ export function ToolLayout({ tool, renderTool }: Props) {
       <main className="mx-auto max-w-[1280px] px-6 pb-10 pt-6">
         <Link
           to="/"
-          className="inline-flex items-center gap-1.5 text-[12.5px] text-muted-foreground transition-colors hover:text-foreground"
+          className="inline-flex items-center gap-1.5 rounded-md text-[12.5px] text-muted-foreground transition-colors hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-ring/40"
         >
-          <BackIcon className="h-3.5 w-3.5" />
+          <BackIcon aria-hidden="true" className="h-3.5 w-3.5" />
           All tools
         </Link>
 
@@ -34,7 +34,10 @@ export function ToolLayout({ tool, renderTool }: Props) {
           className="mx-auto mt-5 max-w-[720px]"
         >
           <div className="flex items-center gap-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-foreground text-background">
+            <div
+              aria-hidden="true"
+              className="flex h-9 w-9 items-center justify-center rounded-xl bg-foreground text-background"
+            >
               <Icon className="h-[18px] w-[18px]" />
             </div>
             <div className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
