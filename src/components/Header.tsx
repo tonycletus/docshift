@@ -19,6 +19,12 @@ export function Header() {
           <Link to="/" hash="tools" className="transition-colors hover:text-foreground">
             Tools
           </Link>
+          <Link to="/desktop" className="transition-colors hover:text-foreground">
+            Desktop
+          </Link>
+          <Link to="/cli" className="transition-colors hover:text-foreground">
+            CLI
+          </Link>
           <Link to="/privacy" className="transition-colors hover:text-foreground">
             Privacy
           </Link>

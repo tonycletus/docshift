@@ -29,6 +29,7 @@ import { Route as ExtractPagesRouteImport } from './routes/extract-pages'
 import { Route as DesktopRouteImport } from './routes/desktop'
 import { Route as DeletePagesRouteImport } from './routes/delete-pages'
 import { Route as CompressRouteImport } from './routes/compress'
+import { Route as CliRouteImport } from './routes/cli'
 import { Route as IndexRouteImport } from './routes/index'
 
 const WordToPdfRoute = WordToPdfRouteImport.update({
@@ -131,6 +132,11 @@ const CompressRoute = CompressRouteImport.update({
   path: '/compress',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CliRoute = CliRouteImport.update({
+  id: '/cli',
+  path: '/cli',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -139,6 +145,7 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/cli': typeof CliRoute
   '/compress': typeof CompressRoute
   '/delete-pages': typeof DeletePagesRoute
   '/desktop': typeof DesktopRoute
@@ -162,6 +169,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/cli': typeof CliRoute
   '/compress': typeof CompressRoute
   '/delete-pages': typeof DeletePagesRoute
   '/desktop': typeof DesktopRoute
@@ -186,6 +194,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/cli': typeof CliRoute
   '/compress': typeof CompressRoute
   '/delete-pages': typeof DeletePagesRoute
   '/desktop': typeof DesktopRoute
@@ -211,6 +220,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/cli'
     | '/compress'
     | '/delete-pages'
     | '/desktop'
@@ -234,6 +244,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/cli'
     | '/compress'
     | '/delete-pages'
     | '/desktop'
@@ -257,6 +268,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/cli'
     | '/compress'
     | '/delete-pages'
     | '/desktop'
@@ -281,6 +293,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CliRoute: typeof CliRoute
   CompressRoute: typeof CompressRoute
   DeletePagesRoute: typeof DeletePagesRoute
   DesktopRoute: typeof DesktopRoute
@@ -445,6 +458,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CompressRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/cli': {
+      id: '/cli'
+      path: '/cli'
+      fullPath: '/cli'
+      preLoaderRoute: typeof CliRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -457,6 +477,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CliRoute: CliRoute,
   CompressRoute: CompressRoute,
   DeletePagesRoute: DeletePagesRoute,
   DesktopRoute: DesktopRoute,
