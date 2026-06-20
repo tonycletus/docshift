@@ -20,9 +20,9 @@ export const Route = createFileRoute("/")({
         property: "og:description",
         content: "Every PDF tool you actually need, in one place. Private, fast, and free.",
       },
-      { property: "og:url", content: "https://docshift.lovable.app/" },
+      { property: "og:url", content: "https://docshift.tonycletus.com/" },
     ],
-    links: [{ rel: "canonical", href: "https://docshift.lovable.app/" }],
+    links: [{ rel: "canonical", href: "https://docshift.tonycletus.com/" }],
   }),
   component: Index,
 });
