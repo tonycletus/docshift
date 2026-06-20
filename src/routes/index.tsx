@@ -44,13 +44,13 @@ function Index() {
             className="mx-auto max-w-[760px] text-center"
           >
             <h1 className="font-display text-[40px] font-semibold leading-[1.02] tracking-[-0.02em] text-foreground sm:text-[56px]">
-              Docshift
+              Every PDF tool you need.
               <br />
-              <span className="text-muted-foreground">local PDF tools.</span>
+              <span className="text-muted-foreground">Right in your browser.</span>
             </h1>
             <p className="mx-auto mt-5 max-w-[540px] text-[15px] leading-relaxed text-muted-foreground">
-              Merge, compress, convert, protect, and reorder PDFs without accounts, uploads, or
-              server-side processing.
+              Merge, split, compress, convert, and protect PDFs in seconds. Your files never leave
+              your device. No sign-ups, no limits, no nonsense.
             </p>
             <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
               <Link
@@ -60,12 +60,6 @@ function Index() {
               >
                 Choose a tool
                 <ArrowIcon className="h-4 w-4" />
-              </Link>
-              <Link
-                to="/privacy"
-                className="inline-flex h-10 items-center rounded-xl border border-border bg-background px-4 text-[13px] font-medium text-foreground transition-colors hover:bg-surface"
-              >
-                Privacy details
               </Link>
             </div>
           </motion.div>
