@@ -113,7 +113,7 @@ export function Footer() {
         </div>
         <div className="mt-6 flex flex-col items-start justify-between gap-3 border-t border-border pt-5 text-[12px] text-muted-foreground sm:flex-row sm:items-center">
           <div>
-            Copyright {new Date().getFullYear()} Docshift | Built by{" "}
+            © {new Date().getFullYear()} Docshift · Built by{" "}
             <a
               href="https://tonycletus.com"
               target="_blank"

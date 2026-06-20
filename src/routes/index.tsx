@@ -9,13 +9,13 @@ import { tools } from "@/lib/tools";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "DocShift · A faster way to work with PDFs" },
+      { title: "Docshift · A faster way to work with PDFs" },
       {
         name: "description",
         content:
           "Merge, split, compress, convert, and protect PDFs in seconds. Private by design, free to use.",
       },
-      { property: "og:title", content: "DocShift · A faster way to work with PDFs" },
+      { property: "og:title", content: "Docshift · A faster way to work with PDFs" },
       {
         property: "og:description",
         content: "Every PDF tool you actually need, in one place. Private, fast, and free.",
@@ -36,7 +36,7 @@ const faqs: { q: string; a: string }[] = [
   },
   {
     q: "Where do my files go after I'm done?",
-    a: "Nowhere. Since files never leave your device, closing the tab is all it takes to remove them. We have no copy to delete.",
+    a: "Nowhere. Since files never leave your device, closing the tab is all it takes to remove them. There's no copy to delete.",
   },
   {
     q: "Why is there no login or account?",
@@ -68,7 +68,7 @@ function Index() {
             </h1>
             <p className="mx-auto mt-5 max-w-[540px] text-[15px] leading-relaxed text-muted-foreground">
               Every PDF tool you actually need, in one place. Merge, split, compress, convert, and
-              protect, in seconds.
+              protect in seconds.
             </p>
             <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
               <Link
@@ -130,7 +130,7 @@ function Index() {
             FAQ
           </h2>
           <p className="mt-1.5 text-[13.5px] text-muted-foreground">
-            Short answers to the questions we get most.
+            Short answers to the questions I get most.
           </p>
         </div>
         <div className="grid gap-px overflow-hidden rounded-2xl border border-border bg-border sm:grid-cols-2">
