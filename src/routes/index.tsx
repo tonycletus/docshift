@@ -124,6 +124,25 @@ function Index() {
         <ToolGrid />
       </section>
 
+      <section id="why" className="mx-auto max-w-[1280px] px-6 pb-8 pt-8">
+        <div className="mx-auto max-w-[640px] rounded-2xl border border-border bg-background p-6 sm:p-8">
+          <div className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
+            Why I built this
+          </div>
+          <p className="mt-4 text-[15px] leading-relaxed text-foreground">
+            I built DocShift because I got paranoid uploading a contract to a random PDF site.
+          </p>
+          <p className="mt-3 text-[14px] leading-relaxed text-muted-foreground">
+            Your files are sensitive — they shouldn't have to leave your device just to merge two
+            pages. So I built a tool that runs entirely in your browser. No uploads, no accounts,
+            no trace.
+          </p>
+          <div className="mt-5 text-[12.5px] text-muted-foreground">
+            — Tony, maker of DocShift
+          </div>
+        </div>
+      </section>
+
       <section id="faq" className="mx-auto max-w-[1280px] scroll-mt-20 px-6 pb-16 pt-8">
         <div className="mb-6">
           <h2 className="font-display text-[24px] font-semibold tracking-[-0.02em] text-foreground">
