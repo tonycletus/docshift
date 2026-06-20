@@ -9,7 +9,7 @@ export function Footer() {
           <div>
             <div className="font-display text-base font-semibold tracking-tight">Docshift</div>
             <p className="mt-2 max-w-xs text-[13px] leading-relaxed text-muted-foreground">
-              Free PDF tools. No login. No watermark. Files stay in your browser.
+              A complete PDF toolkit that runs locally in your browser.
             </p>
           </div>
           <div className="grid grid-cols-2 gap-8 text-[13px] sm:grid-cols-3">
