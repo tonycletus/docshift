@@ -77,19 +77,19 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "DocShift · Private, browser-only PDF toolkit" },
+      { title: "DocShift · Browser-based PDF toolkit" },
       {
         name: "description",
         content:
-          "DocShift is a privacy-first PDF toolkit. Merge, split, compress, convert, protect, and edit PDFs entirely in your browser. No uploads, no accounts, no tracking.",
+          "DocShift is a browser-based PDF toolkit. Merge, split, compress, convert, protect, and edit PDFs locally on your device.",
       },
       { name: "author", content: "Tony Cletus" },
       { property: "og:site_name", content: "DocShift" },
-      { property: "og:title", content: "DocShift · Private, browser-only PDF toolkit" },
+      { property: "og:title", content: "DocShift · Browser-based PDF toolkit" },
       {
         property: "og:description",
         content:
-          "Merge, split, compress, convert, and protect PDFs entirely in your browser. No uploads. No accounts. No tracking.",
+          "A complete PDF toolkit that runs locally in your browser.",
       },
       { property: "og:type", content: "website" },
       { property: "og:image", content: "https://docshift.lovable.app/og-image.png" },
@@ -98,11 +98,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:site", content: "@iamtonycletus" },
       { name: "twitter:creator", content: "@iamtonycletus" },
-      { name: "twitter:title", content: "DocShift · Private, browser-only PDF toolkit" },
+      { name: "twitter:title", content: "DocShift · Browser-based PDF toolkit" },
       {
         name: "twitter:description",
         content:
-          "Merge, split, compress, convert, and protect PDFs entirely in your browser. No uploads. No accounts. No tracking.",
+          "A complete PDF toolkit that runs locally in your browser.",
       },
       { name: "twitter:image", content: "https://docshift.lovable.app/og-image.png" },
     ],

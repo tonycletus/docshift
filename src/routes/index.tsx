@@ -9,17 +9,17 @@ import { tools } from "@/lib/tools";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "DocShift · Private, browser-only PDF toolkit" },
+      { title: "DocShift · Browser-based PDF toolkit" },
       {
         name: "description",
         content:
-          "A privacy-first PDF toolkit. Merge, split, compress, convert, protect, and edit PDFs entirely in your browser. No uploads, no accounts, no tracking.",
+          "Merge, split, compress, convert, and protect PDFs directly in your browser. Files are processed locally on your device.",
       },
-      { property: "og:title", content: "DocShift · Private, browser-only PDF toolkit" },
+      { property: "og:title", content: "DocShift · Browser-based PDF toolkit" },
       {
         property: "og:description",
         content:
-          "Merge, split, compress, convert, and protect PDFs entirely in your browser. No uploads. No accounts. No tracking.",
+          "A complete PDF toolkit that runs locally in your browser.",
       },
       { property: "og:url", content: "https://docshift.lovable.app/" },
     ],
@@ -44,13 +44,13 @@ function Index() {
             className="mx-auto max-w-[760px] text-center"
           >
             <h1 className="font-display text-[40px] font-semibold leading-[1.02] tracking-[-0.02em] text-foreground sm:text-[56px]">
-              Every PDF tool you need.
+              The PDF toolkit
               <br />
-              <span className="text-muted-foreground">Right in your browser.</span>
+              <span className="text-muted-foreground">that runs in your browser.</span>
             </h1>
             <p className="mx-auto mt-5 max-w-[540px] text-[15px] leading-relaxed text-muted-foreground">
-              Merge, split, compress, convert, and protect PDFs in seconds. Your files never leave
-              your device. No sign-ups, no limits, no nonsense.
+              Merge, split, compress, convert, and protect PDFs in seconds. Everything happens
+              locally on your device.
             </p>
             <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
               <Link
@@ -72,15 +72,15 @@ function Index() {
           >
             <TrustItem
               icon={LocalIcon}
-              title="Local runtime"
-              body="Browser memory, not an upload queue."
+              title="Runs locally"
+              body="Files are processed in your browser."
             />
             <TrustItem
               icon={NoAccountIcon}
-              title="No accounts"
-              body="No sign-up step before your file."
+              title="No account"
+              body="Open a tool and start working."
             />
-            <TrustItem icon={OpenCodeIcon} title="Open code" body="Static app, easy to inspect." />
+            <TrustItem icon={OpenCodeIcon} title="Open source" body="A static app you can audit." />
           </motion.div>
         </div>
       </section>
