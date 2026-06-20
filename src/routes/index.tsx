@@ -105,6 +105,25 @@ function Index() {
         <ToolGrid />
       </section>
 
+      <section id="faq" className="mx-auto max-w-[1280px] scroll-mt-20 px-6 pb-16 pt-8">
+        <div className="mb-6">
+          <h2 className="font-display text-[24px] font-semibold tracking-[-0.02em] text-foreground">
+            FAQ
+          </h2>
+          <p className="mt-1.5 text-[13.5px] text-muted-foreground">
+            Short answers to the questions we get most.
+          </p>
+        </div>
+        <div className="grid gap-px overflow-hidden rounded-2xl border border-border bg-border sm:grid-cols-2">
+          {faqs.map((f) => (
+            <div key={f.q} className="bg-background p-5">
+              <div className="text-[13.5px] font-medium text-foreground">{f.q}</div>
+              <p className="mt-2 text-[12.5px] leading-relaxed text-muted-foreground">{f.a}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
       <Footer />
     </div>
   );
