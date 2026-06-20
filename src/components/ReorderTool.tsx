@@ -377,7 +377,7 @@ function PrivacyNote() {
   return (
     <div className="inline-flex items-center gap-2 text-[12.5px] text-muted-foreground">
       <ShieldIcon className="h-3.5 w-3.5 text-success" />
-      Files stay in your browser. No account required.
+      Files are processed locally on your device.
     </div>
   );
 }
