@@ -77,34 +77,34 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "DocShift · Browser-based PDF toolkit" },
+      { title: "DocShift · A faster way to work with PDFs" },
       {
         name: "description",
         content:
-          "DocShift is a browser-based PDF toolkit. Merge, split, compress, convert, protect, and edit PDFs in your browser, on your device.",
+          "Every PDF tool you actually need, in one place. Merge, split, compress, convert, and protect, in seconds. Private, fast, and free.",
       },
       { name: "author", content: "Tony Cletus" },
       { property: "og:site_name", content: "DocShift" },
-      { property: "og:title", content: "DocShift · Browser-based PDF toolkit" },
+      { property: "og:title", content: "DocShift · A faster way to work with PDFs" },
       {
         property: "og:description",
         content:
-          "A complete PDF toolkit that runs entirely in your browser.",
+          "Every PDF tool you actually need, in one place. Private, fast, and free.",
       },
       { property: "og:type", content: "website" },
-      { property: "og:image", content: "https://docshift.lovable.app/og-image.png" },
+      { property: "og:image", content: "https://docshift.tonycletus.com/og-image.png" },
       { property: "og:image:width", content: "1216" },
       { property: "og:image:height", content: "640" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:site", content: "@iamtonycletus" },
       { name: "twitter:creator", content: "@iamtonycletus" },
-      { name: "twitter:title", content: "DocShift · Browser-based PDF toolkit" },
+      { name: "twitter:title", content: "DocShift · A faster way to work with PDFs" },
       {
         name: "twitter:description",
         content:
-          "A complete PDF toolkit that runs entirely in your browser.",
+          "Every PDF tool you actually need, in one place. Private, fast, and free.",
       },
-      { name: "twitter:image", content: "https://docshift.lovable.app/og-image.png" },
+      { name: "twitter:image", content: "https://docshift.tonycletus.com/og-image.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
