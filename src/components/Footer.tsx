@@ -80,13 +80,13 @@ export function Footer() {
                   Hi, I&apos;m Tony Cletus
                 </div>
                 <p className="mt-3 text-[13.5px] leading-relaxed text-muted-foreground">
-                  I build small tools that solve everyday problems. Docshift started because my family and friends kept asking me for help with basic PDF tasks: merging a few pages, compressing a scan, splitting a document before sending it off. Most of the online options wanted accounts, uploads, or payment for things that should be simple.
+                  I build small tools for everyday problems. Docshift started because friends and family kept asking for help with basic PDF tasks: merging a few pages, compressing a scan, splitting a document before sending it off. Most options online wanted accounts, uploads, or payment for things that should be simple.
                 </p>
                 <p className="mt-3 text-[13.5px] leading-relaxed text-muted-foreground">
-                  Honestly, I also got paranoid uploading a contract to a random PDF site one day. Your files are sensitive — they shouldn&apos;t have to leave your device just to merge two pages.
+                  I also got paranoid uploading a contract to a random PDF site one day. Your files are sensitive. They shouldn&apos;t have to leave your device just to merge two pages.
                 </p>
                 <p className="mt-3 text-[13.5px] leading-relaxed text-muted-foreground">
-                  So I built Docshift for them, and made it free for everyone. Everything runs entirely in your browser.
+                  So I built Docshift, and made it free for everyone. Everything runs in your browser.
                 </p>
                 <div className="mt-5 flex flex-wrap items-center justify-center gap-4 text-[13px] sm:justify-start">
                   <a
