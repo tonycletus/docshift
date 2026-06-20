@@ -1,6 +1,8 @@
 # DocShift
 
-DocShift is a privacy-first, browser-only PDF toolkit. Every file is processed on your device using client-side JavaScript, PDF libraries, and WebAssembly. There are no accounts, no uploads, no servers handling your documents, and no tracking.
+**A faster way to work with PDFs.**
+
+Every PDF tool you actually need, in one place — merge, split, compress, convert, and protect, in seconds. DocShift is private by design: files are processed on your device, never uploaded to a server. No accounts, no paywalls, no tracking.
 
 ## Tools
 
