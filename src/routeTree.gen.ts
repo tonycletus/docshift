@@ -26,6 +26,7 @@ import { Route as OcrRouteImport } from './routes/ocr'
 import { Route as MergeRouteImport } from './routes/merge'
 import { Route as JpgToPdfRouteImport } from './routes/jpg-to-pdf'
 import { Route as ExtractPagesRouteImport } from './routes/extract-pages'
+import { Route as DesktopRouteImport } from './routes/desktop'
 import { Route as DeletePagesRouteImport } from './routes/delete-pages'
 import { Route as CompressRouteImport } from './routes/compress'
 import { Route as IndexRouteImport } from './routes/index'
@@ -115,6 +116,11 @@ const ExtractPagesRoute = ExtractPagesRouteImport.update({
   path: '/extract-pages',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DesktopRoute = DesktopRouteImport.update({
+  id: '/desktop',
+  path: '/desktop',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DeletePagesRoute = DeletePagesRouteImport.update({
   id: '/delete-pages',
   path: '/delete-pages',
@@ -135,6 +141,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/compress': typeof CompressRoute
   '/delete-pages': typeof DeletePagesRoute
+  '/desktop': typeof DesktopRoute
   '/extract-pages': typeof ExtractPagesRoute
   '/jpg-to-pdf': typeof JpgToPdfRoute
   '/merge': typeof MergeRoute
@@ -157,6 +164,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/compress': typeof CompressRoute
   '/delete-pages': typeof DeletePagesRoute
+  '/desktop': typeof DesktopRoute
   '/extract-pages': typeof ExtractPagesRoute
   '/jpg-to-pdf': typeof JpgToPdfRoute
   '/merge': typeof MergeRoute
@@ -180,6 +188,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/compress': typeof CompressRoute
   '/delete-pages': typeof DeletePagesRoute
+  '/desktop': typeof DesktopRoute
   '/extract-pages': typeof ExtractPagesRoute
   '/jpg-to-pdf': typeof JpgToPdfRoute
   '/merge': typeof MergeRoute
@@ -204,6 +213,7 @@ export interface FileRouteTypes {
     | '/'
     | '/compress'
     | '/delete-pages'
+    | '/desktop'
     | '/extract-pages'
     | '/jpg-to-pdf'
     | '/merge'
@@ -226,6 +236,7 @@ export interface FileRouteTypes {
     | '/'
     | '/compress'
     | '/delete-pages'
+    | '/desktop'
     | '/extract-pages'
     | '/jpg-to-pdf'
     | '/merge'
@@ -248,6 +259,7 @@ export interface FileRouteTypes {
     | '/'
     | '/compress'
     | '/delete-pages'
+    | '/desktop'
     | '/extract-pages'
     | '/jpg-to-pdf'
     | '/merge'
@@ -271,6 +283,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CompressRoute: typeof CompressRoute
   DeletePagesRoute: typeof DeletePagesRoute
+  DesktopRoute: typeof DesktopRoute
   ExtractPagesRoute: typeof ExtractPagesRoute
   JpgToPdfRoute: typeof JpgToPdfRoute
   MergeRoute: typeof MergeRoute
@@ -411,6 +424,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ExtractPagesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/desktop': {
+      id: '/desktop'
+      path: '/desktop'
+      fullPath: '/desktop'
+      preLoaderRoute: typeof DesktopRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/delete-pages': {
       id: '/delete-pages'
       path: '/delete-pages'
@@ -439,6 +459,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CompressRoute: CompressRoute,
   DeletePagesRoute: DeletePagesRoute,
+  DesktopRoute: DesktopRoute,
   ExtractPagesRoute: ExtractPagesRoute,
   JpgToPdfRoute: JpgToPdfRoute,
   MergeRoute: MergeRoute,
