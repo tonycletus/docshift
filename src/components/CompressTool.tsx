@@ -327,7 +327,7 @@ export function CompressTool({ tool }: Props) {
               <div className="flex-1">
                 <div className="text-[13.5px] font-medium text-foreground">{progressLabel}</div>
                 <div className="text-[12px] text-muted-foreground">
-                  Working locally. Your file never leaves your device.
+                  Working in your browser. Your file never leaves your device.
                 </div>
               </div>
               <div className="font-mono text-[12px] tabular-nums text-muted-foreground">
@@ -468,7 +468,7 @@ function PrivacyNote() {
   return (
     <div className="inline-flex items-center gap-2 text-[12.5px] text-muted-foreground">
       <ShieldIcon className="h-3.5 w-3.5 text-success" />
-      Files are processed locally in your browser. Nothing is uploaded.
+      Files are processed in your browser. Nothing is uploaded.
     </div>
   );
 }

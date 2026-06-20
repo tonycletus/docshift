@@ -81,7 +81,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         name: "description",
         content:
-          "DocShift is a browser-based PDF toolkit. Merge, split, compress, convert, protect, and edit PDFs locally on your device.",
+          "DocShift is a browser-based PDF toolkit. Merge, split, compress, convert, protect, and edit PDFs in your browser, on your device.",
       },
       { name: "author", content: "Tony Cletus" },
       { property: "og:site_name", content: "DocShift" },
@@ -89,7 +89,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         property: "og:description",
         content:
-          "A complete PDF toolkit that runs locally in your browser.",
+          "A complete PDF toolkit that runs entirely in your browser.",
       },
       { property: "og:type", content: "website" },
       { property: "og:image", content: "https://docshift.lovable.app/og-image.png" },
@@ -102,7 +102,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         name: "twitter:description",
         content:
-          "A complete PDF toolkit that runs locally in your browser.",
+          "A complete PDF toolkit that runs entirely in your browser.",
       },
       { name: "twitter:image", content: "https://docshift.lovable.app/og-image.png" },
     ],

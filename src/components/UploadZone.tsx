@@ -304,7 +304,7 @@ export function UploadZone({ tool }: Props) {
               <div className="flex-1">
                 <div className="text-[13.5px] font-medium text-foreground">Processing...</div>
                 <div className="text-[12px] text-muted-foreground">
-                  Working locally in your browser.
+                  Working in your browser.
                 </div>
               </div>
               <div className="font-mono text-[12px] tabular-nums text-muted-foreground">
@@ -408,7 +408,7 @@ function PrivacyNote() {
   return (
     <div className="inline-flex items-center gap-2 text-[12.5px] text-muted-foreground">
       <ShieldIcon className="h-3.5 w-3.5 text-success" />
-      Files are processed locally on your device.
+      Files are processed in your browser, on your device.
     </div>
   );
 }
