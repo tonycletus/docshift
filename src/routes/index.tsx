@@ -32,7 +32,7 @@ const ease = [0.22, 1, 0.36, 1] as const;
 const faqs: { q: string; a: string }[] = [
   {
     q: "How are my files processed?",
-    a: "Everything runs on your device. Your PDFs are read, edited, and saved right where you opened them — they're never uploaded to a server.",
+    a: "Everything runs on your device. Your PDFs are read, edited, and saved right where you opened them. They're never uploaded to a server.",
   },
   {
     q: "Where do my files go after I'm done?",
