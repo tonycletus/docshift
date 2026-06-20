@@ -114,17 +114,22 @@ export function UploadZone({ tool }: Props) {
             transition={{ duration: 0.2 }}
           >
             <div
-              {...getRootProps()}
+              {...getRootProps({
+                "aria-label": tool.multiple
+                  ? `Upload area for ${tool.name}. Drop files or press Enter to browse.`
+                  : `Upload area for ${tool.name}. Drop a file or press Enter to browse.`,
+              })}
               className={cn(
-                "group relative flex min-h-[200px] cursor-pointer flex-col items-center justify-center rounded-[20px] border border-dashed bg-surface/50 px-8 py-10 text-center transition-all duration-200",
+                "group relative flex min-h-[200px] cursor-pointer flex-col items-center justify-center rounded-[20px] border border-dashed bg-surface/50 px-8 py-10 text-center transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
                 isDragActive
                   ? "border-primary bg-primary/5 scale-[1.005]"
                   : "border-border hover:border-foreground/30 hover:bg-surface",
                 status === "processing" && "pointer-events-none",
               )}
             >
-              <input {...getInputProps()} />
+              <input {...getInputProps({ "aria-label": `Choose ${tool.name} file` })} />
               <motion.div
+                aria-hidden="true"
                 animate={{ y: isDragActive ? -4 : 0 }}
                 transition={{ duration: 0.2 }}
                 className="flex h-14 w-14 items-center justify-center rounded-2xl bg-background shadow-subtle ring-1 ring-border"
@@ -161,7 +166,7 @@ export function UploadZone({ tool }: Props) {
             <ul className="divide-y divide-border">
               {files.map((f, i) => (
                 <li key={`${f.name}-${i}`} className="flex items-center gap-3 px-4 py-3">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-surface">
+                  <div aria-hidden="true" className="flex h-8 w-8 items-center justify-center rounded-lg bg-surface">
                     <FileGlyphIcon className="h-4 w-4 text-muted-foreground" />
                   </div>
                   <div className="min-w-0 flex-1">
@@ -176,10 +181,10 @@ export function UploadZone({ tool }: Props) {
                     <button
                       type="button"
                       onClick={() => removeFile(i)}
-                      className="flex h-7 w-7 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-surface hover:text-foreground"
+                      className="flex h-7 w-7 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-surface hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-ring/40"
                       aria-label={`Remove ${f.name}`}
                     >
-                      <CloseIcon className="h-4 w-4" />
+                      <CloseIcon aria-hidden="true" className="h-4 w-4" />
                     </button>
                   )}
                 </li>
@@ -283,7 +288,7 @@ export function UploadZone({ tool }: Props) {
             <button
               type="button"
               onClick={handleProcess}
-              className="inline-flex h-10 items-center gap-2 rounded-xl bg-foreground px-5 text-[13.5px] font-medium text-background transition-all hover:bg-foreground/90 active:scale-[0.99]"
+              className="inline-flex h-10 items-center gap-2 rounded-xl bg-foreground px-5 text-[13.5px] font-medium text-background transition-all hover:bg-foreground/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background active:scale-[0.99]"
             >
               Process {files.length > 1 ? `${files.length} files` : "file"}
             </button>
@@ -293,6 +298,8 @@ export function UploadZone({ tool }: Props) {
         {status === "processing" && (
           <motion.div
             key="processing"
+            role="status"
+            aria-live="polite"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -300,7 +307,7 @@ export function UploadZone({ tool }: Props) {
             className="rounded-2xl border border-border bg-background p-5"
           >
             <div className="flex items-center gap-3">
-              <LoaderIcon className="h-4 w-4 animate-spin text-primary" />
+              <LoaderIcon aria-hidden="true" className="h-4 w-4 animate-spin text-primary" />
               <div className="flex-1">
                 <div className="text-[13.5px] font-medium text-foreground">Processing...</div>
                 <div className="text-[12px] text-muted-foreground">
@@ -311,7 +318,14 @@ export function UploadZone({ tool }: Props) {
                 {progress}%
               </div>
             </div>
-            <div className="mt-4 h-1 w-full overflow-hidden rounded-full bg-surface">
+            <div
+              role="progressbar"
+              aria-label={`Processing ${tool.name}`}
+              aria-valuemin={0}
+              aria-valuemax={100}
+              aria-valuenow={progress}
+              className="mt-4 h-1 w-full overflow-hidden rounded-full bg-surface"
+            >
               <motion.div
                 className="h-full bg-primary"
                 initial={{ width: 0 }}
@@ -325,6 +339,8 @@ export function UploadZone({ tool }: Props) {
         {status === "success" && resultUrl && (
           <motion.div
             key="success"
+            role="status"
+            aria-live="polite"
             initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0 }}
@@ -332,6 +348,7 @@ export function UploadZone({ tool }: Props) {
             className="rounded-[20px] border border-border bg-background p-8 text-center"
           >
             <motion.div
+              aria-hidden="true"
               initial={{ scale: 0.6, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ duration: 0.3, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
@@ -347,17 +364,18 @@ export function UploadZone({ tool }: Props) {
               <a
                 href={resultUrl}
                 download={resultName}
-                className="inline-flex h-10 items-center gap-2 rounded-xl bg-foreground px-5 text-[13.5px] font-medium text-background transition-all hover:bg-foreground/90 active:scale-[0.99]"
+                aria-label={`Download ${resultName}`}
+                className="inline-flex h-10 items-center gap-2 rounded-xl bg-foreground px-5 text-[13.5px] font-medium text-background transition-all hover:bg-foreground/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background active:scale-[0.99]"
               >
-                <DownloadIcon className="h-4 w-4" />
+                <DownloadIcon aria-hidden="true" className="h-4 w-4" />
                 Download
               </a>
               <button
                 type="button"
                 onClick={reset}
-                className="inline-flex h-10 items-center gap-2 rounded-xl border border-border bg-background px-4 text-[13px] font-medium text-foreground transition-colors hover:bg-surface"
+                className="inline-flex h-10 items-center gap-2 rounded-xl border border-border bg-background px-4 text-[13px] font-medium text-foreground transition-colors hover:bg-surface focus:outline-none focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
               >
-                <RefreshIcon className="h-3.5 w-3.5" />
+                <RefreshIcon aria-hidden="true" className="h-3.5 w-3.5" />
                 Process another
               </button>
             </div>
@@ -367,13 +385,14 @@ export function UploadZone({ tool }: Props) {
         {status === "error" && (
           <motion.div
             key="error"
+            role="alert"
             initial={{ opacity: 0, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
             className="flex items-start gap-3 rounded-2xl border border-error/30 bg-error/5 p-4"
           >
-            <AlertIcon className="mt-0.5 h-4 w-4 text-error" />
+            <AlertIcon aria-hidden="true" className="mt-0.5 h-4 w-4 text-error" />
             <div className="flex-1">
               <div className="text-[13.5px] font-medium text-foreground">Couldn't process that</div>
               <div className="mt-0.5 text-[12.5px] text-muted-foreground">{error}</div>
@@ -381,7 +400,7 @@ export function UploadZone({ tool }: Props) {
             <button
               type="button"
               onClick={() => setStatus("ready")}
-              className="rounded-md px-2 py-1 text-[12px] font-medium text-foreground transition-colors hover:bg-surface"
+              className="rounded-md px-2 py-1 text-[12px] font-medium text-foreground transition-colors hover:bg-surface focus:outline-none focus-visible:ring-2 focus-visible:ring-ring/40"
             >
               Try again
             </button>
@@ -407,7 +426,7 @@ export function UploadZone({ tool }: Props) {
 function PrivacyNote() {
   return (
     <div className="inline-flex items-center gap-2 text-[12.5px] text-muted-foreground">
-      <ShieldIcon className="h-3.5 w-3.5 text-success" />
+      <ShieldIcon aria-hidden="true" className="h-3.5 w-3.5 text-success" />
       Files are processed in your browser, on your device.
     </div>
   );
