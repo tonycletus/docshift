@@ -9,17 +9,16 @@ import { tools } from "@/lib/tools";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "DocShift · Browser-based PDF toolkit" },
+      { title: "DocShift · A faster way to work with PDFs" },
       {
         name: "description",
         content:
-          "Merge, split, compress, convert, and protect PDFs directly in your browser. Files are processed in your browser, on your device.",
+          "Merge, split, compress, convert, and protect PDFs in seconds. Private by design, free to use.",
       },
-      { property: "og:title", content: "DocShift · Browser-based PDF toolkit" },
+      { property: "og:title", content: "DocShift · A faster way to work with PDFs" },
       {
         property: "og:description",
-        content:
-          "A complete PDF toolkit that runs entirely in your browser.",
+        content: "Every PDF tool you actually need, in one place. Private, fast, and free.",
       },
       { property: "og:url", content: "https://docshift.lovable.app/" },
     ],
@@ -44,13 +43,13 @@ function Index() {
             className="mx-auto max-w-[760px] text-center"
           >
             <h1 className="font-display text-[40px] font-semibold leading-[1.02] tracking-[-0.02em] text-foreground sm:text-[56px]">
-              The PDF toolkit
+              A faster way
               <br />
-              <span className="text-muted-foreground">that runs in your browser.</span>
+              <span className="text-muted-foreground">to work with PDFs.</span>
             </h1>
             <p className="mx-auto mt-5 max-w-[540px] text-[15px] leading-relaxed text-muted-foreground">
-              Merge, split, compress, convert, and protect PDFs in seconds. Everything happens
-              in your browser, on your device.
+              Every PDF tool you actually need, in one place. Merge, split, compress, convert, and
+              protect, in seconds.
             </p>
             <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
               <Link
@@ -72,15 +71,19 @@ function Index() {
           >
             <TrustItem
               icon={LocalIcon}
-              title="In your browser"
-              body="Files are processed on your device, not a server."
+              title="Private by design"
+              body="Your files are processed on your device, not on a server."
             />
             <TrustItem
               icon={NoAccountIcon}
               title="No account"
-              body="Open a tool and start working."
+              body="Open a tool and get to work. No signup, no paywall."
             />
-            <TrustItem icon={OpenCodeIcon} title="Open source" body="A static app you can audit." />
+            <TrustItem
+              icon={OpenCodeIcon}
+              title="Open source"
+              body="Built in the open. Inspect the code anytime."
+            />
           </motion.div>
         </div>
       </section>
@@ -92,7 +95,7 @@ function Index() {
               Tools
             </h2>
             <p className="mt-1.5 max-w-md text-[13.5px] text-muted-foreground">
-              Pick one action, drop the file, download the result.
+              Pick a tool, drop your file, get the result.
             </p>
           </div>
           <div className="hidden font-mono text-[12px] text-muted-foreground sm:block">
