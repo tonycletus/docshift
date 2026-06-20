@@ -26,8 +26,10 @@ import { Route as OcrRouteImport } from './routes/ocr'
 import { Route as MergeRouteImport } from './routes/merge'
 import { Route as JpgToPdfRouteImport } from './routes/jpg-to-pdf'
 import { Route as ExtractPagesRouteImport } from './routes/extract-pages'
+import { Route as DesktopRouteImport } from './routes/desktop'
 import { Route as DeletePagesRouteImport } from './routes/delete-pages'
 import { Route as CompressRouteImport } from './routes/compress'
+import { Route as CliRouteImport } from './routes/cli'
 import { Route as IndexRouteImport } from './routes/index'
 
 const WordToPdfRoute = WordToPdfRouteImport.update({
@@ -115,6 +117,11 @@ const ExtractPagesRoute = ExtractPagesRouteImport.update({
   path: '/extract-pages',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DesktopRoute = DesktopRouteImport.update({
+  id: '/desktop',
+  path: '/desktop',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DeletePagesRoute = DeletePagesRouteImport.update({
   id: '/delete-pages',
   path: '/delete-pages',
@@ -125,6 +132,11 @@ const CompressRoute = CompressRouteImport.update({
   path: '/compress',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CliRoute = CliRouteImport.update({
+  id: '/cli',
+  path: '/cli',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -133,8 +145,10 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/cli': typeof CliRoute
   '/compress': typeof CompressRoute
   '/delete-pages': typeof DeletePagesRoute
+  '/desktop': typeof DesktopRoute
   '/extract-pages': typeof ExtractPagesRoute
   '/jpg-to-pdf': typeof JpgToPdfRoute
   '/merge': typeof MergeRoute
@@ -155,8 +169,10 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/cli': typeof CliRoute
   '/compress': typeof CompressRoute
   '/delete-pages': typeof DeletePagesRoute
+  '/desktop': typeof DesktopRoute
   '/extract-pages': typeof ExtractPagesRoute
   '/jpg-to-pdf': typeof JpgToPdfRoute
   '/merge': typeof MergeRoute
@@ -178,8 +194,10 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/cli': typeof CliRoute
   '/compress': typeof CompressRoute
   '/delete-pages': typeof DeletePagesRoute
+  '/desktop': typeof DesktopRoute
   '/extract-pages': typeof ExtractPagesRoute
   '/jpg-to-pdf': typeof JpgToPdfRoute
   '/merge': typeof MergeRoute
@@ -202,8 +220,10 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/cli'
     | '/compress'
     | '/delete-pages'
+    | '/desktop'
     | '/extract-pages'
     | '/jpg-to-pdf'
     | '/merge'
@@ -224,8 +244,10 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/cli'
     | '/compress'
     | '/delete-pages'
+    | '/desktop'
     | '/extract-pages'
     | '/jpg-to-pdf'
     | '/merge'
@@ -246,8 +268,10 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/cli'
     | '/compress'
     | '/delete-pages'
+    | '/desktop'
     | '/extract-pages'
     | '/jpg-to-pdf'
     | '/merge'
@@ -269,8 +293,10 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CliRoute: typeof CliRoute
   CompressRoute: typeof CompressRoute
   DeletePagesRoute: typeof DeletePagesRoute
+  DesktopRoute: typeof DesktopRoute
   ExtractPagesRoute: typeof ExtractPagesRoute
   JpgToPdfRoute: typeof JpgToPdfRoute
   MergeRoute: typeof MergeRoute
@@ -411,6 +437,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ExtractPagesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/desktop': {
+      id: '/desktop'
+      path: '/desktop'
+      fullPath: '/desktop'
+      preLoaderRoute: typeof DesktopRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/delete-pages': {
       id: '/delete-pages'
       path: '/delete-pages'
@@ -425,6 +458,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CompressRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/cli': {
+      id: '/cli'
+      path: '/cli'
+      fullPath: '/cli'
+      preLoaderRoute: typeof CliRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -437,8 +477,10 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CliRoute: CliRoute,
   CompressRoute: CompressRoute,
   DeletePagesRoute: DeletePagesRoute,
+  DesktopRoute: DesktopRoute,
   ExtractPagesRoute: ExtractPagesRoute,
   JpgToPdfRoute: JpgToPdfRoute,
   MergeRoute: MergeRoute,
