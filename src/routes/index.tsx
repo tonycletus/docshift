@@ -40,7 +40,7 @@ const faqs: { q: string; a: string }[] = [
   },
   {
     q: "Why is there no login or account?",
-    a: "There's nothing to store. No files, no history, no usage to meter — so an account would only add friction without giving you anything in return.",
+    a: "There's nothing to store. No files, no history, no usage to meter. An account would only add friction without giving you anything in return.",
   },
   {
     q: "Is DocShift really free?",
