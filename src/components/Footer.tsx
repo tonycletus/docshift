@@ -9,7 +9,7 @@ export function Footer() {
           <div>
             <div className="font-display text-base font-semibold tracking-tight">Docshift</div>
             <p className="mt-2 max-w-xs text-[13px] leading-relaxed text-muted-foreground">
-              A complete PDF toolkit that runs locally in your browser.
+              A complete PDF toolkit that runs entirely in your browser.
             </p>
           </div>
           <div className="grid grid-cols-2 gap-8 text-[13px] sm:grid-cols-3">
@@ -83,7 +83,7 @@ export function Footer() {
                   I build small tools that solve everyday problems. Docshift started because my family and friends kept asking me for help with basic PDF tasks: merging a few pages, compressing a scan, splitting a document before sending it off. Most of the online options wanted accounts, uploads, or payment for things that should be simple.
                 </p>
                 <p className="mt-3 text-[13.5px] leading-relaxed text-muted-foreground">
-                  So I built Docshift for them, and made it free for everyone. Everything runs locally in your browser.
+                  So I built Docshift for them, and made it free for everyone. Everything runs entirely in your browser.
                 </p>
                 <div className="mt-5 flex flex-wrap items-center justify-center gap-4 text-[13px] sm:justify-start">
                   <a

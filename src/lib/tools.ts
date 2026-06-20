@@ -221,7 +221,7 @@ export const tools: Tool[] = [
     name: "Protect PDF",
     description: "Require a password to open a PDF.",
     longDescription:
-      "Encrypt your PDF locally so opening the downloaded PDF requires the password you set.",
+      "Encrypt your PDF in the browser so opening the downloaded PDF requires the password you set.",
     icon: LockDocIcon,
     category: "security",
     accept: PDF_ACCEPT,
@@ -242,7 +242,7 @@ export const tools: Tool[] = [
     route: "/unlock",
     name: "Unlock PDF",
     description: "Remove a PDF open password.",
-    longDescription: "Use the current password to decrypt a protected PDF locally.",
+    longDescription: "Use the current password to decrypt a protected PDF in the browser.",
     icon: UnlockDocIcon,
     category: "security",
     accept: PDF_ACCEPT,

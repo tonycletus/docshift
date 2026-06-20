@@ -10,13 +10,13 @@ export const Route = createFileRoute("/privacy")({
       {
         name: "description",
         content:
-          "How Docshift handles PDFs locally in the browser without uploads, accounts, or a database.",
+          "How Docshift handles PDFs in the browser without uploads, accounts, or a database.",
       },
       { property: "og:title", content: "Privacy - Docshift" },
       {
         property: "og:description",
         content:
-          "How Docshift handles PDFs locally in the browser without uploads, accounts, or a database.",
+          "How Docshift handles PDFs in the browser without uploads, accounts, or a database.",
       },
     ],
   }),
@@ -84,7 +84,7 @@ function PrivacyPage() {
           />
           <Detail
             title="One practical browser limit"
-            body="Very large PDFs use your device memory and CPU. If a browser tab runs out of memory, processing can fail locally without any file leaving the machine."
+            body="Very large PDFs use your device memory and CPU. If a browser tab runs out of memory, processing can fail in the browser without any file leaving your device."
           />
         </section>
       </main>

@@ -13,13 +13,13 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Merge, split, compress, convert, and protect PDFs directly in your browser. Files are processed locally on your device.",
+          "Merge, split, compress, convert, and protect PDFs directly in your browser. Files are processed in your browser, on your device.",
       },
       { property: "og:title", content: "DocShift · Browser-based PDF toolkit" },
       {
         property: "og:description",
         content:
-          "A complete PDF toolkit that runs locally in your browser.",
+          "A complete PDF toolkit that runs entirely in your browser.",
       },
       { property: "og:url", content: "https://docshift.lovable.app/" },
     ],
@@ -50,7 +50,7 @@ function Index() {
             </h1>
             <p className="mx-auto mt-5 max-w-[540px] text-[15px] leading-relaxed text-muted-foreground">
               Merge, split, compress, convert, and protect PDFs in seconds. Everything happens
-              locally on your device.
+              in your browser, on your device.
             </p>
             <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
               <Link
