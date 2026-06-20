@@ -513,6 +513,3 @@ function CommandBlock({ cmd }: { cmd: string }) {
     </div>
   );
 }
-
-// useMemo retained import guard
-void useMemo;
