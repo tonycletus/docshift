@@ -29,6 +29,25 @@ export const Route = createFileRoute("/")({
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
+const faqs: { q: string; a: string }[] = [
+  {
+    q: "How are my files processed?",
+    a: "Everything runs on your device. Your PDFs are read, edited, and saved right where you opened them — they're never uploaded to a server.",
+  },
+  {
+    q: "Where do my files go after I'm done?",
+    a: "Nowhere. Since files never leave your device, closing the tab is all it takes to remove them. We have no copy to delete.",
+  },
+  {
+    q: "Why is there no login or account?",
+    a: "There's nothing to store. No files, no history, no usage to meter — so an account would only add friction without giving you anything in return.",
+  },
+  {
+    q: "Is DocShift really free?",
+    a: "Yes. Every tool is free to use with no limits, watermarks, or paywalls. The project is open source and built in the open.",
+  },
+];
+
 function Index() {
   return (
     <div className="min-h-screen bg-background">
