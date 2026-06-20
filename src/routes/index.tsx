@@ -72,8 +72,8 @@ function Index() {
           >
             <TrustItem
               icon={LocalIcon}
-              title="Runs locally"
-              body="Files are processed in your browser."
+              title="In your browser"
+              body="Files are processed on your device, not a server."
             />
             <TrustItem
               icon={NoAccountIcon}
