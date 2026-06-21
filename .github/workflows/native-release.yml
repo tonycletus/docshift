@@ -108,6 +108,30 @@ jobs:
               "release/${{ matrix.asset }}"
             exit 0
           fi
+          if [ "${{ runner.os }}" = "Linux" ]; then
+            package_dir="release/deb"
+            mkdir -p "$package_dir/DEBIAN" "$package_dir/usr/bin" "$package_dir/usr/share/applications"
+            cp native/desktop/build/bin/DocShift "$package_dir/usr/bin/docshift-desktop"
+            chmod 755 "$package_dir/usr/bin/docshift-desktop"
+            cat > "$package_dir/DEBIAN/control" <<'CONTROL'
+          Package: docshift
+          Version: 1.0.0
+          Section: utils
+          Priority: optional
+          Architecture: amd64
+          Maintainer: Tony Cletus
+          Description: Local-first PDF tools desktop app.
+          CONTROL
+            cat > "$package_dir/usr/share/applications/docshift.desktop" <<'DESKTOP'
+          [Desktop Entry]
+          Type=Application
+          Name=DocShift
+          Exec=/usr/bin/docshift-desktop
+          Categories=Office;Utility;
+          DESKTOP
+            dpkg-deb --build "$package_dir" "release/${{ matrix.asset }}"
+            exit 0
+          fi
           found="$(find native/desktop/build -type f \( -name '*.exe' -o -name '*.dmg' -o -name '*.deb' \) | head -n 1)"
           if [ -z "$found" ]; then
             echo "No desktop artifact found"
