@@ -51,7 +51,7 @@ jobs:
           cp install/install.sh release/install.sh
           cp install/install.ps1 release/install.ps1
           chmod +x release/install.sh
-          (cd release && sha256sum * > checksums.txt)
+          (cd release && find . -maxdepth 1 -type f ! -name checksums.txt -exec sha256sum {} + > checksums.txt)
       - uses: actions/upload-artifact@v4
         with:
           name: cli-assets
@@ -65,10 +65,13 @@ jobs:
         include:
           - os: windows-latest
             asset: DocShiftSetup.exe
+            tags: ""
           - os: macos-latest
             asset: DocShift-macos-arm64.dmg
+            tags: ""
           - os: ubuntu-latest
             asset: docshift-linux-amd64.deb
+            tags: webkit2_41
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
@@ -91,11 +94,20 @@ jobs:
         run: npm run build:desktop
       - name: Build Wails app
         working-directory: native/desktop
-        run: wails build -clean
+        run: wails build -clean ${{ matrix.tags && format('-tags {0}', matrix.tags) || '' }}
       - name: Stage desktop artifact
         shell: bash
         run: |
           mkdir -p release
+          if [ "${{ runner.os }}" = "macOS" ]; then
+            hdiutil create \
+              -volname DocShift \
+              -srcfolder native/desktop/build/bin/DocShift.app \
+              -ov \
+              -format UDZO \
+              "release/${{ matrix.asset }}"
+            exit 0
+          fi
           found="$(find native/desktop/build -type f \( -name '*.exe' -o -name '*.dmg' -o -name '*.deb' \) | head -n 1)"
           if [ -z "$found" ]; then
             echo "No desktop artifact found"
