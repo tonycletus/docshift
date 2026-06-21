@@ -1,0 +1,21 @@
+{
+  "$schema": "https://wails.io/schemas/config.v2.json",
+  "name": "DocShift",
+  "outputfilename": "DocShift",
+  "frontend:dir": "../..",
+  "frontend:install": "npm install --legacy-peer-deps",
+  "frontend:build": "npm run build:desktop",
+  "frontend:dev:watcher": "npm run dev -- --host 127.0.0.1 --port 5173",
+  "frontend:dev:serverUrl": "http://127.0.0.1:5173",
+  "author": {
+    "name": "Tony Cletus",
+    "email": ""
+  },
+  "info": {
+    "productVersion": "1.0.0",
+    "companyName": "Tony Cletus",
+    "productName": "DocShift",
+    "copyright": "Copyright 2026 Tony Cletus",
+    "comments": "DocShift desktop PDF toolkit"
+  }
+}

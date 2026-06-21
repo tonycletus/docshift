@@ -11,6 +11,7 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { registerServiceWorker } from "../lib/pwa";
 
 function NotFoundComponent() {
   return (
@@ -84,12 +85,17 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "Every PDF tool you actually need, in one place. Merge, split, compress, convert, and protect, in seconds. Private, fast, and free.",
       },
       { name: "author", content: "Tony Cletus" },
+      { name: "application-name", content: "DocShift" },
+      { name: "apple-mobile-web-app-capable", content: "yes" },
+      { name: "apple-mobile-web-app-title", content: "DocShift" },
+      { name: "apple-mobile-web-app-status-bar-style", content: "default" },
+      { name: "mobile-web-app-capable", content: "yes" },
+      { name: "theme-color", content: "#2563eb" },
       { property: "og:site_name", content: "DocShift" },
       { property: "og:title", content: "DocShift · A faster way to work with PDFs" },
       {
         property: "og:description",
-        content:
-          "Every PDF tool you actually need, in one place. Private, fast, and free.",
+        content: "Every PDF tool you actually need, in one place. Private, fast, and free.",
       },
       { property: "og:type", content: "website" },
       { property: "og:image", content: "https://docshift.tonycletus.com/og-image.png" },
@@ -101,14 +107,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:title", content: "DocShift · A faster way to work with PDFs" },
       {
         name: "twitter:description",
-        content:
-          "Every PDF tool you actually need, in one place. Private, fast, and free.",
+        content: "Every PDF tool you actually need, in one place. Private, fast, and free.",
       },
       { name: "twitter:image", content: "https://docshift.tonycletus.com/og-image.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
       { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
+      { rel: "manifest", href: "/manifest.webmanifest" },
+      { rel: "apple-touch-icon", href: "/launch.png" },
     ],
   }),
   shellComponent: RootShell,
@@ -136,6 +143,10 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+
+  useEffect(() => {
+    registerServiceWorker();
+  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>

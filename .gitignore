@@ -16,6 +16,11 @@ dist-ssr
 .nitro
 *.local
 tmp/
+native/desktop/frontend/dist/*
+!native/desktop/frontend/dist/.gitkeep
+native/desktop/build/
+native/cli/dist/
+release/
 
 # Wrangler / Cloudflare
 .wrangler/

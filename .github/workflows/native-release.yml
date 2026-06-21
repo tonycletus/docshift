@@ -1,0 +1,126 @@
+name: Native Release
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  cli:
+    name: Build CLI package
+    runs-on: ubuntu-latest
+    env:
+      NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+      - run: npm ci --legacy-peer-deps
+      - name: Verify CLI version tag
+        if: startsWith(github.ref, 'refs/tags/v')
+        working-directory: packages/cli
+        run: |
+          package_version="$(node -p "require('./package.json').version")"
+          if [ "v$package_version" != "${{ github.ref_name }}" ]; then
+            echo "Tag ${{ github.ref_name }} does not match CLI package version v$package_version"
+            exit 1
+          fi
+      - run: npm run build:cli
+      - name: Publish CLI to npm
+        if: env.NODE_AUTH_TOKEN != '' && startsWith(github.ref, 'refs/tags/v')
+        working-directory: packages/cli
+        run: |
+          npm config set //registry.npmjs.org/:_authToken "$NODE_AUTH_TOKEN"
+          package_name="$(node -p "require('./package.json').name")"
+          package_version="$(node -p "require('./package.json').version")"
+          if npm view "$package_name@$package_version" version >/dev/null 2>&1; then
+            echo "$package_name@$package_version is already published; skipping npm publish."
+            exit 0
+          fi
+          npm publish --access public
+      - name: Stage CLI assets
+        run: |
+          mkdir -p release
+          cp release/cli/*.tgz release/
+          cp install/install.sh release/install.sh
+          cp install/install.ps1 release/install.ps1
+          chmod +x release/install.sh
+          (cd release && sha256sum * > checksums.txt)
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cli-assets
+          path: release/*
+
+  desktop:
+    name: Build desktop (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            asset: DocShiftSetup.exe
+          - os: macos-latest
+            asset: DocShift-macos-arm64.dmg
+          - os: ubuntu-latest
+            asset: docshift-linux-amd64.deb
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.22"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+      - name: Linux Wails dependencies
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libgtk-3-dev libwebkit2gtk-4.1-dev nsis
+      - run: npm ci --legacy-peer-deps
+      - name: Install Wails
+        run: go install github.com/wailsapp/wails/v2/cmd/wails@latest
+      - name: Build desktop assets
+        run: npm run build:desktop
+      - name: Build Wails app
+        working-directory: native/desktop
+        run: wails build -clean
+      - name: Stage desktop artifact
+        shell: bash
+        run: |
+          mkdir -p release
+          found="$(find native/desktop/build -type f \( -name '*.exe' -o -name '*.dmg' -o -name '*.deb' \) | head -n 1)"
+          if [ -z "$found" ]; then
+            echo "No desktop artifact found"
+            find native/desktop/build -type f || true
+            exit 1
+          fi
+          cp "$found" "release/${{ matrix.asset }}"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: desktop-${{ matrix.os }}
+          path: release/*
+
+  publish:
+    name: Publish GitHub Release
+    needs: [cli, desktop]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: release-artifacts
+          merge-multiple: true
+      - name: Create or update release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: release-artifacts/*
+          generate_release_notes: true
+          draft: false
+          prerelease: false

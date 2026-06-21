@@ -1,24 +1,26 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import type { ReactNode } from "react";
 import { useEffect, useState } from "react";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
 import { BackIcon, LocalIcon } from "@/components/DocIcons";
+import { Footer } from "@/components/Footer";
+import { Header } from "@/components/Header";
+import { CLI_PACKAGE, LATEST_RELEASE_URL, cliDownloads } from "@/lib/releases";
 import { tools } from "@/lib/tools";
 
 export const Route = createFileRoute("/cli")({
   head: () => ({
     meta: [
-      { title: "CLI — DocShift" },
+      { title: "CLI - DocShift" },
       {
         name: "description",
         content:
-          "DocShift CLI brings every PDF tool to your terminal. Install via npm, brew, scoop, or curl. Full command reference with flags, examples, and a doctor command.",
+          "DocShift CLI brings the PDF workflow to your terminal. Install from GitHub Releases, run doctor/version, and use the same command names as the web tools.",
       },
       { property: "og:title", content: "DocShift CLI" },
       {
         property: "og:description",
         content:
-          "Every PDF tool from DocShift, as a single command in your terminal. Scripts, pipelines, CI.",
+          "The DocShift command line companion for scripts, local checks, and repeatable PDF workflows.",
       },
       { property: "og:url", content: "https://docshift.tonycletus.com/cli" },
     ],
@@ -27,41 +29,65 @@ export const Route = createFileRoute("/cli")({
   component: CliPage,
 });
 
-// ---------- Install wizard ----------
-
-type InstallId = "npm" | "pnpm" | "npx" | "brew" | "scoop" | "curl" | "go";
+type InstallId = "shell" | "powershell" | "npm" | "pnpm" | "release";
 
 const installers: { id: InstallId; label: string; cmd: string; note: string }[] = [
-  { id: "npm", label: "npm", cmd: "npm install -g docshift", note: "Node 18+. Cross-platform." },
-  { id: "pnpm", label: "pnpm", cmd: "pnpm add -g docshift", note: "Same binary as npm, faster install." },
-  { id: "npx", label: "npx (no install)", cmd: "npx docshift@latest --help", note: "Run once without installing." },
-  { id: "brew", label: "Homebrew · macOS", cmd: "brew install tonycletus/tap/docshift", note: "Recommended for macOS." },
-  { id: "scoop", label: "Scoop · Windows", cmd: "scoop install docshift", note: "Recommended for Windows." },
-  { id: "curl", label: "curl · Linux", cmd: "curl -fsSL https://docshift.tonycletus.com/install.sh | sh", note: "Static binary, no runtime needed." },
-  { id: "go", label: "Go", cmd: "go install github.com/tonycletus/docshift/cmd/docshift@latest", note: "Build from source with Go 1.22+." },
+  {
+    id: "shell",
+    label: "macOS/Linux script",
+    cmd: `curl -fsSL ${cliDownloads.installSh} | sh`,
+    note: "Installs the npm package.",
+  },
+  {
+    id: "powershell",
+    label: "Windows PowerShell",
+    cmd: `irm ${cliDownloads.installPs1} | iex`,
+    note: "Installs the npm package.",
+  },
+  {
+    id: "npm",
+    label: "npm",
+    cmd: `npm install -g ${CLI_PACKAGE}`,
+    note: "Requires Node 20+.",
+  },
+  {
+    id: "pnpm",
+    label: "pnpm",
+    cmd: `pnpm add -g ${CLI_PACKAGE}`,
+    note: "Requires Node 20+.",
+  },
+  {
+    id: "release",
+    label: "Release page",
+    cmd: `open ${LATEST_RELEASE_URL}`,
+    note: "Tarball and install scripts.",
+  },
 ];
 
-const installerById = Object.fromEntries(installers.map((i) => [i.id, i])) as Record<InstallId, typeof installers[number]>;
+const installerById = Object.fromEntries(installers.map((i) => [i.id, i])) as Record<
+  InstallId,
+  (typeof installers)[number]
+>;
 
 function detectInstaller(): InstallId {
-  if (typeof navigator === "undefined") return "npm";
+  if (typeof navigator === "undefined") return "shell";
   const ua = navigator.userAgent.toLowerCase();
-  if (ua.includes("mac")) return "brew";
-  if (ua.includes("win")) return "scoop";
-  if (ua.includes("linux") || ua.includes("x11")) return "curl";
-  return "npm";
+  if (ua.includes("win")) return "powershell";
+  if (ua.includes("mac")) return "shell";
+  if (ua.includes("linux") || ua.includes("x11")) return "shell";
+  return "shell";
 }
 
 function detectLabel(id: InstallId): string {
   switch (id) {
-    case "brew": return "We detected macOS";
-    case "scoop": return "We detected Windows";
-    case "curl": return "We detected Linux";
-    default: return "Recommended for your setup";
+    case "powershell":
+      return "We detected Windows";
+    case "shell":
+      return "We detected macOS/Linux";
+    default:
+      return "Recommended installer";
   }
 }
-
-// ---------- Command reference ----------
 
 interface Flag {
   flag: string;
@@ -77,197 +103,137 @@ interface Command {
   helpOutput: string;
 }
 
-const COMMON_FLAGS: Flag[] = [
-  { flag: "-o, --output <path>", desc: "Write result to <path>. Use - for stdout." },
+const commonFlags: Flag[] = [
+  { flag: "-o, --output <path>", desc: "Write the result to a file or directory." },
+  { flag: "--json", desc: "Emit a machine-readable summary where supported." },
   { flag: "-q, --quiet", desc: "Suppress non-error output." },
-  { flag: "--json", desc: "Emit a machine-readable JSON summary." },
-  { flag: "-h, --help", desc: "Show help for this command and exit." },
+  { flag: "-h, --help", desc: "Show help for this command." },
 ];
 
 function flagsForTool(slug: string): Flag[] {
-  const extra: Flag[] = [];
-  switch (slug) {
-    case "merge":
-      extra.push({ flag: "<files...>", desc: "Two or more PDFs to merge, in order." });
-      break;
-    case "split":
-      extra.push({ flag: "--pages <ranges>", desc: "Page ranges, e.g. 1-3,5,8-." });
-      extra.push({ flag: "--each", desc: "Write one file per page." });
-      break;
-    case "compress":
-      extra.push({ flag: "--preset <name>", desc: "low | medium | high. Default: medium." });
-      extra.push({ flag: "--target-kb <n>", desc: "Try to hit a target size in kilobytes." });
-      break;
-    case "protect":
-      extra.push({ flag: "--owner <password>", desc: "Owner password. Prefer --owner-from-stdin." });
-      extra.push({ flag: "--owner-from-stdin", desc: "Read the password from stdin." });
-      extra.push({ flag: "--algo <name>", desc: "aes-256 (default) | aes-128." });
-      break;
-    case "unlock":
-      extra.push({ flag: "--password <pw>", desc: "PDF open password. Prefer --password-from-stdin." });
-      extra.push({ flag: "--password-from-stdin", desc: "Read the password from stdin." });
-      break;
-    case "watermark":
-      extra.push({ flag: "--text <string>", desc: "Watermark text. Default: CONFIDENTIAL." });
-      extra.push({ flag: "--image <path>", desc: "Use an image watermark instead of text." });
-      extra.push({ flag: "--opacity <0-1>", desc: "Watermark opacity. Default: 0.3." });
-      break;
-    case "page-numbers":
-      extra.push({ flag: "--position <pos>", desc: "bottom-center | bottom-right | top-right." });
-      extra.push({ flag: "--start <n>", desc: "First page number. Default: 1." });
-      break;
-    case "extract-pages":
-    case "delete-pages":
-      extra.push({ flag: "--pages <ranges>", desc: "Page ranges, e.g. 1,3-5." });
-      break;
-    case "rotate":
-      extra.push({ flag: "--angle <deg>", desc: "90 | 180 | 270." });
-      extra.push({ flag: "--pages <ranges>", desc: "Apply to specific pages only." });
-      break;
-    case "reorder":
-      extra.push({ flag: "--order <list>", desc: "New order, e.g. 3,1,2,4." });
-      break;
-    case "jpg-to-pdf":
-      extra.push({ flag: "<images...>", desc: "JPG or PNG files, in order." });
-      extra.push({ flag: "--page-size <size>", desc: "auto | a4 | letter. Default: auto." });
-      break;
-    case "pdf-to-jpg":
-      extra.push({ flag: "--dpi <n>", desc: "Render resolution. Default: 150." });
-      break;
-    case "pdf-to-word":
-    case "pdf-to-excel":
-    case "pdf-to-powerpoint":
-    case "word-to-pdf":
-    case "ocr":
-      // no extra tool-specific flags beyond input/output
-      break;
+  const flags: Flag[] = [];
+  if (slug === "merge") flags.push({ flag: "<files...>", desc: "Two or more PDFs to merge." });
+  if (slug === "split") flags.push({ flag: "--pages <ranges>", desc: "Ranges like 1-3,5." });
+  if (slug === "compress") {
+    flags.push({ flag: "--preset <name>", desc: "safe, balanced, or smaller." });
   }
-  return [...extra, ...COMMON_FLAGS];
+  if (slug === "protect") {
+    flags.push({ flag: "--password-from-stdin", desc: "Read the PDF open password securely." });
+    flags.push({ flag: "--password <value>", desc: "Pass the password directly for scripts." });
+  }
+  if (slug === "unlock") {
+    flags.push({ flag: "--password-from-stdin", desc: "Read the existing password securely." });
+    flags.push({ flag: "--password <value>", desc: "Pass the existing password directly." });
+  }
+  if (slug === "watermark") {
+    flags.push({ flag: "--text <string>", desc: "Text watermark. Default: CONFIDENTIAL." });
+    flags.push({ flag: "--image <path>", desc: "Use an image watermark instead." });
+  }
+  if (["extract-pages", "delete-pages", "rotate"].includes(slug)) {
+    flags.push({ flag: "--pages <ranges>", desc: "Apply to selected page ranges." });
+  }
+  if (slug === "rotate") flags.push({ flag: "--angle <deg>", desc: "90, 180, or 270." });
+  if (slug === "reorder") flags.push({ flag: "--order <list>", desc: "New order, e.g. 3,1,2." });
+  return [...flags, ...commonFlags];
 }
 
 function usageForTool(slug: string): string {
-  if (slug === "merge") return "docshift merge <file...> -o <out.pdf>";
-  if (slug === "jpg-to-pdf") return "docshift jpg-to-pdf <image...> -o <out.pdf>";
+  if (slug === "merge") return "docshift merge <file...> -o combined.pdf";
+  if (slug === "jpg-to-pdf") return "docshift jpg-to-pdf <image...> -o album.pdf";
   return `docshift ${slug} <input> [flags]`;
 }
 
 function exampleForTool(slug: string): string {
   switch (slug) {
-    case "merge": return "docshift merge a.pdf b.pdf c.pdf -o combined.pdf";
-    case "split": return "docshift split report.pdf --pages 1-3,7 -o excerpt.pdf";
-    case "compress": return "docshift compress big.pdf --preset high -o small.pdf";
-    case "protect": return "docshift protect contract.pdf --owner-from-stdin -o locked.pdf";
-    case "unlock": return "docshift unlock locked.pdf --password-from-stdin -o open.pdf";
-    case "watermark": return "docshift watermark doc.pdf --text DRAFT --opacity 0.25 -o draft.pdf";
-    case "page-numbers": return "docshift page-numbers doc.pdf --position bottom-center -o numbered.pdf";
-    case "extract-pages": return "docshift extract-pages book.pdf --pages 10-20 -o chapter.pdf";
-    case "delete-pages": return "docshift delete-pages doc.pdf --pages 2,4-6 -o trimmed.pdf";
-    case "rotate": return "docshift rotate scan.pdf --angle 90 -o fixed.pdf";
-    case "reorder": return "docshift reorder deck.pdf --order 3,1,2,4 -o reordered.pdf";
-    case "jpg-to-pdf": return "docshift jpg-to-pdf *.jpg -o album.pdf";
-    case "pdf-to-jpg": return "docshift pdf-to-jpg slides.pdf --dpi 200 -o ./out";
-    case "pdf-to-word": return "docshift pdf-to-word report.pdf -o report.docx";
-    case "pdf-to-excel": return "docshift pdf-to-excel data.pdf -o data.xlsx";
-    case "pdf-to-powerpoint": return "docshift pdf-to-powerpoint slides.pdf -o slides.pptx";
-    case "word-to-pdf": return "docshift word-to-pdf brief.docx -o brief.pdf";
-    case "ocr": return "docshift ocr scan.pdf -o scan.txt";
-    default: return `docshift ${slug} input.pdf -o out.pdf`;
+    case "merge":
+      return "docshift merge a.pdf b.pdf -o combined.pdf";
+    case "compress":
+      return "docshift compress large.pdf --preset balanced -o smaller.pdf";
+    case "protect":
+      return "docshift protect contract.pdf --password-from-stdin -o locked.pdf";
+    case "watermark":
+      return "docshift watermark draft.pdf --text DRAFT -o marked.pdf";
+    case "reorder":
+      return "docshift reorder deck.pdf --order 3,1,2 -o reordered.pdf";
+    default:
+      return `docshift ${slug} input.pdf -o output.pdf`;
   }
 }
 
-function helpOutput(cmd: Command): string {
-  const flagLines = cmd.flags.map((f) => `  ${f.flag.padEnd(28)} ${f.desc}`).join("\n");
+function helpOutput(command: Command): string {
+  const flagLines = command.flags
+    .map((flag) => `  ${flag.flag.padEnd(28)} ${flag.desc}`)
+    .join("\n");
   return `Usage:
-  ${cmd.usage}
+  ${command.usage}
 
-${cmd.summary}
+${command.summary}
 
 Flags:
 ${flagLines}
 
 Example:
-  ${cmd.example}`;
+  ${command.example}`;
 }
 
-const commands: Command[] = tools.map((t) => {
-  const base: Command = {
-    name: t.slug,
-    summary: t.description,
-    usage: usageForTool(t.slug),
-    flags: flagsForTool(t.slug),
-    example: exampleForTool(t.slug),
-    helpOutput: "",
-  };
-  base.helpOutput = helpOutput(base);
-  return base;
-});
+const cliToolSlugs = [
+  "compress",
+  "merge",
+  "split",
+  "protect",
+  "unlock",
+  "watermark",
+  "rotate",
+  "delete-pages",
+  "extract-pages",
+  "reorder",
+];
+
+const toolCommands: Command[] = tools
+  .filter((tool) => cliToolSlugs.includes(tool.slug))
+  .map((tool) => {
+    const command: Command = {
+      name: tool.slug,
+      summary: tool.description,
+      usage: usageForTool(tool.slug),
+      flags: flagsForTool(tool.slug),
+      example: exampleForTool(tool.slug),
+      helpOutput: "",
+    };
+    command.helpOutput = helpOutput(command);
+    return command;
+  });
 
 const globalCommands: Command[] = [
   {
     name: "doctor",
-    summary: "Check your environment and report anything that would block a run.",
+    summary: "Check the local runtime and report anything that blocks CLI use.",
     usage: "docshift doctor",
     flags: [
       { flag: "--verbose", desc: "Print every check, not just failures." },
-      { flag: "-h, --help", desc: "Show help and exit." },
+      { flag: "--json", desc: "Print the result as JSON." },
     ],
     example: "docshift doctor --verbose",
-    helpOutput: `Usage:
-  docshift doctor
-
-Runs environment checks:
-  - CLI version and update status
-  - Write access to the working directory
-  - Temp directory available and writable
-  - PDF engine (qpdf, pdfcpu) reachable
-  - Optional: OCR engine present
-
-Exit codes:
-  0  all checks passed
-  1  one or more checks failed`,
+    helpOutput: "Usage:\n  docshift doctor\n\nChecks version, temp directory, and write access.",
   },
   {
     name: "version",
-    summary: "Print the CLI version and build metadata.",
+    summary: "Print CLI version and build metadata.",
     usage: "docshift version",
-    flags: [
-      { flag: "--json", desc: "Print version info as JSON." },
-      { flag: "-h, --help", desc: "Show help and exit." },
-    ],
+    flags: [{ flag: "--json", desc: "Print version info as JSON." }],
     example: "docshift version --json",
-    helpOutput: `Usage:
-  docshift version
-
-Prints:
-  docshift 0.1.0
-  commit:   abc1234
-  built:    2026-06-20
-  runtime:  go1.22 darwin/arm64`,
-  },
-  {
-    name: "help",
-    summary: "Show help for any command. Same as --help.",
-    usage: "docshift help [command]",
-    flags: [{ flag: "-h, --help", desc: "Show this message." }],
-    example: "docshift help compress",
-    helpOutput: `Usage:
-  docshift help [command]
-
-Without a command, lists every command. With a command, prints the same
-output as 'docshift <command> --help'.`,
+    helpOutput: "Usage:\n  docshift version\n\nPrints version, commit, build time, and runtime.",
   },
 ];
 
-// ---------- Page ----------
-
 function CliPage() {
-  const [picked, setPicked] = useState<InstallId>("npm");
+  const [picked, setPicked] = useState<InstallId>("shell");
   const [detected, setDetected] = useState<InstallId | null>(null);
 
   useEffect(() => {
-    const d = detectInstaller();
-    setDetected(d);
-    setPicked(d);
+    const id = detectInstaller();
+    setDetected(id);
+    setPicked(id);
   }, []);
 
   const best = installerById[picked];
@@ -287,19 +253,19 @@ function CliPage() {
         <section className="mt-10">
           <div className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3 py-1 text-[12px] text-muted-foreground">
             <LocalIcon className="h-3.5 w-3.5" />
-            Coming soon
+            Release binary
           </div>
           <h1 className="mt-5 font-display text-[40px] font-semibold leading-[1.05] tracking-[-0.02em] text-foreground">
             DocShift in your terminal.
           </h1>
           <p className="mt-4 max-w-[640px] text-[15px] leading-relaxed text-muted-foreground">
-            One command. Every tool from the website, scriptable from your shell, a Makefile, or
-            CI. POSIX-friendly flags, stdin and stdout aware, no telemetry.
+            One command surface for DocShift workflows, scriptable from your shell, a Makefile, or
+            CI. POSIX-friendly flags, predictable exit codes, JSON output where useful, no
+            telemetry.
           </p>
         </section>
 
-        {/* Install wizard */}
-        <Section title="Copy & Install">
+        <Section title="Copy and install">
           <div className="rounded-2xl border border-border bg-surface/40 p-5">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div>
@@ -314,42 +280,25 @@ function CliPage() {
               <CommandBlock cmd={best.cmd} />
             </div>
             <div className="mt-4 flex flex-wrap gap-1.5">
-              {installers.map((i) => {
-                const active = i.id === picked;
-                return (
-                  <button
-                    key={i.id}
-                    type="button"
-                    onClick={() => setPicked(i.id)}
-                    className={
-                      "rounded-md border px-2.5 py-1 text-[11.5px] font-mono transition-colors " +
-                      (active
-                        ? "border-foreground bg-foreground text-background"
-                        : "border-border bg-background text-muted-foreground hover:text-foreground")
-                    }
-                  >
-                    {i.label}
-                  </button>
-                );
-              })}
+              {installers.map((installer) => (
+                <button
+                  key={installer.id}
+                  type="button"
+                  onClick={() => setPicked(installer.id)}
+                  className={
+                    "rounded-md border px-2.5 py-1 text-[11.5px] font-mono transition-colors " +
+                    (installer.id === picked
+                      ? "border-foreground bg-foreground text-background"
+                      : "border-border bg-background text-muted-foreground hover:text-foreground")
+                  }
+                >
+                  {installer.label}
+                </button>
+              ))}
             </div>
-          </div>
-
-          <div className="mt-4 grid gap-3 sm:grid-cols-2">
-            {installers.map((i) => (
-              <div key={i.id} className="rounded-xl border border-border bg-background p-4">
-                <div className="text-[12px] uppercase tracking-wide text-muted-foreground">
-                  {i.label}
-                </div>
-                <div className="mt-2">
-                  <CommandBlock cmd={i.cmd} />
-                </div>
-              </div>
-            ))}
           </div>
         </Section>
 
-        {/* Verify */}
         <Section title="Verify the install">
           <div className="grid gap-3 sm:grid-cols-2">
             <CommandBlock cmd="docshift version" />
@@ -357,36 +306,34 @@ function CliPage() {
           </div>
         </Section>
 
-        {/* Global commands */}
         <Section title="Global commands">
           <CommandTable commands={globalCommands} />
         </Section>
 
-        {/* Per-tool reference */}
         <Section title="Command reference">
           <p className="mb-5 text-[13px] leading-relaxed text-muted-foreground">
-            Every web tool is mirrored 1:1 in the CLI. Run{" "}
-            <code className="rounded bg-surface/60 px-1.5 py-0.5 font-mono text-[12px] text-foreground">
-              docshift &lt;command&gt; --help
-            </code>{" "}
-            for the same output shown below.
+            CLI command names mirror the web tool slugs, so scripts stay easy to remember.
           </p>
-          <CommandTable commands={commands} />
+          <CommandTable commands={toolCommands} />
         </Section>
 
         <section className="mt-10 rounded-2xl border border-border bg-surface/40 p-5">
-          <div className="text-[13px] font-medium text-foreground">Status</div>
+          <div className="text-[13px] font-medium text-foreground">Source layout</div>
           <p className="mt-1.5 text-[12.5px] leading-relaxed text-muted-foreground">
-            The CLI is being built alongside the desktop app. Track progress on{" "}
+            The CLI lives under{" "}
+            <code className="rounded bg-surface/60 px-1.5 py-0.5 font-mono text-[12px] text-foreground">
+              native/cli
+            </code>{" "}
+            and is released from GitHub Actions. See{" "}
             <a
-              href="https://github.com/tonycletus/docshift"
+              href={LATEST_RELEASE_URL}
               target="_blank"
               rel="noreferrer"
               className="text-foreground underline decoration-border underline-offset-4 transition-colors hover:decoration-foreground"
             >
-              GitHub
-            </a>
-            .
+              GitHub Releases
+            </a>{" "}
+            for binaries and checksums.
           </p>
         </section>
       </main>
@@ -395,7 +342,7 @@ function CliPage() {
   );
 }
 
-function Section({ title, children }: { title: string; children: React.ReactNode }) {
+function Section({ title, children }: { title: string; children: ReactNode }) {
   return (
     <section className="mt-12">
       <h2 className="font-display text-[20px] font-semibold tracking-[-0.02em] text-foreground">
@@ -408,32 +355,33 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 
 function CommandTable({ commands }: { commands: Command[] }) {
   const [open, setOpen] = useState<string | null>(commands[0]?.name ?? null);
+
   return (
     <div className="overflow-hidden rounded-2xl border border-border">
-      {commands.map((c, idx) => {
-        const isOpen = open === c.name;
+      {commands.map((command, index) => {
+        const isOpen = open === command.name;
         return (
           <div
-            key={c.name}
+            key={command.name}
             className={
-              "bg-background " + (idx !== commands.length - 1 ? "border-b border-border" : "")
+              "bg-background " + (index !== commands.length - 1 ? "border-b border-border" : "")
             }
           >
             <button
               type="button"
-              onClick={() => setOpen(isOpen ? null : c.name)}
+              onClick={() => setOpen(isOpen ? null : command.name)}
               className="flex w-full items-center justify-between gap-4 px-5 py-3.5 text-left"
             >
-              <div className="flex items-center gap-3">
+              <div className="min-w-0">
                 <code className="font-mono text-[13px] font-medium text-foreground">
-                  docshift {c.name}
+                  docshift {command.name}
                 </code>
-                <span className="hidden text-[12.5px] text-muted-foreground sm:inline">
-                  {c.summary}
+                <span className="ml-3 hidden text-[12.5px] text-muted-foreground sm:inline">
+                  {command.summary}
                 </span>
               </div>
               <span className="font-mono text-[11px] text-muted-foreground">
-                {isOpen ? "−" : "+"}
+                {isOpen ? "-" : "+"}
               </span>
             </button>
             {isOpen && (
@@ -442,39 +390,33 @@ function CommandTable({ commands }: { commands: Command[] }) {
                   Usage
                 </div>
                 <div className="mt-1.5">
-                  <CommandBlock cmd={c.usage} />
+                  <CommandBlock cmd={command.usage} />
                 </div>
-
                 <div className="mt-4 text-[11.5px] uppercase tracking-wide text-muted-foreground">
                   Flags
                 </div>
                 <div className="mt-2 overflow-hidden rounded-lg border border-border">
-                  {c.flags.map((f, i) => (
+                  {command.flags.map((flag, i) => (
                     <div
-                      key={f.flag}
+                      key={flag.flag}
                       className={
                         "grid grid-cols-1 gap-1 px-3 py-2 sm:grid-cols-[260px_1fr] sm:gap-4 " +
-                        (i !== c.flags.length - 1 ? "border-b border-border" : "")
+                        (i !== command.flags.length - 1 ? "border-b border-border" : "")
                       }
                     >
-                      <code className="font-mono text-[12px] text-foreground">{f.flag}</code>
-                      <span className="text-[12.5px] text-muted-foreground">{f.desc}</span>
+                      <code className="font-mono text-[12px] text-foreground">{flag.flag}</code>
+                      <span className="text-[12.5px] text-muted-foreground">{flag.desc}</span>
                     </div>
                   ))}
                 </div>
-
                 <div className="mt-4 text-[11.5px] uppercase tracking-wide text-muted-foreground">
                   Example
                 </div>
                 <div className="mt-1.5">
-                  <CommandBlock cmd={c.example} />
+                  <CommandBlock cmd={command.example} />
                 </div>
-
-                <div className="mt-4 text-[11.5px] uppercase tracking-wide text-muted-foreground">
-                  docshift {c.name} --help
-                </div>
-                <pre className="mt-1.5 overflow-x-auto rounded-lg border border-border bg-background p-3 font-mono text-[12px] leading-relaxed text-muted-foreground">
-{c.helpOutput}
+                <pre className="mt-4 overflow-x-auto rounded-lg border border-border bg-background p-3 font-mono text-[12px] leading-relaxed text-muted-foreground">
+                  {command.helpOutput}
                 </pre>
               </div>
             )}
@@ -488,14 +430,11 @@ function CommandTable({ commands }: { commands: Command[] }) {
 function CommandBlock({ cmd }: { cmd: string }) {
   const [copied, setCopied] = useState(false);
   const onCopy = async () => {
-    try {
-      await navigator.clipboard.writeText(cmd);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 1200);
-    } catch {
-      // ignore
-    }
+    await navigator.clipboard.writeText(cmd).catch(() => undefined);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 1200);
   };
+
   return (
     <div className="group flex items-center justify-between gap-3 rounded-lg border border-border bg-surface/60 px-3 py-2">
       <code className="overflow-x-auto whitespace-pre font-mono text-[12.5px] text-foreground">

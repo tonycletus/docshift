@@ -1,0 +1,48 @@
+{
+  "name": "DocShift",
+  "short_name": "DocShift",
+  "description": "Private, local PDF tools for merge, split, compress, convert, and protect workflows.",
+  "id": "/",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone", "browser"],
+  "background_color": "#ffffff",
+  "theme_color": "#2563eb",
+  "orientation": "any",
+  "categories": ["productivity", "utilities"],
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/launch.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Compress PDF",
+      "short_name": "Compress",
+      "description": "Reduce PDF size locally.",
+      "url": "/compress"
+    },
+    {
+      "name": "Merge PDF",
+      "short_name": "Merge",
+      "description": "Combine PDFs locally.",
+      "url": "/merge"
+    },
+    {
+      "name": "Protect PDF",
+      "short_name": "Protect",
+      "description": "Add an open password locally.",
+      "url": "/protect"
+    }
+  ]
+}

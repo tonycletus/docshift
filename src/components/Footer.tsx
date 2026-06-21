@@ -1,7 +1,10 @@
 import { Link } from "@tanstack/react-router";
 import { tools } from "@/lib/tools";
+import { isDesktopMode } from "@/lib/releases";
 
 export function Footer() {
+  const desktop = isDesktopMode();
+
   return (
     <footer className="mt-16 border-t border-border bg-surface/40">
       <div className="mx-auto max-w-[1280px] px-6 py-10">
@@ -57,60 +60,70 @@ export function Footer() {
             </div>
           </div>
         </div>
-        <div className="mt-10 flex justify-center">
-          <div className="w-full max-w-3xl rounded-2xl border border-border bg-background p-6 sm:p-10">
-            <div className="flex flex-col items-center gap-6 sm:flex-row sm:items-start sm:gap-8 sm:text-left">
-              <a
-                href="https://github.com/tonycletus"
-                target="_blank"
-                rel="noreferrer"
-                className="shrink-0"
-                aria-label="Tony Cletus on GitHub"
-              >
-                <img
-                  src="https://github.com/tonycletus.png"
-                  alt="Tony Cletus"
-                  loading="lazy"
-                  className="h-28 w-28 rounded-full border border-border object-cover sm:h-32 sm:w-32"
-                />
-              </a>
-              <div className="min-w-0 flex-1 text-center sm:text-left">
-                <div className="text-[11px] font-mono uppercase tracking-wider text-muted-foreground">About</div>
-                <div className="mt-2 font-display text-[20px] font-semibold tracking-tight text-foreground">
-                  Hi, I&apos;m Tony Cletus
-                </div>
-                <p className="mt-3 text-[13.5px] leading-relaxed text-muted-foreground">
-                  I build small tools for everyday problems. Docshift started because friends and family kept asking for help with basic PDF tasks: merging a few pages, compressing a scan, splitting a document before sending it off. Most options online wanted accounts, uploads, or payment for things that should be simple.
-                </p>
-                <p className="mt-3 text-[13.5px] leading-relaxed text-muted-foreground">
-                  I also got paranoid uploading a contract to a random PDF site one day. Your files are sensitive. They shouldn&apos;t have to leave your device just to merge two pages.
-                </p>
-                <p className="mt-3 text-[13.5px] leading-relaxed text-muted-foreground">
-                  So I built Docshift, and made it free for everyone. Everything runs in your browser.
-                </p>
-                <div className="mt-5 flex flex-wrap items-center justify-center gap-4 text-[13px] sm:justify-start">
-                  <a
-                    href="https://github.com/tonycletus"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="text-muted-foreground transition-colors hover:text-foreground"
-                  >
-                    github.com/tonycletus
-                  </a>
-                  <span className="text-border">|</span>
-                  <a
-                    href="https://x.com/iamtonycletus"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="text-muted-foreground transition-colors hover:text-foreground"
-                  >
-                    @iamtonycletus
-                  </a>
+        {!desktop && (
+          <div className="mt-10 flex justify-center">
+            <div className="w-full max-w-3xl rounded-2xl border border-border bg-background p-6 sm:p-10">
+              <div className="flex flex-col items-center gap-6 sm:flex-row sm:items-start sm:gap-8 sm:text-left">
+                <a
+                  href="https://github.com/tonycletus"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="shrink-0"
+                  aria-label="Tony Cletus on GitHub"
+                >
+                  <img
+                    src="https://github.com/tonycletus.png"
+                    alt="Tony Cletus"
+                    loading="lazy"
+                    className="h-28 w-28 rounded-full border border-border object-cover sm:h-32 sm:w-32"
+                  />
+                </a>
+                <div className="min-w-0 flex-1 text-center sm:text-left">
+                  <div className="text-[11px] font-mono uppercase tracking-wider text-muted-foreground">
+                    About
+                  </div>
+                  <div className="mt-2 font-display text-[20px] font-semibold tracking-tight text-foreground">
+                    Hi, I&apos;m Tony Cletus
+                  </div>
+                  <p className="mt-3 text-[13.5px] leading-relaxed text-muted-foreground">
+                    I build small tools for everyday problems. Docshift started because friends and
+                    family kept asking for help with basic PDF tasks: merging a few pages,
+                    compressing a scan, splitting a document before sending it off. Most options
+                    online wanted accounts, uploads, or payment for things that should be simple.
+                  </p>
+                  <p className="mt-3 text-[13.5px] leading-relaxed text-muted-foreground">
+                    I also got paranoid uploading a contract to a random PDF site one day. Your
+                    files are sensitive. They shouldn&apos;t have to leave your device just to merge
+                    two pages.
+                  </p>
+                  <p className="mt-3 text-[13.5px] leading-relaxed text-muted-foreground">
+                    So I built Docshift, and made it free for everyone. Everything runs in your
+                    browser.
+                  </p>
+                  <div className="mt-5 flex flex-wrap items-center justify-center gap-4 text-[13px] sm:justify-start">
+                    <a
+                      href="https://github.com/tonycletus"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-muted-foreground transition-colors hover:text-foreground"
+                    >
+                      github.com/tonycletus
+                    </a>
+                    <span className="text-border">|</span>
+                    <a
+                      href="https://x.com/iamtonycletus"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-muted-foreground transition-colors hover:text-foreground"
+                    >
+                      @iamtonycletus
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        )}
         <div className="mt-6 flex flex-col items-start justify-between gap-3 border-t border-border pt-5 text-[12px] text-muted-foreground sm:flex-row sm:items-center">
           <div>
             © {new Date().getFullYear()} Docshift · Built by{" "}

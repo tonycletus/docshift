@@ -1,0 +1,35 @@
+{
+  "name": "@tonycletus/docshift",
+  "version": "1.0.0",
+  "description": "Local-first PDF tools for the terminal.",
+  "type": "module",
+  "bin": {
+    "docshift": "./bin/docshift.mjs"
+  },
+  "files": [
+    "bin",
+    "README.md"
+  ],
+  "keywords": [
+    "pdf",
+    "pdf-tools",
+    "compress-pdf",
+    "merge-pdf",
+    "local-first"
+  ],
+  "author": "Tony Cletus",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tonycletus/docshift.git",
+    "directory": "packages/cli"
+  },
+  "dependencies": {
+    "@jspawn/qpdf-wasm": "^0.0.2",
+    "jszip": "^3.10.1",
+    "pdf-lib": "^1.17.1"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
