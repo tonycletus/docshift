@@ -1,6 +1,6 @@
 {
   "name": "@tonycletus/docshift",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Local-first PDF tools for the terminal.",
   "type": "module",
   "bin": {

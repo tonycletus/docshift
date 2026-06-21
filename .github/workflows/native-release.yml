@@ -87,12 +87,26 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y libgtk-3-dev libwebkit2gtk-4.1-dev nsis
+      - name: Windows installer dependencies
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          choco install nsis -y --no-progress
+          $nsisPath = "${env:ProgramFiles(x86)}\NSIS"
+          if (Test-Path $nsisPath) {
+            Add-Content $env:GITHUB_PATH $nsisPath
+          }
       - run: npm ci --legacy-peer-deps
       - name: Install Wails
         run: go install github.com/wailsapp/wails/v2/cmd/wails@latest
       - name: Build desktop assets
         run: npm run build:desktop
+      - name: Build Windows installer
+        if: runner.os == 'Windows'
+        working-directory: native/desktop
+        run: wails build -clean -nsis
       - name: Build Wails app
+        if: runner.os != 'Windows'
         working-directory: native/desktop
         run: wails build -clean ${{ matrix.tags && format('-tags {0}', matrix.tags) || '' }}
       - name: Stage desktop artifact
@@ -115,7 +129,7 @@ jobs:
             chmod 755 "$package_dir/usr/bin/docshift-desktop"
             cat > "$package_dir/DEBIAN/control" <<'CONTROL'
           Package: docshift
-          Version: 1.0.0
+          Version: 1.0.1
           Section: utils
           Priority: optional
           Architecture: amd64
@@ -130,6 +144,16 @@ jobs:
           Categories=Office;Utility;
           DESKTOP
             dpkg-deb --build "$package_dir" "release/${{ matrix.asset }}"
+            exit 0
+          fi
+          if [ "${{ runner.os }}" = "Windows" ]; then
+            found="$(find native/desktop/build -type f \( -iname '*installer*.exe' -o -iname '*setup*.exe' \) | head -n 1)"
+            if [ -z "$found" ]; then
+              echo "No Windows installer artifact found. Refusing to upload the raw app executable as DocShiftSetup.exe."
+              find native/desktop/build -type f || true
+              exit 1
+            fi
+            cp "$found" "release/${{ matrix.asset }}"
             exit 0
           fi
           found="$(find native/desktop/build -type f \( -name '*.exe' -o -name '*.dmg' -o -name '*.deb' \) | head -n 1)"

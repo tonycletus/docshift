@@ -95,7 +95,7 @@
     "typescript-eslint": "^8.56.1",
     "vite": "^7.3.1"
   },
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "DocShift — a faster way to work with PDFs. Every PDF tool you actually need (merge, split, compress, convert, protect), in one place. Private, fast, and free.",
   "repository": {
     "type": "git",
