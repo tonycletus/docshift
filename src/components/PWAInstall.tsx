@@ -21,6 +21,7 @@ function isStandalone() {
 export function PWAInstall({ compact = false }: { compact?: boolean }) {
   const [promptEvent, setPromptEvent] = useState<BeforeInstallPromptEvent | null>(null);
   const [installed, setInstalled] = useState(false);
+  const [fallback, setFallback] = useState(false);
   const ios = useMemo(isIos, []);
 
   useEffect(() => {
@@ -43,7 +44,10 @@ export function PWAInstall({ compact = false }: { compact?: boolean }) {
   }, []);
 
   const install = async () => {
-    if (!promptEvent) return;
+    if (!promptEvent) {
+      setFallback(true);
+      return;
+    }
     await promptEvent.prompt();
     await promptEvent.userChoice.catch(() => undefined);
     setPromptEvent(null);
@@ -84,11 +88,16 @@ export function PWAInstall({ compact = false }: { compact?: boolean }) {
       <button
         type="button"
         onClick={install}
-        disabled={!promptEvent}
-        className="mt-3 inline-flex h-9 items-center justify-center rounded-lg bg-foreground px-3 text-[12.5px] font-medium text-background transition-colors hover:bg-foreground/90 disabled:cursor-not-allowed disabled:bg-muted disabled:text-muted-foreground"
+        className="mt-3 inline-flex h-9 items-center justify-center rounded-lg bg-foreground px-3 text-[12.5px] font-medium text-background transition-colors hover:bg-foreground/90"
       >
-        {promptEvent ? "Install" : "Use browser menu"}
+        Install
       </button>
+      {fallback && !promptEvent ? (
+        <p className="mt-2 text-[12px] leading-relaxed text-muted-foreground">
+          This browser has not exposed the install prompt yet. Use the install icon in the address
+          bar, or open this page from Chrome, Edge, or Brave.
+        </p>
+      ) : null}
     </div>
   );
 }

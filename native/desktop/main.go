@@ -2,19 +2,25 @@ package main
 
 import (
 	"embed"
+	"log"
 
 	"github.com/wailsapp/wails/v2"
 	"github.com/wailsapp/wails/v2/pkg/options"
 	"github.com/wailsapp/wails/v2/pkg/options/assetserver"
+	"github.com/wailsapp/wails/v2/pkg/options/mac"
+	"github.com/wailsapp/wails/v2/pkg/options/windows"
 )
 
 const (
-	Version   = "1.0.1"
+	Version   = "1.0.2"
 	PublicURL = "https://docshift.tonycletus.com"
 )
 
 //go:embed all:frontend/dist
 var assets embed.FS
+
+//go:embed build/appicon.png
+var icon []byte
 
 func main() {
 	app := NewApp()
@@ -30,11 +36,21 @@ func main() {
 		},
 		BackgroundColour: &options.RGBA{R: 255, G: 255, B: 255, A: 1},
 		OnStartup:        app.startup,
+		Windows: &windows.Options{
+			DisableWindowIcon: false,
+		},
+		Mac: &mac.Options{
+			About: &mac.AboutInfo{
+				Title:   "DocShift",
+				Message: "Private local PDF tools",
+				Icon:    icon,
+			},
+		},
 		Bind: []interface{}{
 			app,
 		},
 	})
 	if err != nil {
-		println("DocShift failed to start:", err.Error())
+		log.Fatal("DocShift failed to start: ", err)
 	}
 }

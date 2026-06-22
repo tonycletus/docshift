@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { PWAInstall } from "@/components/PWAInstall";
-import { BackIcon, LocalIcon } from "@/components/DocIcons";
+import { AppleIcon, BackIcon, LinuxIcon, LocalIcon, WindowsIcon } from "@/components/DocIcons";
 import { LATEST_RELEASE_URL, desktopDownloads } from "@/lib/releases";
 
 export const Route = createFileRoute("/desktop")({
@@ -110,11 +110,18 @@ function DesktopPage() {
 }
 
 function DownloadCard({ platform }: { platform: (typeof desktopDownloads)[number] }) {
+  const PlatformIcon =
+    platform.platform === "Windows"
+      ? WindowsIcon
+      : platform.platform === "macOS"
+        ? AppleIcon
+        : LinuxIcon;
+
   return (
     <div className="flex flex-col gap-4 bg-background p-5">
       <div className="flex items-center justify-between">
-        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-surface font-display text-[15px] text-foreground">
-          {platform.platform.slice(0, 2)}
+        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-surface text-foreground">
+          <PlatformIcon className="h-[18px] w-[18px]" />
         </div>
         <span className="rounded-full border border-border bg-surface px-2 py-0.5 font-mono text-[10.5px] uppercase tracking-wide text-muted-foreground">
           Latest

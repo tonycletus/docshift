@@ -18,7 +18,8 @@ dist-ssr
 tmp/
 native/desktop/frontend/dist/*
 !native/desktop/frontend/dist/.gitkeep
-native/desktop/build/
+native/desktop/build/*
+!native/desktop/build/appicon.png
 native/cli/dist/
 release/
 

@@ -257,6 +257,41 @@ export function GitHubIcon(props: SVGProps<SVGSVGElement>) {
   );
 }
 
+export function WindowsIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor" {...props}>
+      <path d="M3 5.2 10.8 4v7.3H3V5.2z" />
+      <path d="M12 3.8 21 2.5v8.8h-9V3.8z" />
+      <path d="M3 12.7h7.8V20L3 18.8v-6.1z" />
+      <path d="M12 12.7h9v8.8l-9-1.3v-7.5z" />
+    </svg>
+  );
+}
+
+export function AppleIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor" {...props}>
+      <path d="M15.9 2.4c.1 1.2-.4 2.3-1.1 3.1-.8.9-1.9 1.5-3 1.4-.1-1.1.4-2.2 1.1-3 .8-.9 2-1.5 3-1.5z" />
+      <path d="M20 16.8c-.5 1.2-.8 1.7-1.5 2.8-1 1.5-2.3 3.4-4 3.4-.8 0-1.3-.3-2.2-.3-.9 0-1.5.3-2.3.3-1.6.1-2.9-1.7-3.9-3.2-2.2-3.3-2.4-7.2-1.1-9.2.9-1.5 2.4-2.4 3.9-2.4.8 0 1.6.3 2.2.3.6 0 1.8-.4 3-.3 1 .1 2.5.4 3.7 2-3.2 1.8-2.7 6.3.2 6.6z" />
+    </svg>
+  );
+}
+
+export function LinuxIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" {...props}>
+      <path
+        d="M12 3.5c-2.2 0-3.6 1.8-3.6 4.2 0 1.2-.3 2.1-.9 3.1-.6 1-1.4 2.6-1.1 4.4.4 2.7 2.8 4.9 5.6 4.9s5.2-2.2 5.6-4.9c.3-1.8-.5-3.4-1.1-4.4-.6-1-.9-1.9-.9-3.1 0-2.4-1.4-4.2-3.6-4.2z"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path d="M9 15.5c1.8 1.2 4.2 1.2 6 0" strokeWidth="1.8" strokeLinecap="round" />
+      <path d="M10 8.2h.01M14 8.2h.01" strokeWidth="2.4" strokeLinecap="round" />
+    </svg>
+  );
+}
+
 export function ArrowIcon(props: SVGProps<SVGSVGElement>) {
   return (
     <Icon {...props}>

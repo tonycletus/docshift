@@ -118,12 +118,12 @@ function flagsForTool(slug: string): Flag[] {
     flags.push({ flag: "--preset <name>", desc: "safe, balanced, or smaller." });
   }
   if (slug === "protect") {
-    flags.push({ flag: "--password-from-stdin", desc: "Read the PDF open password securely." });
-    flags.push({ flag: "--password <value>", desc: "Pass the password directly for scripts." });
+    flags.push({ flag: "-p, --password <value>", desc: "Set the PDF open password." });
+    flags.push({ flag: "--password-from-stdin", desc: "Read a piped PDF open password." });
   }
   if (slug === "unlock") {
-    flags.push({ flag: "--password-from-stdin", desc: "Read the existing password securely." });
-    flags.push({ flag: "--password <value>", desc: "Pass the existing password directly." });
+    flags.push({ flag: "-p, --password <value>", desc: "Use the existing PDF password." });
+    flags.push({ flag: "--password-from-stdin", desc: "Read a piped existing password." });
   }
   if (slug === "watermark") {
     flags.push({ flag: "--text <string>", desc: "Text watermark. Default: CONFIDENTIAL." });
@@ -150,7 +150,7 @@ function exampleForTool(slug: string): string {
     case "compress":
       return "docshift compress large.pdf --preset balanced -o smaller.pdf";
     case "protect":
-      return "docshift protect contract.pdf --password-from-stdin -o locked.pdf";
+      return "docshift protect contract.pdf -p strong-password -o locked.pdf";
     case "watermark":
       return "docshift watermark draft.pdf --text DRAFT -o marked.pdf";
     case "reorder":
@@ -322,7 +322,7 @@ function CliPage() {
           <p className="mt-1.5 text-[12.5px] leading-relaxed text-muted-foreground">
             The CLI lives under{" "}
             <code className="rounded bg-surface/60 px-1.5 py-0.5 font-mono text-[12px] text-foreground">
-              native/cli
+              packages/cli
             </code>{" "}
             and is released from GitHub Actions. See{" "}
             <a

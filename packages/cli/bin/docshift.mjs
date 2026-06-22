@@ -6,7 +6,7 @@ import { stdin, stdout, stderr, exit, versions, platform, arch } from "node:proc
 import JSZip from "jszip";
 import { PDFDocument, StandardFonts, degrees, rgb } from "pdf-lib";
 
-const VERSION = "1.0.0";
+const VERSION = "1.0.2";
 const supportedTools = new Set([
   "compress",
   "merge",
@@ -69,7 +69,19 @@ function parseArgs(args) {
       flags.output = inlineValue ?? args[++i];
       continue;
     }
-    if (["json", "quiet", "password-from-stdin", "help"].includes(key)) {
+    if (key === "p") {
+      flags.password = inlineValue ?? args[++i];
+      continue;
+    }
+    if (key === "q") {
+      flags.quiet = true;
+      continue;
+    }
+    if (key === "h") {
+      flags.help = true;
+      continue;
+    }
+    if (["json", "quiet", "password-from-stdin", "help", "verbose"].includes(key)) {
       flags[key] = true;
       continue;
     }
@@ -105,10 +117,15 @@ async function runDoctor(args) {
     stdout.write(`${JSON.stringify(checks)}\n`);
     return;
   }
+  const failures = checks.filter((check) => check.status !== "ok");
+  if (!flags.verbose && failures.length === 0) {
+    stdout.write(`DocShift CLI ${VERSION}: OK\n`);
+    stdout.write(`node       ok   ${versions.node}\n`);
+    stdout.write(`cwd        ok   ${resolve(".")}\n`);
+    return;
+  }
   for (const check of checks) {
-    if (flags.verbose || check.status !== "ok") {
-      stdout.write(`${check.name.padEnd(10)} ${check.status.padEnd(4)} ${check.detail}\n`);
-    }
+    stdout.write(`${check.name.padEnd(10)} ${check.status.padEnd(4)} ${check.detail}\n`);
   }
 }
 
@@ -455,10 +472,17 @@ function numberFlag(value, fallback) {
 async function passwordFromFlags(flags, message) {
   if (typeof flags.password === "string") return flags.password;
   if (flags["password-from-stdin"]) return readStdin();
-  throw new Error(`${message} Use --password <value> or --password-from-stdin.`);
+  throw new Error(
+    `${message} Use -p <value>, --password <value>, or pipe into --password-from-stdin.`,
+  );
 }
 
 function readStdin() {
+  if (stdin.isTTY) {
+    throw new Error(
+      "--password-from-stdin waits for piped input. Use -p <password> or pipe a password, for example: echo mypass | docshift protect input.pdf --password-from-stdin -o locked.pdf",
+    );
+  }
   return new Promise((resolveRead, reject) => {
     let data = "";
     stdin.setEncoding("utf8");
@@ -545,8 +569,8 @@ function usage(command) {
     merge: "docshift merge <a.pdf> <b.pdf> -o combined.pdf",
     compress: "docshift compress <input.pdf> --preset balanced -o output.pdf",
     split: "docshift split <input.pdf> --pages 1-3 -o pages.pdf",
-    protect: "docshift protect <input.pdf> --password-from-stdin -o locked.pdf",
-    unlock: "docshift unlock <input.pdf> --password-from-stdin -o unlocked.pdf",
+    protect: "docshift protect <input.pdf> -p <password> -o locked.pdf",
+    unlock: "docshift unlock <input.pdf> -p <password> -o unlocked.pdf",
     watermark: "docshift watermark <input.pdf> --text CONFIDENTIAL -o marked.pdf",
     rotate: "docshift rotate <input.pdf> --angle 90 --pages 1-2 -o rotated.pdf",
     "delete-pages": "docshift delete-pages <input.pdf> --pages 2 -o trimmed.pdf",
@@ -566,12 +590,12 @@ function flags(command) {
     compress: ["  --preset <name>          safe, balanced, or smaller."],
     split: ["  --pages <ranges>         Ranges like 1-3,5. Omit to split every page."],
     protect: [
-      "  --password <value>       Open password.",
-      "  --password-from-stdin    Read password from stdin.",
+      "  -p, --password <value>   Open password.",
+      "  --password-from-stdin    Read piped password from stdin.",
     ],
     unlock: [
-      "  --password <value>       Existing password.",
-      "  --password-from-stdin    Read password from stdin.",
+      "  -p, --password <value>   Existing password.",
+      "  --password-from-stdin    Read piped password from stdin.",
     ],
     watermark: [
       "  --text <string>          Text watermark. Default: CONFIDENTIAL.",
