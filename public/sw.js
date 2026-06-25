@@ -1,4 +1,4 @@
-const CACHE_VERSION = "docshift-v1.1.1";
+const CACHE_VERSION = "docshift-v1.1.2";
 const APP_SHELL = [
   "/",
   "/manifest.webmanifest",
