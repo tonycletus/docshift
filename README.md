@@ -2,6 +2,8 @@
 
 **Free, private, open-source PDF tools for browser, desktop, and CLI.**
 
+Use DocShift in your browser, on desktop, or from the CLI. No uploads, accounts, subscriptions, or external APIs.
+
 DocShift gives you practical PDF tools for the web app, command line, and desktop. Merge, split, compress, convert, OCR scanned pages, prepare fillable forms, protect, and organize PDFs without accounts, uploads, subscriptions, tracking, or external APIs.
 
 ## Tools
@@ -29,6 +31,31 @@ DocShift gives you practical PDF tools for the web app, command line, and deskto
 npm install
 npm run dev
 ```
+
+## CLI
+
+Install the command line tool:
+
+```bash
+npm install -g @tonycletus/docshift
+```
+
+Verify it:
+
+```bash
+docshift version
+docshift doctor
+```
+
+Run a PDF command:
+
+```bash
+docshift compress input.pdf --preset balanced -o output.pdf
+docshift merge a.pdf b.pdf -o combined.pdf
+docshift protect input.pdf -p strong-password -o locked.pdf
+```
+
+Every command supports `--help`. Full CLI docs live at https://docshift.tonycletus.com/cli.
 
 ## Checks
 

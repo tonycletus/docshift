@@ -12,12 +12,14 @@ export const Route = createFileRoute("/")({
       { title: "DocShift - Free, private, open-source PDF tools" },
       {
         name: "description",
-        content: "Free, private, open-source PDF tools for browser, desktop, and CLI.",
+        content:
+          "Use DocShift in your browser, on desktop, or from the CLI. No uploads, accounts, subscriptions, or external APIs.",
       },
       { property: "og:title", content: "DocShift - Free, private, open-source PDF tools" },
       {
         property: "og:description",
-        content: "Free, private, open-source PDF tools for browser, desktop, and CLI.",
+        content:
+          "Use DocShift in your browser, on desktop, or from the CLI. No uploads, accounts, subscriptions, or external APIs.",
       },
       { property: "og:url", content: "https://docshift.tonycletus.com/" },
     ],
@@ -66,8 +68,8 @@ function Index() {
               <span className="text-muted-foreground">for browser, desktop, and CLI.</span>
             </h1>
             <p className="mx-auto mt-5 max-w-[540px] text-[15px] leading-relaxed text-muted-foreground">
-              Merge, split, compress, convert, OCR, prepare fillable forms, protect, and organize
-              PDFs without accounts, uploads, subscriptions, or external APIs.
+              Use DocShift in your browser, on desktop, or from the CLI. No uploads, accounts,
+              subscriptions, or external APIs.
             </p>
             <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
               <Link

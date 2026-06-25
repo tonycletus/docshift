@@ -81,7 +81,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: "DocShift - Free, private, open-source PDF tools" },
       {
         name: "description",
-        content: "Free, private, open-source PDF tools for browser, desktop, and CLI.",
+        content:
+          "Use DocShift in your browser, on desktop, or from the CLI. No uploads, accounts, subscriptions, or external APIs.",
       },
       { name: "author", content: "Tony Cletus" },
       { name: "application-name", content: "DocShift" },
@@ -94,7 +95,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:title", content: "DocShift - Free, private, open-source PDF tools" },
       {
         property: "og:description",
-        content: "Free, private, open-source PDF tools for browser, desktop, and CLI.",
+        content:
+          "Use DocShift in your browser, on desktop, or from the CLI. No uploads, accounts, subscriptions, or external APIs.",
       },
       { property: "og:type", content: "website" },
       { property: "og:image", content: "https://docshift.tonycletus.com/og-image.png" },
@@ -106,7 +108,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:title", content: "DocShift - Free, private, open-source PDF tools" },
       {
         name: "twitter:description",
-        content: "Free, private, open-source PDF tools for browser, desktop, and CLI.",
+        content:
+          "Use DocShift in your browser, on desktop, or from the CLI. No uploads, accounts, subscriptions, or external APIs.",
       },
       { name: "twitter:image", content: "https://docshift.tonycletus.com/og-image.png" },
     ],

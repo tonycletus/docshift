@@ -129,7 +129,7 @@ jobs:
             chmod 755 "$package_dir/usr/bin/docshift-desktop"
             cat > "$package_dir/DEBIAN/control" <<'CONTROL'
           Package: docshift
-          Version: 1.1.0
+          Version: 1.1.1
           Section: utils
           Priority: optional
           Architecture: amd64

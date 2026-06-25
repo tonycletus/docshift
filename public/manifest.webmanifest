@@ -1,7 +1,7 @@
 {
   "name": "DocShift",
   "short_name": "DocShift",
-  "description": "Free, private, open-source PDF tools for browser, desktop, and CLI.",
+  "description": "Use DocShift in your browser, on desktop, or from the CLI. No uploads, accounts, subscriptions, or external APIs.",
   "id": "/",
   "start_url": "/",
   "scope": "/",

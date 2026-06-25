@@ -271,7 +271,7 @@ function CliPage() {
           <p className="mt-4 max-w-[640px] text-[15px] leading-relaxed text-muted-foreground">
             One command surface for DocShift workflows, scriptable from your shell, a Makefile, or
             CI. POSIX-friendly flags, predictable exit codes, JSON output where useful, and no
-            telemetry.
+            telemetry. Every command supports <code className="font-mono">--help</code>.
           </p>
         </section>
 
@@ -322,7 +322,8 @@ function CliPage() {
 
         <Section title="Command reference">
           <p className="mb-5 text-[13px] leading-relaxed text-muted-foreground">
-            CLI command names mirror the web tool slugs, so scripts stay easy to remember.
+            CLI command names mirror the web tool slugs, so scripts stay easy to remember. The same
+            examples are included in the npm package README for users installing from npm.
           </p>
           <CommandTable commands={toolCommands} />
         </Section>
