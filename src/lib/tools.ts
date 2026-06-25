@@ -206,9 +206,9 @@ export const tools: Tool[] = [
     slug: "ocr",
     route: "/ocr",
     name: "OCR PDF",
-    description: "Read scanned or selectable PDF text.",
+    description: "Recognize scanned PDF text.",
     longDescription:
-      "Extract selectable text first, then run local OCR on scanned pages that need recognition.",
+      "Create a text file from scanned or selectable PDF pages using local recognition.",
     icon: TextExtractIcon,
     category: "edit",
     accept: PDF_ACCEPT,

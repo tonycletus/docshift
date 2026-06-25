@@ -11,12 +11,12 @@ export const Route = createFileRoute("/desktop")({
       { title: "Desktop - DocShift" },
       {
         name: "description",
-        content: "Free, private, open-source PDF tools on Windows, macOS, and Linux desktop.",
+        content: "Private PDF tools for Windows, macOS, and Linux. No uploads.",
       },
       { property: "og:title", content: "DocShift Desktop" },
       {
         property: "og:description",
-        content: "Free, private, open-source PDF tools on Windows, macOS, and Linux desktop.",
+        content: "Private PDF tools for Windows, macOS, and Linux. No uploads.",
       },
       { property: "og:url", content: "https://docshift.tonycletus.com/desktop" },
     ],
@@ -44,7 +44,7 @@ function DesktopPage() {
             Native releases
           </div>
           <h1 className="mt-5 font-display text-[40px] font-semibold leading-[1.05] tracking-[-0.02em] text-foreground">
-            Free, private, open-source PDF tools on your desktop.
+            Private PDF tools on your desktop.
           </h1>
           <p className="mt-4 max-w-[640px] text-[15px] leading-relaxed text-muted-foreground">
             The same local-first toolkit, packaged as a native app for macOS, Windows, and Linux.

@@ -1,8 +1,8 @@
 # DocShift CLI
 
-Free, private, open-source PDF tools for browser, desktop, and CLI.
+Private PDF tools. No uploads.
 
-Use DocShift in your browser, on desktop, or from the CLI. No uploads, accounts, subscriptions, or external APIs.
+Free and open source for browser, desktop, and CLI.
 
 ## Install
 

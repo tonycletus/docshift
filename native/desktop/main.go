@@ -12,7 +12,7 @@ import (
 )
 
 const (
-	Version   = "1.1.2"
+	Version   = "1.1.3"
 	PublicURL = "https://docshift.tonycletus.com"
 )
 
@@ -42,7 +42,7 @@ func main() {
 		Mac: &mac.Options{
 			About: &mac.AboutInfo{
 				Title:   "DocShift",
-				Message: "Free, private, open-source PDF tools",
+				Message: "Private PDF tools. No uploads.",
 				Icon:    icon,
 			},
 		},

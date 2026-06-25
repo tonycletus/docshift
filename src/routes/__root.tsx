@@ -78,11 +78,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "DocShift - Free, private, open-source PDF tools" },
+      { title: "DocShift - Private PDF tools" },
       {
         name: "description",
-        content:
-          "Use DocShift in your browser, on desktop, or from the CLI. No uploads, accounts, subscriptions, or external APIs.",
+        content: "Private PDF tools. Free, open source, and no uploads.",
       },
       { name: "author", content: "Tony Cletus" },
       { name: "application-name", content: "DocShift" },
@@ -92,11 +91,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "mobile-web-app-capable", content: "yes" },
       { name: "theme-color", content: "#2563eb" },
       { property: "og:site_name", content: "DocShift" },
-      { property: "og:title", content: "DocShift - Free, private, open-source PDF tools" },
+      { property: "og:title", content: "DocShift - Private PDF tools" },
       {
         property: "og:description",
-        content:
-          "Use DocShift in your browser, on desktop, or from the CLI. No uploads, accounts, subscriptions, or external APIs.",
+        content: "Private PDF tools. Free, open source, and no uploads.",
       },
       { property: "og:type", content: "website" },
       { property: "og:image", content: "https://docshift.tonycletus.com/og-image.png" },
@@ -105,11 +103,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:site", content: "@iamtonycletus" },
       { name: "twitter:creator", content: "@iamtonycletus" },
-      { name: "twitter:title", content: "DocShift - Free, private, open-source PDF tools" },
+      { name: "twitter:title", content: "DocShift - Private PDF tools" },
       {
         name: "twitter:description",
-        content:
-          "Use DocShift in your browser, on desktop, or from the CLI. No uploads, accounts, subscriptions, or external APIs.",
+        content: "Private PDF tools. Free, open source, and no uploads.",
       },
       { name: "twitter:image", content: "https://docshift.tonycletus.com/og-image.png" },
     ],

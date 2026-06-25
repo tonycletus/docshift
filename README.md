@@ -1,8 +1,8 @@
 # DocShift
 
-**Free, private, open-source PDF tools for browser, desktop, and CLI.**
+**Private PDF tools. No uploads.**
 
-Use DocShift in your browser, on desktop, or from the CLI. No uploads, accounts, subscriptions, or external APIs.
+Free and open source for browser, desktop, and CLI.
 
 DocShift gives you practical PDF tools for the web app, command line, and desktop. Merge, split, compress, convert, OCR scanned pages, prepare fillable forms, protect, and organize PDFs without accounts, uploads, subscriptions, tracking, or external APIs.
 
@@ -11,7 +11,7 @@ DocShift gives you practical PDF tools for the web app, command line, and deskto
 - Compress PDF with distinct Safe, Balanced, and Smaller modes.
 - Merge, split, reorder, rotate, delete, and extract PDF pages.
 - Add page numbers and watermarks.
-- Run local OCR for scanned PDF pages in the browser and desktop app.
+- Recognize scanned PDF text in the browser and desktop app.
 - Prepare fillable forms by detecting likely labels, blank lines, and checkbox cues.
 - Protect PDFs with a password and unlock PDFs when the password is known.
 - Convert between PDF, JPG, Word, PowerPoint, and Excel where browser-side conversion produces a useful result.

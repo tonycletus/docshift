@@ -9,17 +9,15 @@ import { tools } from "@/lib/tools";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "DocShift - Free, private, open-source PDF tools" },
+      { title: "DocShift - Private PDF tools" },
       {
         name: "description",
-        content:
-          "Use DocShift in your browser, on desktop, or from the CLI. No uploads, accounts, subscriptions, or external APIs.",
+        content: "Private PDF tools. Free, open source, and no uploads.",
       },
-      { property: "og:title", content: "DocShift - Free, private, open-source PDF tools" },
+      { property: "og:title", content: "DocShift - Private PDF tools" },
       {
         property: "og:description",
-        content:
-          "Use DocShift in your browser, on desktop, or from the CLI. No uploads, accounts, subscriptions, or external APIs.",
+        content: "Private PDF tools. Free, open source, and no uploads.",
       },
       { property: "og:url", content: "https://docshift.tonycletus.com/" },
     ],
@@ -63,13 +61,12 @@ function Index() {
             className="mx-auto max-w-[760px] text-center"
           >
             <h1 className="font-display text-[40px] font-semibold leading-[1.02] tracking-[-0.02em] text-foreground sm:text-[56px]">
-              Free, private, open-source PDF tools
+              Private PDF tools.
               <br />
-              <span className="text-muted-foreground">for browser, desktop, and CLI.</span>
+              <span className="text-muted-foreground">No uploads.</span>
             </h1>
             <p className="mx-auto mt-5 max-w-[540px] text-[15px] leading-relaxed text-muted-foreground">
-              Use DocShift in your browser, on desktop, or from the CLI. No uploads, accounts,
-              subscriptions, or external APIs.
+              Free and open source for browser, desktop, and CLI.
             </p>
             <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
               <Link
@@ -91,8 +88,8 @@ function Index() {
           >
             <TrustItem
               icon={LocalIcon}
-              title="Private by design"
-              body="Your files are processed on your device, not on a server."
+              title="Local by design"
+              body="Work in your browser, desktop app, or terminal."
             />
             <TrustItem
               icon={NoAccountIcon}

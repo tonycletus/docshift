@@ -13,12 +13,12 @@ export const Route = createFileRoute("/cli")({
       { title: "CLI - DocShift" },
       {
         name: "description",
-        content: "Free, private, open-source PDF tools in your terminal with the DocShift CLI.",
+        content: "Private PDF tools in your terminal. Free, open source, and no uploads.",
       },
       { property: "og:title", content: "DocShift CLI" },
       {
         property: "og:description",
-        content: "Free, private, open-source PDF tools in your terminal with the DocShift CLI.",
+        content: "Private PDF tools in your terminal. Free, open source, and no uploads.",
       },
       { property: "og:url", content: "https://docshift.tonycletus.com/cli" },
     ],
@@ -203,7 +203,7 @@ const toolCommands: Command[] = tools
       name: tool.slug,
       summary:
         tool.slug === "ocr"
-          ? "Extract embedded text; scanned-page OCR runs in browser and desktop."
+          ? "Extract embedded text. Scanned-page OCR runs in browser and desktop."
           : tool.description,
       usage: usageForTool(tool.slug),
       flags: flagsForTool(tool.slug),
@@ -266,7 +266,7 @@ function CliPage() {
             Release binary
           </div>
           <h1 className="mt-5 font-display text-[40px] font-semibold leading-[1.05] tracking-[-0.02em] text-foreground">
-            Free, private, open-source PDF tools in your terminal.
+            Private PDF tools in your terminal.
           </h1>
           <p className="mt-4 max-w-[640px] text-[15px] leading-relaxed text-muted-foreground">
             One command surface for DocShift workflows, scriptable from your shell, a Makefile, or

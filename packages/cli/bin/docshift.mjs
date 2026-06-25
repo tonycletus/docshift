@@ -7,7 +7,7 @@ import { inflateSync } from "node:zlib";
 import JSZip from "jszip";
 import { PDFDocument, StandardFonts, degrees, rgb } from "pdf-lib";
 
-const VERSION = "1.1.2";
+const VERSION = "1.1.3";
 const supportedTools = new Set([
   "compress",
   "merge",

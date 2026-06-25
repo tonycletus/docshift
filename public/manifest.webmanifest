@@ -1,7 +1,7 @@
 {
   "name": "DocShift",
   "short_name": "DocShift",
-  "description": "Use DocShift in your browser, on desktop, or from the CLI. No uploads, accounts, subscriptions, or external APIs.",
+  "description": "Private PDF tools. Free, open source, and no uploads.",
   "id": "/",
   "start_url": "/",
   "scope": "/",
@@ -47,7 +47,7 @@
     {
       "name": "OCR PDF",
       "short_name": "OCR",
-      "description": "Read scanned PDF text locally.",
+      "description": "Recognize scanned PDF text locally.",
       "url": "/ocr"
     },
     {
