@@ -22,6 +22,7 @@ function run(command, args, env = {}) {
   });
 }
 
+await run("node", ["scripts/copy-tesseract-assets.mjs"]);
 await run("node", ["node_modules/vite/bin/vite.js", "build"], {
   VITE_APP_DESKTOP: "true",
   VITE_PUBLIC_APP_URL: "https://docshift.tonycletus.com",

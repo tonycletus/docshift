@@ -1,6 +1,6 @@
 export const APP_NAME = "DocShift";
 export const APP_SLUG = "docshift";
-export const APP_VERSION = "1.0.2";
+export const APP_VERSION = "1.1.0";
 export const PUBLIC_APP_URL = "https://docshift.tonycletus.com";
 export const GITHUB_REPO = "tonycletus/docshift";
 export const GITHUB_URL = `https://github.com/${GITHUB_REPO}`;

@@ -3,14 +3,16 @@ import { readFile, writeFile, mkdir, copyFile } from "node:fs/promises";
 import { dirname, extname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { stdin, stdout, stderr, exit, versions, platform, arch } from "node:process";
+import { inflateSync } from "node:zlib";
 import JSZip from "jszip";
 import { PDFDocument, StandardFonts, degrees, rgb } from "pdf-lib";
 
-const VERSION = "1.0.2";
+const VERSION = "1.1.0";
 const supportedTools = new Set([
   "compress",
   "merge",
   "split",
+  "ocr",
   "protect",
   "unlock",
   "watermark",
@@ -24,6 +26,7 @@ const summaries = {
   compress: "Reduce PDF file size with lossless local optimization.",
   merge: "Combine multiple PDFs into one document.",
   split: "Split page ranges into PDFs or a ZIP archive.",
+  ocr: "Extract embedded PDF text to a .txt file.",
   protect: "Require a password to open a PDF.",
   unlock: "Remove a PDF open password.",
   watermark: "Stamp text or a PNG/JPG image on every page.",
@@ -150,6 +153,10 @@ async function runTool(name, args) {
     case "split":
       requireInput(positional, 1);
       result = await splitPdf(positional[0], flags.pages || flags.ranges || "", output);
+      break;
+    case "ocr":
+      requireInput(positional, 1);
+      result = await extractPdfText(positional[0]);
       break;
     case "protect":
       requireInput(positional, 1);
@@ -306,6 +313,138 @@ async function splitPdf(file, pagesText, output) {
     zip.file(`${baseName(file)}-pages-${group.label}.pdf`, await copyPages(src, group.indices));
   }
   return { bytes: await zip.generateAsync({ type: "uint8array" }) };
+}
+
+async function extractPdfText(file) {
+  const bytes = await readFile(file);
+  const text = extractTextFromPdfBytes(bytes);
+  if (!text) {
+    throw new Error(
+      "no embedded text found; use DocShift in the browser or desktop app for scanned-page OCR",
+    );
+  }
+  return { bytes: Buffer.from(`${text}\n`, "utf8") };
+}
+
+function extractTextFromPdfBytes(bytes) {
+  const source = Buffer.from(bytes).toString("latin1");
+  const chunks = [];
+  const streamPattern = /stream\r?\n([\s\S]*?)\r?\nendstream/g;
+  let match;
+
+  while ((match = streamPattern.exec(source))) {
+    const header = source.slice(Math.max(0, match.index - 800), match.index);
+    let content = Buffer.from(match[1], "latin1");
+    if (/\/Filter\s*(?:\[[^\]]*)?\/FlateDecode/.test(header)) {
+      try {
+        content = inflateSync(content);
+      } catch {
+        continue;
+      }
+    }
+    chunks.push(...extractTextFromPdfContent(content.toString("latin1")));
+  }
+
+  return chunks
+    .join("\n")
+    .replace(/[ \t]+\n/g, "\n")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+}
+
+function extractTextFromPdfContent(content) {
+  const out = [];
+
+  content.replace(/\[((?:.|\r|\n)*?)\]\s*TJ/g, (_match, body) => {
+    const text = readPdfTextTokens(body).join("").replace(/\s+/g, " ").trim();
+    if (text) out.push(text);
+    return _match;
+  });
+
+  content.replace(/((?:\((?:\\.|[^\\)])*\)\s*)+)(?:Tj|'|")/g, (_match, body) => {
+    const text = readPdfLiteralStrings(body).join(" ").replace(/\s+/g, " ").trim();
+    if (text) out.push(text);
+    return _match;
+  });
+
+  content.replace(/<([0-9a-fA-F\s]+)>\s*(?:Tj|'|")/g, (_match, hex) => {
+    const text = decodePdfHexString(hex).replace(/\s+/g, " ").trim();
+    if (text) out.push(text);
+    return _match;
+  });
+
+  return out;
+}
+
+function readPdfTextTokens(input) {
+  const tokens = [];
+  tokens.push(...readPdfLiteralStrings(input));
+  const hexPattern = /<([0-9a-fA-F\s]+)>/g;
+  let match;
+  while ((match = hexPattern.exec(input))) {
+    const text = decodePdfHexString(match[1]);
+    if (text) tokens.push(text);
+  }
+  return tokens;
+}
+
+function readPdfLiteralStrings(input) {
+  const values = [];
+  for (let i = 0; i < input.length; i++) {
+    if (input[i] !== "(") continue;
+    let value = "";
+    let depth = 1;
+    i += 1;
+    for (; i < input.length && depth > 0; i++) {
+      const char = input[i];
+      if (char === "\\") {
+        const next = input[++i];
+        if (next === "n") value += "\n";
+        else if (next === "r") value += "\r";
+        else if (next === "t") value += "\t";
+        else if (next === "b") value += "\b";
+        else if (next === "f") value += "\f";
+        else if (/[0-7]/.test(next)) {
+          const rest = input.slice(i + 1, i + 3).match(/^[0-7]{0,2}/)?.[0] ?? "";
+          const octal = `${next}${rest}`;
+          i += octal.length - 1;
+          value += String.fromCharCode(parseInt(octal, 8));
+        } else if (next !== "\r" && next !== "\n") {
+          value += next ?? "";
+        }
+        continue;
+      }
+      if (char === "(") {
+        depth += 1;
+        value += char;
+        continue;
+      }
+      if (char === ")") {
+        depth -= 1;
+        if (depth > 0) value += char;
+        continue;
+      }
+      value += char;
+    }
+    if (value) values.push(value);
+  }
+  return values;
+}
+
+function decodePdfHexString(hex) {
+  const clean = hex.replace(/\s+/g, "");
+  if (!clean) return "";
+  const even = clean.length % 2 === 0 ? clean : `${clean}0`;
+  const bytes = Buffer.from(even, "hex");
+  if (bytes[0] === 0xfe && bytes[1] === 0xff) {
+    const swapped = Buffer.alloc(bytes.length - 2);
+    for (let i = 2; i < bytes.length; i += 2) {
+      swapped[i - 2] = bytes[i + 1] ?? 0;
+      swapped[i - 1] = bytes[i];
+    }
+    return swapped.toString("utf16le");
+  }
+  return bytes.toString("latin1");
 }
 
 async function protectPdf(file, password) {
@@ -569,6 +708,7 @@ function usage(command) {
     merge: "docshift merge <a.pdf> <b.pdf> -o combined.pdf",
     compress: "docshift compress <input.pdf> --preset balanced -o output.pdf",
     split: "docshift split <input.pdf> --pages 1-3 -o pages.pdf",
+    ocr: "docshift ocr <input.pdf> -o text.txt",
     protect: "docshift protect <input.pdf> -p <password> -o locked.pdf",
     unlock: "docshift unlock <input.pdf> -p <password> -o unlocked.pdf",
     watermark: "docshift watermark <input.pdf> --text CONFIDENTIAL -o marked.pdf",
@@ -589,6 +729,7 @@ function flags(command) {
   const extra = {
     compress: ["  --preset <name>          safe, balanced, or smaller."],
     split: ["  --pages <ranges>         Ranges like 1-3,5. Omit to split every page."],
+    ocr: ["  note                    Browser and desktop apps run scanned-page OCR locally."],
     protect: [
       "  -p, --password <value>   Open password.",
       "  --password-from-stdin    Read piped password from stdin.",

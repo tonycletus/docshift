@@ -11,13 +11,12 @@ export const Route = createFileRoute("/desktop")({
       { title: "Desktop - DocShift" },
       {
         name: "description",
-        content:
-          "DocShift for macOS, Windows, and Linux. Native desktop releases of the PDF toolkit, built with Go and Wails.",
+        content: "Free, private, open-source PDF tools on Windows, macOS, and Linux desktop.",
       },
       { property: "og:title", content: "DocShift Desktop" },
       {
         property: "og:description",
-        content: "Native desktop releases of DocShift for macOS, Windows, and Linux.",
+        content: "Free, private, open-source PDF tools on Windows, macOS, and Linux desktop.",
       },
       { property: "og:url", content: "https://docshift.tonycletus.com/desktop" },
     ],
@@ -45,12 +44,12 @@ function DesktopPage() {
             Native releases
           </div>
           <h1 className="mt-5 font-display text-[40px] font-semibold leading-[1.05] tracking-[-0.02em] text-foreground">
-            DocShift on your desktop.
+            Free, private, open-source PDF tools on your desktop.
           </h1>
           <p className="mt-4 max-w-[640px] text-[15px] leading-relaxed text-muted-foreground">
-            The same toolkit, packaged as a native app for macOS, Windows, and Linux. Built with Go
-            and Wails for a small footprint and fast startup. No tab to keep open, no upload, no
-            account.
+            The same local-first toolkit, packaged as a native app for macOS, Windows, and Linux.
+            Built with Go and Wails for a small footprint and fast startup. No tab to keep open, no
+            upload, no account.
           </p>
         </section>
 

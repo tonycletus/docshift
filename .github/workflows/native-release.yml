@@ -129,12 +129,12 @@ jobs:
             chmod 755 "$package_dir/usr/bin/docshift-desktop"
             cat > "$package_dir/DEBIAN/control" <<'CONTROL'
           Package: docshift
-          Version: 1.0.2
+          Version: 1.1.0
           Section: utils
           Priority: optional
           Architecture: amd64
           Maintainer: Tony Cletus
-          Description: Local-first PDF tools desktop app.
+          Description: Free, private, open-source PDF tools.
           CONTROL
             cat > "$package_dir/usr/share/applications/docshift.desktop" <<'DESKTOP'
           [Desktop Entry]

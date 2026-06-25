@@ -1,7 +1,7 @@
 {
   "name": "DocShift",
   "short_name": "DocShift",
-  "description": "Private, local PDF tools for merge, split, compress, convert, and protect workflows.",
+  "description": "Free, private, open-source PDF tools for browser, desktop, and CLI.",
   "id": "/",
   "start_url": "/",
   "scope": "/",
@@ -43,6 +43,18 @@
       "short_name": "Protect",
       "description": "Add an open password locally.",
       "url": "/protect"
+    },
+    {
+      "name": "OCR PDF",
+      "short_name": "OCR",
+      "description": "Read scanned PDF text locally.",
+      "url": "/ocr"
+    },
+    {
+      "name": "Prepare Fillable Form",
+      "short_name": "Forms",
+      "description": "Add fillable boxes locally.",
+      "url": "/prepare-form"
     }
   ]
 }

@@ -1,5 +1,13 @@
-const CACHE_VERSION = "docshift-v1";
-const APP_SHELL = ["/", "/manifest.webmanifest", "/favicon.svg", "/launch.png"];
+const CACHE_VERSION = "docshift-v1.1.0";
+const APP_SHELL = [
+  "/",
+  "/manifest.webmanifest",
+  "/favicon.svg",
+  "/launch.png",
+  "/tesseract/worker.min.js",
+  "/tesseract/tesseract-core-lstm.wasm.js",
+  "/tesseract/eng.traineddata.gz",
+];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(

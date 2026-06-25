@@ -82,7 +82,7 @@ export function PWAInstall({ compact = false }: { compact?: boolean }) {
       <div className={compact ? "min-w-0 flex-1" : ""}>
         <div className="text-[13px] font-medium text-foreground">Install the web app</div>
         <p className="mt-1 text-[12.5px] leading-relaxed text-muted-foreground">
-          Add DocShift to your launcher for a browser-powered app experience.
+          Add DocShift to your launcher for free, private PDF tools in the browser.
         </p>
       </div>
       <button

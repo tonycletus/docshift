@@ -13,14 +13,12 @@ export const Route = createFileRoute("/cli")({
       { title: "CLI - DocShift" },
       {
         name: "description",
-        content:
-          "DocShift CLI brings the PDF workflow to your terminal. Install from GitHub Releases, run doctor/version, and use the same command names as the web tools.",
+        content: "Free, private, open-source PDF tools in your terminal with the DocShift CLI.",
       },
       { property: "og:title", content: "DocShift CLI" },
       {
         property: "og:description",
-        content:
-          "The DocShift command line companion for scripts, local checks, and repeatable PDF workflows.",
+        content: "Free, private, open-source PDF tools in your terminal with the DocShift CLI.",
       },
       { property: "og:url", content: "https://docshift.tonycletus.com/cli" },
     ],
@@ -114,6 +112,12 @@ function flagsForTool(slug: string): Flag[] {
   const flags: Flag[] = [];
   if (slug === "merge") flags.push({ flag: "<files...>", desc: "Two or more PDFs to merge." });
   if (slug === "split") flags.push({ flag: "--pages <ranges>", desc: "Ranges like 1-3,5." });
+  if (slug === "ocr") {
+    flags.push({
+      flag: "embedded text",
+      desc: "Scanned-page OCR is available in the browser and desktop app.",
+    });
+  }
   if (slug === "compress") {
     flags.push({ flag: "--preset <name>", desc: "safe, balanced, or smaller." });
   }
@@ -149,6 +153,8 @@ function exampleForTool(slug: string): string {
       return "docshift merge a.pdf b.pdf -o combined.pdf";
     case "compress":
       return "docshift compress large.pdf --preset balanced -o smaller.pdf";
+    case "ocr":
+      return "docshift ocr contract.pdf -o contract.txt";
     case "protect":
       return "docshift protect contract.pdf -p strong-password -o locked.pdf";
     case "watermark":
@@ -180,6 +186,7 @@ const cliToolSlugs = [
   "compress",
   "merge",
   "split",
+  "ocr",
   "protect",
   "unlock",
   "watermark",
@@ -194,7 +201,10 @@ const toolCommands: Command[] = tools
   .map((tool) => {
     const command: Command = {
       name: tool.slug,
-      summary: tool.description,
+      summary:
+        tool.slug === "ocr"
+          ? "Extract embedded text; scanned-page OCR runs in browser and desktop."
+          : tool.description,
       usage: usageForTool(tool.slug),
       flags: flagsForTool(tool.slug),
       example: exampleForTool(tool.slug),
@@ -256,11 +266,11 @@ function CliPage() {
             Release binary
           </div>
           <h1 className="mt-5 font-display text-[40px] font-semibold leading-[1.05] tracking-[-0.02em] text-foreground">
-            DocShift in your terminal.
+            Free, private, open-source PDF tools in your terminal.
           </h1>
           <p className="mt-4 max-w-[640px] text-[15px] leading-relaxed text-muted-foreground">
             One command surface for DocShift workflows, scriptable from your shell, a Makefile, or
-            CI. POSIX-friendly flags, predictable exit codes, JSON output where useful, no
+            CI. POSIX-friendly flags, predictable exit codes, JSON output where useful, and no
             telemetry.
           </p>
         </section>

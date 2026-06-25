@@ -17,6 +17,7 @@ import { Route as RotateRouteImport } from './routes/rotate'
 import { Route as ReorderRouteImport } from './routes/reorder'
 import { Route as ProtectRouteImport } from './routes/protect'
 import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as PrepareFormRouteImport } from './routes/prepare-form'
 import { Route as PdfToWordRouteImport } from './routes/pdf-to-word'
 import { Route as PdfToPowerpointRouteImport } from './routes/pdf-to-powerpoint'
 import { Route as PdfToJpgRouteImport } from './routes/pdf-to-jpg'
@@ -70,6 +71,11 @@ const ProtectRoute = ProtectRouteImport.update({
 const PrivacyRoute = PrivacyRouteImport.update({
   id: '/privacy',
   path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrepareFormRoute = PrepareFormRouteImport.update({
+  id: '/prepare-form',
+  path: '/prepare-form',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PdfToWordRoute = PdfToWordRouteImport.update({
@@ -158,6 +164,7 @@ export interface FileRoutesByFullPath {
   '/pdf-to-jpg': typeof PdfToJpgRoute
   '/pdf-to-powerpoint': typeof PdfToPowerpointRoute
   '/pdf-to-word': typeof PdfToWordRoute
+  '/prepare-form': typeof PrepareFormRoute
   '/privacy': typeof PrivacyRoute
   '/protect': typeof ProtectRoute
   '/reorder': typeof ReorderRoute
@@ -182,6 +189,7 @@ export interface FileRoutesByTo {
   '/pdf-to-jpg': typeof PdfToJpgRoute
   '/pdf-to-powerpoint': typeof PdfToPowerpointRoute
   '/pdf-to-word': typeof PdfToWordRoute
+  '/prepare-form': typeof PrepareFormRoute
   '/privacy': typeof PrivacyRoute
   '/protect': typeof ProtectRoute
   '/reorder': typeof ReorderRoute
@@ -207,6 +215,7 @@ export interface FileRoutesById {
   '/pdf-to-jpg': typeof PdfToJpgRoute
   '/pdf-to-powerpoint': typeof PdfToPowerpointRoute
   '/pdf-to-word': typeof PdfToWordRoute
+  '/prepare-form': typeof PrepareFormRoute
   '/privacy': typeof PrivacyRoute
   '/protect': typeof ProtectRoute
   '/reorder': typeof ReorderRoute
@@ -233,6 +242,7 @@ export interface FileRouteTypes {
     | '/pdf-to-jpg'
     | '/pdf-to-powerpoint'
     | '/pdf-to-word'
+    | '/prepare-form'
     | '/privacy'
     | '/protect'
     | '/reorder'
@@ -257,6 +267,7 @@ export interface FileRouteTypes {
     | '/pdf-to-jpg'
     | '/pdf-to-powerpoint'
     | '/pdf-to-word'
+    | '/prepare-form'
     | '/privacy'
     | '/protect'
     | '/reorder'
@@ -281,6 +292,7 @@ export interface FileRouteTypes {
     | '/pdf-to-jpg'
     | '/pdf-to-powerpoint'
     | '/pdf-to-word'
+    | '/prepare-form'
     | '/privacy'
     | '/protect'
     | '/reorder'
@@ -306,6 +318,7 @@ export interface RootRouteChildren {
   PdfToJpgRoute: typeof PdfToJpgRoute
   PdfToPowerpointRoute: typeof PdfToPowerpointRoute
   PdfToWordRoute: typeof PdfToWordRoute
+  PrepareFormRoute: typeof PrepareFormRoute
   PrivacyRoute: typeof PrivacyRoute
   ProtectRoute: typeof ProtectRoute
   ReorderRoute: typeof ReorderRoute
@@ -372,6 +385,13 @@ declare module '@tanstack/react-router' {
       path: '/privacy'
       fullPath: '/privacy'
       preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/prepare-form': {
+      id: '/prepare-form'
+      path: '/prepare-form'
+      fullPath: '/prepare-form'
+      preLoaderRoute: typeof PrepareFormRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/pdf-to-word': {
@@ -490,6 +510,7 @@ const rootRouteChildren: RootRouteChildren = {
   PdfToJpgRoute: PdfToJpgRoute,
   PdfToPowerpointRoute: PdfToPowerpointRoute,
   PdfToWordRoute: PdfToWordRoute,
+  PrepareFormRoute: PrepareFormRoute,
   PrivacyRoute: PrivacyRoute,
   ProtectRoute: ProtectRoute,
   ReorderRoute: ReorderRoute,

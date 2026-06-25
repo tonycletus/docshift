@@ -2,6 +2,7 @@ import { PDFDocument, degrees, StandardFonts, rgb } from "pdf-lib";
 import JSZip from "jszip";
 import type { Tool } from "./tools";
 import { createDocxFromPages, createPptxFromImages, createXlsxFromRows } from "./office";
+import type { PositionedText, TextPage } from "./pdfjs";
 
 export type ProcessResult = {
   blob: Blob;
@@ -153,6 +154,130 @@ function groupPositionedText(
   }
 
   return output;
+}
+
+type PreparedField = {
+  pageNumber: number;
+  type: "text" | "checkbox";
+  name: string;
+  label: string;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+};
+
+const FIELD_WORDS =
+  /\b(name|first|last|email|e-mail|phone|mobile|telephone|address|city|state|zip|postal|country|date|signature|signed|company|organization|title|role|position|amount|invoice|reference|account|number|id|description|notes|comment|birth|dob|ssn|tax|license|policy|claim)\b/i;
+const CHECKBOX_WORDS =
+  /\b(yes|no|agree|accept|consent|approve|confirm|check|select|male|female|single|married)\b/i;
+
+function formatOcrPages(pages: TextPage[]): string {
+  return pages
+    .sort((a, b) => a.pageNumber - b.pageNumber)
+    .map((page) => [`Page ${page.pageNumber}`, ...page.lines].join("\n"))
+    .join("\n\n")
+    .trim();
+}
+
+function shouldOcrPage(page: TextPage): boolean {
+  return page.lines.join(" ").replace(/\s+/g, "").length < 25;
+}
+
+function detectFillableFields(rows: PositionedText[], mode: string): PreparedField[] {
+  const maxFields = mode === "dense" ? 90 : 50;
+  const grouped = new Map<string, PositionedText[]>();
+
+  for (const row of rows) {
+    const y = Math.round(row.y / 5) * 5;
+    grouped.set(`${row.pageNumber}:${y}`, [...(grouped.get(`${row.pageNumber}:${y}`) ?? []), row]);
+  }
+
+  const fields: PreparedField[] = [];
+  const seen = new Set<string>();
+
+  for (const lineItems of [...grouped.values()].sort((a, b) => {
+    const pageDiff = a[0].pageNumber - b[0].pageNumber;
+    return pageDiff || b[0].y - a[0].y;
+  })) {
+    if (fields.length >= maxFields) break;
+    const ordered = lineItems.sort((a, b) => a.x - b.x);
+    const page = ordered[0];
+    const text = ordered
+      .map((item) => item.text)
+      .join(" ")
+      .replace(/\s+/g, " ")
+      .trim();
+    const normalized = text
+      .replace(/[-_:.\s]+/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+    const hasBlankCue = /_{3,}|\.{4,}|-{4,}/.test(text);
+    const hasColonCue = /:\s*$/.test(text) || /:\s*_{2,}/.test(text);
+    const likelyLabel =
+      FIELD_WORDS.test(normalized) &&
+      (mode === "dense" || hasBlankCue || hasColonCue || normalized.split(/\s+/).length <= 5);
+    const checkboxCue = /(?:\[\s*\]|☐|□|○)/.test(text) || CHECKBOX_WORDS.test(normalized);
+
+    if (!likelyLabel && !hasBlankCue && !(mode === "dense" && checkboxCue)) continue;
+
+    const lineStart = Math.min(...ordered.map((item) => item.x));
+    const lineEnd = Math.max(
+      ...ordered.map((item) => item.x + Math.max(item.width, item.text.length * 5)),
+    );
+    const pageWidth = page.pageWidth || 612;
+    const pageHeight = page.pageHeight || 792;
+    const key = `${page.pageNumber}:${Math.round(page.y)}:${normalized.toLowerCase().slice(0, 40)}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+
+    if (checkboxCue && !hasBlankCue && !hasColonCue) {
+      const x = Math.max(24, Math.min(lineStart - 20, pageWidth - 44));
+      fields.push({
+        pageNumber: page.pageNumber,
+        type: "checkbox",
+        name: fieldName(normalized || "checkbox", fields.length),
+        label: normalized || "Checkbox",
+        x,
+        y: clamp(page.y - 2, 24, pageHeight - 36),
+        width: 14,
+        height: 14,
+      });
+      continue;
+    }
+
+    const naturalX = hasBlankCue ? Math.max(lineStart + 90, lineEnd - 170) : lineEnd + 12;
+    const x = clamp(naturalX, 48, Math.max(60, pageWidth - 230));
+    const available = Math.max(120, pageWidth - x - 48);
+    const width = Math.min(hasBlankCue ? Math.max(140, lineEnd - x) : 190, available);
+
+    fields.push({
+      pageNumber: page.pageNumber,
+      type: "text",
+      name: fieldName(normalized || text || "field", fields.length),
+      label: normalized || text || "Field",
+      x,
+      y: clamp(page.y - 7, 24, pageHeight - 34),
+      width,
+      height: 20,
+    });
+  }
+
+  return fields;
+}
+
+function fieldName(label: string, index: number): string {
+  const cleaned =
+    label
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "_")
+      .replace(/^_+|_+$/g, "")
+      .slice(0, 42) || "field";
+  return `${cleaned}_${index + 1}`;
+}
+
+function clamp(value: number, min: number, max: number): number {
+  return Math.min(Math.max(value, min), max);
 }
 
 function wrapText(
@@ -457,17 +582,93 @@ export async function processTool(
     }
 
     case "ocr": {
-      const { extractPdfTextPages } = await import("./pdfjs");
+      const { extractPdfTextPages, ocrPdfPages } = await import("./pdfjs");
       const pages = await extractPdfTextPages(files[0], (cur, total) =>
-        onProgress?.(10 + Math.round((cur / total) * 80)),
+        onProgress?.(10 + Math.round((cur / total) * 25)),
       );
-      const text = pages
-        .map((page) => [`Page ${page.pageNumber}`, ...page.lines].join("\n"))
-        .join("\n\n")
-        .trim();
+      const pagesNeedingOcr = pages.filter(shouldOcrPage).map((page) => page.pageNumber);
+      let finalPages: TextPage[] = pages;
+
+      if (pagesNeedingOcr.length) {
+        const recognizedPages = await ocrPdfPages(
+          files[0],
+          pagesNeedingOcr,
+          (done, total, pagePct) => {
+            const pageProgress = total ? (done + pagePct) / total : 1;
+            onProgress?.(35 + Math.round(pageProgress * 55));
+          },
+        );
+        const recognizedByPage = new Map(
+          recognizedPages
+            .filter((page) => page.lines.length)
+            .map((page) => [page.pageNumber, page] as const),
+        );
+        finalPages = pages.map((page) => recognizedByPage.get(page.pageNumber) ?? page);
+      }
+
+      const text = formatOcrPages(finalPages);
       if (!text) throw new Error("No selectable text was found in this PDF.");
       onProgress?.(100);
       return { blob: textBlob(text), filename: `${baseName(files[0])}.txt` };
+    }
+
+    case "prepare-form": {
+      const { extractPositionedText } = await import("./pdfjs");
+      const src = await PDFDocument.load(await readBytes(files[0]));
+      const rows = await extractPositionedText(files[0], (cur, total) =>
+        onProgress?.(10 + Math.round((cur / total) * 35)),
+      );
+      const fields = detectFillableFields(rows, optionText(options, "mode", "balanced"));
+      if (!fields.length) {
+        throw new Error(
+          "No likely form labels were found. Try Dense detection on forms with short labels or faint blank lines.",
+        );
+      }
+
+      const form = src.getForm();
+      const font = await src.embedFont(StandardFonts.Helvetica);
+      const pages = src.getPages();
+
+      fields.forEach((field, index) => {
+        const page = pages[field.pageNumber - 1];
+        if (!page) return;
+        const name = `${field.name}_${index}`;
+        if (field.type === "checkbox") {
+          const checkbox = form.createCheckBox(name);
+          checkbox.addToPage(page, {
+            x: field.x,
+            y: field.y,
+            width: field.width,
+            height: field.height,
+            borderWidth: 1,
+            borderColor: rgb(0.2, 0.33, 0.72),
+            backgroundColor: rgb(1, 1, 1),
+          });
+          return;
+        }
+
+        const textField = form.createTextField(name);
+        textField.setFontSize(10);
+        textField.addToPage(page, {
+          x: field.x,
+          y: field.y,
+          width: field.width,
+          height: field.height,
+          borderWidth: 1,
+          borderColor: rgb(0.2, 0.33, 0.72),
+          backgroundColor: rgb(0.96, 0.98, 1),
+          textColor: rgb(0.08, 0.1, 0.15),
+        });
+      });
+
+      form.updateFieldAppearances(font);
+      const bytes = await src.save({ useObjectStreams: true, updateFieldAppearances: true });
+      onProgress?.(100);
+      return {
+        blob: new Blob([bytes as BlobPart], { type: "application/pdf" }),
+        filename: `${baseName(files[0])}-fillable.pdf`,
+        meta: undefined,
+      };
     }
 
     case "protect": {

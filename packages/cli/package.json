@@ -1,7 +1,7 @@
 {
   "name": "@tonycletus/docshift",
-  "version": "1.0.2",
-  "description": "Local-first PDF tools for the terminal.",
+  "version": "1.1.0",
+  "description": "Free, private, open-source PDF tools for browser, desktop, and CLI.",
   "type": "module",
   "bin": {
     "docshift": "./bin/docshift.mjs"

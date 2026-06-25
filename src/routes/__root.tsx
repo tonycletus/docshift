@@ -78,11 +78,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "DocShift · A faster way to work with PDFs" },
+      { title: "DocShift - Free, private, open-source PDF tools" },
       {
         name: "description",
-        content:
-          "Every PDF tool you actually need, in one place. Merge, split, compress, convert, and protect, in seconds. Private, fast, and free.",
+        content: "Free, private, open-source PDF tools for browser, desktop, and CLI.",
       },
       { name: "author", content: "Tony Cletus" },
       { name: "application-name", content: "DocShift" },
@@ -92,10 +91,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "mobile-web-app-capable", content: "yes" },
       { name: "theme-color", content: "#2563eb" },
       { property: "og:site_name", content: "DocShift" },
-      { property: "og:title", content: "DocShift · A faster way to work with PDFs" },
+      { property: "og:title", content: "DocShift - Free, private, open-source PDF tools" },
       {
         property: "og:description",
-        content: "Every PDF tool you actually need, in one place. Private, fast, and free.",
+        content: "Free, private, open-source PDF tools for browser, desktop, and CLI.",
       },
       { property: "og:type", content: "website" },
       { property: "og:image", content: "https://docshift.tonycletus.com/og-image.png" },
@@ -104,10 +103,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:site", content: "@iamtonycletus" },
       { name: "twitter:creator", content: "@iamtonycletus" },
-      { name: "twitter:title", content: "DocShift · A faster way to work with PDFs" },
+      { name: "twitter:title", content: "DocShift - Free, private, open-source PDF tools" },
       {
         name: "twitter:description",
-        content: "Every PDF tool you actually need, in one place. Private, fast, and free.",
+        content: "Free, private, open-source PDF tools for browser, desktop, and CLI.",
       },
       { name: "twitter:image", content: "https://docshift.tonycletus.com/og-image.png" },
     ],

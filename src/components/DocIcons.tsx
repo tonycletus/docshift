@@ -196,6 +196,19 @@ export function TextExtractIcon(props: SVGProps<SVGSVGElement>) {
   );
 }
 
+export function FormFieldIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <Icon {...props}>
+      <path d="M6 4h12v16H6z" />
+      <path d="M9 8h6" />
+      <path d="M9 12h3" />
+      <path d="M9 16h2.5" />
+      <path d="M13.5 11h3.5v2.5h-3.5z" />
+      <path d="M13.5 15h3.5v2.5h-3.5z" />
+    </Icon>
+  );
+}
+
 export function LockDocIcon(props: SVGProps<SVGSVGElement>) {
   return (
     <Icon {...props}>

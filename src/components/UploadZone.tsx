@@ -166,7 +166,10 @@ export function UploadZone({ tool }: Props) {
             <ul className="divide-y divide-border">
               {files.map((f, i) => (
                 <li key={`${f.name}-${i}`} className="flex items-center gap-3 px-4 py-3">
-                  <div aria-hidden="true" className="flex h-8 w-8 items-center justify-center rounded-lg bg-surface">
+                  <div
+                    aria-hidden="true"
+                    className="flex h-8 w-8 items-center justify-center rounded-lg bg-surface"
+                  >
                     <FileGlyphIcon className="h-4 w-4 text-muted-foreground" />
                   </div>
                   <div className="min-w-0 flex-1">
@@ -310,9 +313,7 @@ export function UploadZone({ tool }: Props) {
               <LoaderIcon aria-hidden="true" className="h-4 w-4 animate-spin text-primary" />
               <div className="flex-1">
                 <div className="text-[13.5px] font-medium text-foreground">Processing...</div>
-                <div className="text-[12px] text-muted-foreground">
-                  Working in your browser.
-                </div>
+                <div className="text-[12px] text-muted-foreground">Working in your browser.</div>
               </div>
               <div className="font-mono text-[12px] tabular-nums text-muted-foreground">
                 {progress}%

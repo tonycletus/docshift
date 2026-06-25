@@ -9,16 +9,15 @@ import { tools } from "@/lib/tools";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Docshift · A faster way to work with PDFs" },
+      { title: "DocShift - Free, private, open-source PDF tools" },
       {
         name: "description",
-        content:
-          "Merge, split, compress, convert, and protect PDFs in seconds. Private by design, free to use.",
+        content: "Free, private, open-source PDF tools for browser, desktop, and CLI.",
       },
-      { property: "og:title", content: "Docshift · A faster way to work with PDFs" },
+      { property: "og:title", content: "DocShift - Free, private, open-source PDF tools" },
       {
         property: "og:description",
-        content: "Every PDF tool you actually need, in one place. Private, fast, and free.",
+        content: "Free, private, open-source PDF tools for browser, desktop, and CLI.",
       },
       { property: "og:url", content: "https://docshift.tonycletus.com/" },
     ],
@@ -62,13 +61,13 @@ function Index() {
             className="mx-auto max-w-[760px] text-center"
           >
             <h1 className="font-display text-[40px] font-semibold leading-[1.02] tracking-[-0.02em] text-foreground sm:text-[56px]">
-              A faster way
+              Free, private, open-source PDF tools
               <br />
-              <span className="text-muted-foreground">to work with PDFs.</span>
+              <span className="text-muted-foreground">for browser, desktop, and CLI.</span>
             </h1>
             <p className="mx-auto mt-5 max-w-[540px] text-[15px] leading-relaxed text-muted-foreground">
-              Every PDF tool you actually need, in one place. Merge, split, compress, convert, and
-              protect in seconds.
+              Merge, split, compress, convert, OCR, prepare fillable forms, protect, and organize
+              PDFs without accounts, uploads, subscriptions, or external APIs.
             </p>
             <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
               <Link
@@ -154,7 +153,6 @@ function Index() {
           ))}
         </dl>
       </section>
-
 
       <Footer />
     </div>

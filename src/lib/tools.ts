@@ -5,6 +5,7 @@ import {
   DocxToPdfIcon,
   ExcelIcon,
   ExtractIcon,
+  FormFieldIcon,
   ImageFileIcon,
   LockDocIcon,
   MergeIcon,
@@ -204,15 +205,42 @@ export const tools: Tool[] = [
   {
     slug: "ocr",
     route: "/ocr",
-    name: "Extract Text",
-    description: "Save selectable PDF text as .txt.",
+    name: "OCR PDF",
+    description: "Read scanned or selectable PDF text.",
     longDescription:
-      "Extract embedded selectable text from a PDF into a plain text file. Image-only scans may not contain extractable text.",
+      "Extract selectable text first, then run local OCR on scanned pages that need recognition.",
     icon: TextExtractIcon,
     category: "edit",
     accept: PDF_ACCEPT,
     multiple: false,
     outputType: "txt",
+    clientCapable: true,
+  },
+  {
+    slug: "prepare-form",
+    route: "/prepare-form",
+    name: "Prepare Fillable Form",
+    description: "Find likely blanks and add fillable boxes.",
+    longDescription:
+      "Detect common labels, blank lines, and checkbox cues, then add real PDF form fields users can type into.",
+    icon: FormFieldIcon,
+    category: "edit",
+    accept: PDF_ACCEPT,
+    multiple: false,
+    configOptions: [
+      {
+        key: "mode",
+        label: "Detection mode",
+        type: "select",
+        options: [
+          { value: "balanced", label: "Balanced - fewer false matches" },
+          { value: "dense", label: "Dense - more possible fields" },
+        ],
+        defaultValue: "balanced",
+        helperText: "Use Dense for forms with short labels or many blank lines.",
+      },
+    ],
+    outputType: "pdf",
     clientCapable: true,
   },
   {
