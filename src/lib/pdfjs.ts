@@ -35,8 +35,24 @@ export interface PositionedText {
   pageNumber: number;
 }
 
+export interface OcrWord {
+  text: string;
+  confidence: number;
+  bbox: {
+    x0: number;
+    y0: number;
+    x1: number;
+    y1: number;
+  };
+}
+
 export interface OcrTextPage extends TextPage {
   confidence: number;
+  words: OcrWord[];
+  imageWidth: number;
+  imageHeight: number;
+  pageWidth: number;
+  pageHeight: number;
 }
 
 export async function rasterizePdf(
@@ -192,6 +208,7 @@ export async function ocrPdfPages(
     for (const pageNumber of uniquePageNumbers) {
       if (pageNumber < 1 || pageNumber > doc.numPages) continue;
       const page = await doc.getPage(pageNumber);
+      const naturalViewport = page.getViewport({ scale: 1 });
       const viewport = page.getViewport({ scale: 2.2 });
       const canvas = document.createElement("canvas");
       canvas.width = Math.ceil(viewport.width);
@@ -203,11 +220,16 @@ export async function ocrPdfPages(
       ctx.fillRect(0, 0, canvas.width, canvas.height);
       await page.render({ canvasContext: ctx, viewport, canvas }).promise;
 
-      const result = await worker.recognize(canvas);
+      const result = await worker.recognize(canvas, undefined, { text: true, blocks: true });
       out.push({
         pageNumber,
         lines: normalizeTextLines(result.data.text),
         confidence: Number.isFinite(result.data.confidence) ? result.data.confidence : 0,
+        words: normalizeOcrWords(collectOcrWords(result.data)),
+        imageWidth: canvas.width,
+        imageHeight: canvas.height,
+        pageWidth: naturalViewport.width,
+        pageHeight: naturalViewport.height,
       });
       completed += 1;
       onProgress?.(completed, uniquePageNumbers.length, 0);
@@ -226,6 +248,63 @@ function normalizeTextLines(text: string): string[] {
     .split(/\r?\n/)
     .map((line) => line.replace(/\s+/g, " ").trim())
     .filter(Boolean);
+}
+
+function normalizeOcrWords(
+  words?: Array<{
+    text?: string;
+    confidence?: number;
+    bbox?: { x0?: number; y0?: number; x1?: number; y1?: number };
+  }>,
+): OcrWord[] {
+  return (words ?? [])
+    .map((word) => ({
+      text: (word.text ?? "").replace(/\s+/g, " ").trim(),
+      confidence: Number.isFinite(word.confidence) ? Number(word.confidence) : 0,
+      bbox: {
+        x0: Number(word.bbox?.x0 ?? 0),
+        y0: Number(word.bbox?.y0 ?? 0),
+        x1: Number(word.bbox?.x1 ?? 0),
+        y1: Number(word.bbox?.y1 ?? 0),
+      },
+    }))
+    .filter(
+      (word) =>
+        word.text &&
+        Number.isFinite(word.bbox.x0) &&
+        Number.isFinite(word.bbox.y0) &&
+        Number.isFinite(word.bbox.x1) &&
+        Number.isFinite(word.bbox.y1) &&
+        word.bbox.x1 > word.bbox.x0 &&
+        word.bbox.y1 > word.bbox.y0,
+    );
+}
+
+function collectOcrWords(data: {
+  words?: unknown[];
+  blocks?: Array<{
+    paragraphs?: Array<{
+      lines?: Array<{
+        words?: unknown[];
+      }>;
+    }>;
+  }> | null;
+}): Array<{
+  text?: string;
+  confidence?: number;
+  bbox?: { x0?: number; y0?: number; x1?: number; y1?: number };
+}> {
+  if (Array.isArray(data.words)) {
+    return data.words as ReturnType<typeof collectOcrWords>;
+  }
+
+  return (data.blocks ?? []).flatMap((block) =>
+    (block.paragraphs ?? []).flatMap((paragraph) =>
+      (paragraph.lines ?? []).flatMap(
+        (line) => (line.words ?? []) as ReturnType<typeof collectOcrWords>,
+      ),
+    ),
+  );
 }
 
 export const COMPRESSION_PRESETS = {

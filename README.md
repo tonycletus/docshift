@@ -11,7 +11,7 @@ DocShift gives you practical PDF tools for the web app, command line, and deskto
 - Compress PDF with distinct Safe, Balanced, and Smaller modes.
 - Merge, split, reorder, rotate, delete, and extract PDF pages.
 - Add page numbers and watermarks.
-- Recognize scanned PDF text in the browser and desktop app.
+- Make scanned PDFs searchable in the browser and desktop app, with plain text export when needed.
 - Prepare fillable forms by detecting likely labels, blank lines, and checkbox cues.
 - Protect PDFs with a password and unlock PDFs when the password is known.
 - Convert between PDF, JPG, Word, PowerPoint, and Excel where browser-side conversion produces a useful result.

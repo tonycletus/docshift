@@ -206,14 +206,27 @@ export const tools: Tool[] = [
     slug: "ocr",
     route: "/ocr",
     name: "OCR PDF",
-    description: "Recognize scanned PDF text.",
+    description: "Make scanned PDFs searchable.",
     longDescription:
-      "Create a text file from scanned or selectable PDF pages using local recognition.",
+      "Recognize scanned pages locally and add a searchable text layer while keeping the original PDF look.",
     icon: TextExtractIcon,
     category: "edit",
     accept: PDF_ACCEPT,
     multiple: false,
-    outputType: "txt",
+    configOptions: [
+      {
+        key: "output",
+        label: "Output",
+        type: "select",
+        options: [
+          { value: "searchable-pdf", label: "Searchable PDF" },
+          { value: "text", label: "Text file" },
+        ],
+        defaultValue: "searchable-pdf",
+        helperText: "Searchable PDF keeps the original pages and adds selectable OCR text.",
+      },
+    ],
+    outputType: "pdf",
     clientCapable: true,
   },
   {

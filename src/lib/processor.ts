@@ -2,7 +2,7 @@ import { PDFDocument, degrees, StandardFonts, rgb } from "pdf-lib";
 import JSZip from "jszip";
 import type { Tool } from "./tools";
 import { createDocxFromPages, createPptxFromImages, createXlsxFromRows } from "./office";
-import type { PositionedText, TextPage } from "./pdfjs";
+import type { OcrTextPage, PositionedText, TextPage } from "./pdfjs";
 
 export type ProcessResult = {
   blob: Blob;
@@ -182,6 +182,71 @@ function formatOcrPages(pages: TextPage[]): string {
 
 function shouldOcrPage(page: TextPage): boolean {
   return page.lines.join(" ").replace(/\s+/g, "").length < 25;
+}
+
+function sanitizePdfText(text: string): string {
+  return [...text]
+    .filter((char) => {
+      const code = char.charCodeAt(0);
+      return code === 9 || code === 10 || code === 13 || (code >= 32 && code !== 127);
+    })
+    .join("")
+    .trim();
+}
+
+async function createSearchableOcrPdf(file: File, recognizedPages: OcrTextPage[]) {
+  const src = await PDFDocument.load(await readBytes(file), {
+    ignoreEncryption: false,
+    updateMetadata: false,
+  });
+  const font = await src.embedFont(StandardFonts.Helvetica);
+  const pages = src.getPages();
+  let wordsDrawn = 0;
+
+  for (const recognizedPage of recognizedPages) {
+    const page = pages[recognizedPage.pageNumber - 1];
+    if (!page || !recognizedPage.words.length) continue;
+
+    const { width, height } = page.getSize();
+    const scaleX = width / recognizedPage.imageWidth;
+    const scaleY = height / recognizedPage.imageHeight;
+
+    for (const word of recognizedPage.words) {
+      const text = sanitizePdfText(word.text);
+      if (!text) continue;
+
+      const boxWidth = Math.max(1, (word.bbox.x1 - word.bbox.x0) * scaleX);
+      const boxHeight = Math.max(3, (word.bbox.y1 - word.bbox.y0) * scaleY);
+      const x = clamp(word.bbox.x0 * scaleX, 0, width - 1);
+      const y = clamp(height - word.bbox.y1 * scaleY, 0, height - 1);
+      let size = clamp(boxHeight * 0.82, 3, 24);
+      const measuredWidth = font.widthOfTextAtSize(text, size);
+
+      if (measuredWidth > boxWidth && measuredWidth > 0) {
+        size = clamp(size * (boxWidth / measuredWidth), 3, 24);
+      }
+
+      page.drawText(text, {
+        x,
+        y,
+        size,
+        font,
+        color: rgb(0, 0, 0),
+        opacity: 0.01,
+      });
+      wordsDrawn += 1;
+    }
+  }
+
+  if (!wordsDrawn) {
+    throw new Error("OCR could not place a searchable text layer on this PDF.");
+  }
+
+  return src.save({
+    useObjectStreams: true,
+    addDefaultPage: false,
+    updateFieldAppearances: false,
+  });
 }
 
 function detectFillableFields(rows: PositionedText[], mode: string): PreparedField[] {
@@ -583,21 +648,19 @@ export async function processTool(
 
     case "ocr": {
       const { extractPdfTextPages, ocrPdfPages } = await import("./pdfjs");
+      const output = optionText(options, "output", "searchable-pdf");
       const pages = await extractPdfTextPages(files[0], (cur, total) =>
         onProgress?.(10 + Math.round((cur / total) * 25)),
       );
       const pagesNeedingOcr = pages.filter(shouldOcrPage).map((page) => page.pageNumber);
       let finalPages: TextPage[] = pages;
+      let recognizedPages: OcrTextPage[] = [];
 
       if (pagesNeedingOcr.length) {
-        const recognizedPages = await ocrPdfPages(
-          files[0],
-          pagesNeedingOcr,
-          (done, total, pagePct) => {
-            const pageProgress = total ? (done + pagePct) / total : 1;
-            onProgress?.(35 + Math.round(pageProgress * 55));
-          },
-        );
+        recognizedPages = await ocrPdfPages(files[0], pagesNeedingOcr, (done, total, pagePct) => {
+          const pageProgress = total ? (done + pagePct) / total : 1;
+          onProgress?.(35 + Math.round(pageProgress * 55));
+        });
         const recognizedByPage = new Map(
           recognizedPages
             .filter((page) => page.lines.length)
@@ -606,10 +669,30 @@ export async function processTool(
         finalPages = pages.map((page) => recognizedByPage.get(page.pageNumber) ?? page);
       }
 
-      const text = formatOcrPages(finalPages);
-      if (!text) throw new Error("No selectable text was found in this PDF.");
+      if (output === "text") {
+        const text = formatOcrPages(finalPages);
+        if (!text) throw new Error("No text was recognized in this PDF.");
+        onProgress?.(100);
+        return { blob: textBlob(text), filename: `${baseName(files[0])}.txt` };
+      }
+
+      if (!pagesNeedingOcr.length) {
+        const bytes = await rebuildPdfLosslessly(files[0]);
+        onProgress?.(100);
+        return {
+          blob: new Blob([bytes as BlobPart], { type: "application/pdf" }),
+          filename: `${baseName(files[0])}-searchable.pdf`,
+        };
+      }
+
+      const searchablePages = recognizedPages.filter((page) => page.words.length);
+      if (!searchablePages.length) throw new Error("No text was recognized in this PDF.");
+      const bytes = await createSearchableOcrPdf(files[0], searchablePages);
       onProgress?.(100);
-      return { blob: textBlob(text), filename: `${baseName(files[0])}.txt` };
+      return {
+        blob: new Blob([bytes as BlobPart], { type: "application/pdf" }),
+        filename: `${baseName(files[0])}-searchable.pdf`,
+      };
     }
 
     case "prepare-form": {
